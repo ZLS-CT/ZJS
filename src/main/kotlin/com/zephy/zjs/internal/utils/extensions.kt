@@ -5,12 +5,15 @@ import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.TextColor
 import net.minecraft.resources.Identifier
 import net.minecraft.util.Mth
-import net.minecraft.world.scores.TeamColor
 import org.mozilla.javascript.NativeObject
 import org.mozilla.javascript.Scriptable
 import java.net.URLEncoder
 import java.nio.charset.Charset
 import kotlin.reflect.KClass
+
+//#if MC>=26.2
+import net.minecraft.world.scores.TeamColor
+//#endif
 
 fun String.toIdentifier(): Identifier {
     return Identifier.withDefaultNamespace(if (':' in this) this else "minecraft:$this")
@@ -57,7 +60,9 @@ fun TextColor.toLegacyFormatting(): String =
 fun TextColor.toChatFormatting(): ChatFormatting =
     TextColorUtils.toChatFormatting(this) ?: ChatFormatting.WHITE
 
+//#if MC>=26.2
 fun TeamColor.toLegacyFormatting(): String =
     this.toChatFormatting().toString()
 fun TeamColor.toChatFormatting(): ChatFormatting =
     TextColorUtils.toChatFormatting(this.textColor()) ?: ChatFormatting.WHITE
+//#endif

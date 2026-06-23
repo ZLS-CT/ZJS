@@ -1,5 +1,6 @@
 package com.zephy.zjs.internal.launch
 
+import com.zephy.zjs.ZJS
 import com.zephy.zjs.api.Mappings
 import com.zephy.zjs.internal.engine.JSLoader
 import com.zephy.zjs.internal.engine.module.ModuleManager
@@ -19,9 +20,9 @@ import java.net.URLConnection
 import java.net.URLStreamHandler
 
 internal object DynamicMixinManager {
-    internal const val GENERATED_PROTOCOL = "zjs-generated"
-    internal const val GENERATED_MIXIN = "zjs-generated.mixins.json"
-    internal const val GENERATED_PACKAGE = "com/zephy/zjs/generated_mixins"
+    internal const val GENERATED_PROTOCOL = "${ZJS.MOD_ID}-generated"
+    internal const val GENERATED_MIXIN = "${ZJS.MOD_ID}-generated.mixins.json"
+    internal const val GENERATED_PACKAGE = "com/zephy/${ZJS.MOD_ID}/generated_mixins"
 
     lateinit var mixins: Map<Mixin, MixinDetails>
 
@@ -61,7 +62,7 @@ internal object DynamicMixinManager {
         return buildJsonObject {
             put("required", JsonPrimitive(true))
             put("minVersion", JsonPrimitive("0.8"))
-            put("package", JsonPrimitive("com.zephy.zjs.generated_mixins"))
+            put("package", JsonPrimitive("com.zephy.${ZJS.MOD_ID}.generated_mixins"))
             put("compatibilityLevel", JsonPrimitive("JAVA_17"))
             putJsonObject("injectors") {
                 put("defaultRequire", JsonPrimitive(1))

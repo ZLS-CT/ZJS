@@ -43,7 +43,8 @@ object Scoreboard {
      */
     @JvmStatic
     @JvmOverloads
-    fun getLines(descending: Boolean = true): List<Score> = if (descending) scoreboardNames else scoreboardNames.asReversed()
+    fun getLines(descending: Boolean = true): List<Score> =
+        if (descending) scoreboardNames else scoreboardNames.asReversed()
 
     /**
      * Gets the line at the specified index (0 based)

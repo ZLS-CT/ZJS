@@ -2,10 +2,12 @@ package com.zephy.zjs.internal.commands
 
 import com.zephy.zjs.engine.LogType
 import com.zephy.zjs.engine.printToConsole
+import com.zephy.zjs.internal.engine.Events
 import com.zephy.zjs.internal.utils.Initializer
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.builder.ArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
+import com.zephy.zjs.internal.engine.ZEvents
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.minecraft.commands.SharedSuggestionProvider
@@ -20,6 +22,11 @@ abstract class CommandCollection : Initializer {
     override fun init() {
         ClientCommandRegistrationCallback.EVENT.register { dispatcher, _ ->
             clientDispatcher = dispatcher as CommandDispatcher<SharedSuggestionProvider>
+            allCommands.forEach { it.registerImpl(dispatcher) }
+        }
+
+        ZEvents.NETWORK_COMMAND_DISPATCHER_REGISTER.register { dispatcher ->
+            networkDispatcher = dispatcher as CommandDispatcher<SharedSuggestionProvider>
             allCommands.forEach { it.registerImpl(dispatcher) }
         }
 

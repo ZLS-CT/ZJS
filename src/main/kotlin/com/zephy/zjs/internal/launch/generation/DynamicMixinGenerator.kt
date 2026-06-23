@@ -48,8 +48,6 @@ internal class DynamicMixinGenerator(private val ctx: GenerationContext, private
 
         val writer = ClassWriter(ClassWriter.COMPUTE_FRAMES)
         mixinClassNode.accept(writer)
-        val bytes = writer.toByteArray()
-
-        return bytes
+        return writer.toByteArray()
     }
 }

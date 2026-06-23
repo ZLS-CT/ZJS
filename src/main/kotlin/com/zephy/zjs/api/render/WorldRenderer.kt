@@ -8,8 +8,6 @@ import net.minecraft.network.chat.Component
 import org.joml.Matrix4f
 import java.awt.Color
 import com.zephy.zjs.internal.listeners.WorldListener
-import com.mojang.blaze3d.systems.RenderSystem
-import org.joml.Quaternionf
 //#if MC>=26.2
 import net.minecraft.client.renderer.StagedVertexBuffer
 import net.minecraft.client.renderer.rendertype.PreparedRenderType

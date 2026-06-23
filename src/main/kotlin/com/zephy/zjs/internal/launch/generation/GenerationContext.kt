@@ -1,5 +1,6 @@
 package com.zephy.zjs.internal.launch.generation
 
+import com.zephy.zjs.ZJS
 import com.zephy.zjs.api.Mappings
 import com.zephy.zjs.internal.launch.Descriptor
 import com.zephy.zjs.internal.launch.DynamicMixinManager
@@ -9,7 +10,7 @@ import org.spongepowered.asm.mixin.transformer.ClassInfo
 internal data class GenerationContext(val mixin: Mixin) {
     val mappedClass = Mappings.getMappedClass(mixin.target)
         ?: error("Unknown class name ${mixin.target}")
-    val generatedClassName = "CTMixin_\$${mixin.target.replace('.', '_')}\$_${mixinCounter++}"
+    val generatedClassName = "${ZJS.MOD_NAME}Mixin_\$${mixin.target.replace('.', '_')}\$_${mixinCounter++}"
     val generatedClassFullPath = "${DynamicMixinManager.GENERATED_PACKAGE}/$generatedClassName"
 
     fun findMethod(method: String): Pair<Mappings.MappedMethod, ClassInfo.Method> {

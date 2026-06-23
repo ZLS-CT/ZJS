@@ -8,7 +8,6 @@ import gg.essential.elementa.state.BasicState
 import net.minecraft.client.multiplayer.PlayerInfo
 import net.minecraft.world.scores.DisplaySlot
 import net.minecraft.world.scores.Objective
-
 import net.minecraft.world.scores.PlayerTeam
 
 object TabList {
@@ -33,9 +32,7 @@ object TabList {
      * @return the header
      */
     @JvmStatic
-    fun getHeaderComponent(): TextComponent? {
-        return tabListHeader
-    }
+    fun getHeaderComponent(): TextComponent? = tabListHeader
 
     /**
      * Gets the tab list header as a formatted string.
@@ -51,9 +48,7 @@ object TabList {
      * @return the footer
      */
     @JvmStatic
-    fun getFooterComponent(): TextComponent? {
-        return tabListFooter
-    }
+    fun getFooterComponent(): TextComponent? = tabListFooter
 
     /**
      * Gets the tab list footer as a string.
@@ -88,9 +83,7 @@ object TabList {
      * @return the list of names
      */
     @JvmStatic
-    fun getNames(): List<Name> {
-        return tabListNames
-    }
+    fun getNames(): List<Name> = tabListNames
 
     /**
      * Gets all names in tabs without formatting
@@ -98,9 +91,7 @@ object TabList {
      * @return the unformatted names
      */
     @JvmStatic
-    fun getUnformattedNames(): List<String> {
-        return tabListNames.map { it.toMC().profile.name }
-    }
+    fun getUnformattedNames(): List<String> = tabListNames.map { it.toMC().profile.name }
 
     class Name(override val mcValue: PlayerInfo) : ZWrapper<PlayerInfo> {
         private val latencyState = BasicState(mcValue.latency)

@@ -208,7 +208,7 @@ class TextComponent private constructor(
             //#if MC<=12111
             //$$Client.getMinecraft().gui.chat.addMessage(this)
             //#elseif MC<26.2
-            //$$Client.getMinecraft().gui.chat.addClientSystemMessage(this.toMutableText()`)
+            //$$Client.getMinecraft().gui.chat.addClientSystemMessage(this.toMutableText())
             //#else
             Client.getMinecraft().gui.hud.chat.addClientSystemMessage(this.toMutableText())
             //#endif
@@ -233,7 +233,7 @@ class TextComponent private constructor(
         }
         Client.synchronizedTask {
             //#if MC<=12111
-            //$$CTPlayer.toMC()?.displayClientMessage(this, false)
+            //$$ZPlayer.toMC()?.displayClientMessage(this, false)
             //#else
             ZPlayer.toMC()?.sendSystemMessage(this.toMutableText())
             //#endif

@@ -8,6 +8,7 @@ import net.minecraft.resources.Identifier
 import net.minecraft.client.renderer.rendertype.LayeringTransform
 import net.minecraft.client.renderer.rendertype.RenderSetup
 import com.mojang.blaze3d.textures.GpuTexture
+import com.zephy.zjs.ZJS
 
 //#if MC<=12111
 //$$import com.mojang.blaze3d.platform.DepthTestFunction
@@ -19,8 +20,6 @@ import java.util.Optional
 
 //#if MC>=26.2
 import com.mojang.blaze3d.GpuFormat
-import com.zephy.zjs.ZJS
-
 //#endif
 
 object PipelineBuilder {
