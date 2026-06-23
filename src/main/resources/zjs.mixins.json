@@ -1,0 +1,57 @@
+{
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.zephy.zjs.internal.mixins",
+    "compatibilityLevel": "JAVA_$compatibilityLevel",
+    "client": [
+        "AbstractSoundInstanceAccessor",
+        //#if MC>=26.1
+        "BlockEntityRenderDispatcherMixin",
+        "ChatFormattingAccessor",
+        "TextColorAccessor",
+        //#endif
+        "ChatComponentAccessor",
+        "ChatComponentMixin",
+        "ChatScreenAccessor",
+        "AbstractWidgetAccessor",
+        "ClientChunkCacheAccessor",
+        "ClientChunkMapAccessor",
+        "ClientPacketListenerAccessor",
+        "ClientLevelAccessor",
+        "OptionsAccessor",
+        "OptionsMixin",
+        "AbstractContainerScreenAccessor",
+        "AbstractContainerScreenMixin",
+        "GuiMixin",
+        "KeyMappingAccessor",
+        "KeyMappingAccessor$Category",
+        "MinecraftMixin",
+        "MouseHandlerMixin",
+        "PlayerTabOverlayMixin",
+        "RenderTickCounterMixin",
+        "LevelRendererMixin",
+        "commands.ClientSuggestionProviderMixin",
+        "commands.ClientPacketListenerMixin",
+        "sound.SoundAccessor",
+        "sound.SoundManagerAccessor",
+        "sound.SoundEngineAccessor",
+        "sound.ChannelAccessor"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    },
+    "plugin": "com.zephy.zjs.internal.launch.ZMixinPlugin",
+    "mixins": [
+        "ChunkAccessAccessor",
+        "ItemStackMixin",
+        "CompoundTagAccessor",
+        "Scoreboard$1Accessor",
+        "SystemReportMixin",
+        "commands.CommandContextAccessor",
+        "commands.CommandDispatcherMixin",
+        "commands.CommandNodeAccessor",
+        "commands.EntitySelectorAccessor",
+        "stdio.BootstrapMixin",
+        "stdio.LoggedPrintStreamMixin"
+    ]
+}

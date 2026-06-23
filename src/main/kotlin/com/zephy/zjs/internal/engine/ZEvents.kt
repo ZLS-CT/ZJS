@@ -1,0 +1,154 @@
+package com.zephy.zjs.internal.engine
+
+import com.mojang.brigadier.CommandDispatcher
+import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
+import net.fabricmc.fabric.api.event.Event
+import net.fabricmc.fabric.api.event.EventFactory
+import net.minecraft.client.gui.components.Renderable
+import net.minecraft.client.gui.screens.Screen
+import com.mojang.blaze3d.vertex.PoseStack
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.level.block.entity.BlockEntity
+
+//#if MC<=12111
+//$$import net.minecraft.client.gui.GuiGraphics
+//#else
+import net.minecraft.client.gui.GuiGraphicsExtractor
+//#endif
+
+internal object ZEvents {
+    fun interface VoidCallback {
+        fun invoke()
+    }
+
+    fun interface RenderScreenCallback {
+        fun render(matrixStack: PoseStack, mouseX: Int, mouseY: Int, drawable: Renderable, partialTicks: Float)
+    }
+
+    fun interface RenderWorldCallback {
+        fun render(matrixStack: PoseStack, partialTicks: Float)
+    }
+
+    fun interface RenderEntityCallback {
+        fun render(matrixStack: PoseStack, entity: Entity, partialTicks: Float, ci: CallbackInfo)
+    }
+
+    fun interface RenderBlockEntityCallback {
+        fun render(matrixStack: PoseStack, entity: BlockEntity, partialTicks: Float, ci: CallbackInfo)
+    }
+
+    fun interface RenderHudOverlayCallback {
+        fun render(
+            //#if MC<=12111
+            //$$context: GuiGraphics,
+            //#else
+            context: GuiGraphicsExtractor,
+            //#endif
+            matrixStack: PoseStack, partialTicks: Float)
+    }
+
+    fun interface MouseButtonCallback {
+        fun process(mouseX: Double, mouseY: Double, button: Int, pressed: Boolean)
+    }
+
+    fun interface MouseScrollCallback {
+        fun process(mouseX: Double, mouseY: Double, delta: Double)
+    }
+
+    fun interface MouseDraggedCallback {
+        fun process(dx: Double, dy: Double, mouseX: Double, mouseY: Double, button: Int)
+    }
+
+    fun interface GuiMouseDragCallback {
+        fun process(dx: Double, dy: Double, mouseX: Double, mouseY: Double, button: Int, gui: Screen, ci: CallbackInfo)
+    }
+
+    fun interface NetworkCommandDispatcherRegisterCallback {
+        fun register(dispatcher: CommandDispatcher<FabricClientCommandSource>)
+    }
+
+    @JvmField
+    val RENDER_GAME = make<Runnable> { listeners ->
+        Runnable { listeners.forEach(Runnable::run) }
+    }
+
+    @JvmField
+    val RENDER_HUD_OVERLAY = make<RenderHudOverlayCallback> { listeners ->
+        RenderHudOverlayCallback { ctx, stack, partialTicks ->
+            listeners.forEach { it.render(ctx, stack, partialTicks) }
+        }
+    }
+
+    @JvmField
+    val PRE_RENDER_WORLD = make<RenderWorldCallback> { listeners ->
+        RenderWorldCallback { stack, partialTicks ->
+            listeners.forEach { it.render(stack, partialTicks) }
+        }
+    }
+
+    @JvmField
+    val POST_RENDER_WORLD = make<RenderWorldCallback> { listeners ->
+        RenderWorldCallback { stack, partialTicks ->
+            listeners.forEach { it.render(stack, partialTicks) }
+        }
+    }
+
+    @JvmField
+    val RENDER_ENTITY = make<RenderEntityCallback> { listeners ->
+        RenderEntityCallback { stack, entity, partialTicks, ci ->
+            listeners.forEach { it.render(stack, entity, partialTicks, ci) }
+        }
+    }
+
+    @JvmField
+    val RENDER_BLOCK_ENTITY = make<RenderBlockEntityCallback> { listeners ->
+        RenderBlockEntityCallback { stack, blockEntity, partialTicks, ci ->
+            listeners.forEach { it.render(stack, blockEntity, partialTicks, ci) }
+        }
+    }
+
+    @JvmField
+    val RENDER_TICK = make<VoidCallback> { listeners ->
+        VoidCallback { listeners.forEach(VoidCallback::invoke) }
+    }
+
+    @JvmField
+    val MOUSE_CLICKED = make<MouseButtonCallback> { listeners ->
+        MouseButtonCallback { mouseX, mouseY, button, pressed ->
+            listeners.forEach { it.process(mouseX, mouseY, button, pressed) }
+        }
+    }
+
+    @JvmField
+    val MOUSE_SCROLLED = make<MouseScrollCallback> { listeners ->
+        MouseScrollCallback { mouseX, mouseY, delta ->
+            listeners.forEach { it.process(mouseX, mouseY, delta) }
+        }
+    }
+
+    @JvmField
+    val MOUSE_DRAGGED = make<MouseDraggedCallback> { listeners ->
+        MouseDraggedCallback { dx, dy, mouseX, mouseY, button ->
+            listeners.forEach { it.process(dx, dy, mouseX, mouseY, button) }
+        }
+    }
+
+    @JvmField
+    val GUI_MOUSE_DRAG = make<GuiMouseDragCallback> { listeners ->
+        GuiMouseDragCallback { dx, dy, mouseX, mouseY, button, screen, ci ->
+            listeners.forEach { it.process(dx, dy, mouseX, mouseY, button, screen, ci) }
+        }
+    }
+
+    @JvmField
+    val NETWORK_COMMAND_DISPATCHER_REGISTER = make<NetworkCommandDispatcherRegisterCallback> { listeners ->
+        NetworkCommandDispatcherRegisterCallback { dispatcher ->
+            listeners.forEach { it.register(dispatcher) }
+        }
+    }
+
+    private inline fun <reified T : Any> make(noinline reducer: (Array<T>) -> T): Event<T> {
+        return EventFactory.createArrayBacked(T::class.java, reducer)
+    }
+}

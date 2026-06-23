@@ -29,8 +29,8 @@ dependencies {
 }
 
 loom {
-    val local = file("src/main/resources/ctjs.accesswidener")
-    val global = file("../../src/main/resources/ctjs.accesswidener")
+    val local = file("src/main/resources/zjs.accesswidener")
+    val global = file("../../src/main/resources/zjs.accesswidener")
     accessWidenerPath.set(if (local.exists()) local else global)
 
     runConfigs {
@@ -65,7 +65,7 @@ tasks {
 
         val javaVersion = project.java.toolchain.languageVersion.get().asInt()
         inputs.property("compatibilityLevel", javaVersion)
-        filesMatching("ctjs.mixins.json") {
+        filesMatching("zjs.mixins.json") {
             filter { line ->
                 line.replace("JAVA_\$compatibilityLevel", "JAVA_$javaVersion")
             }

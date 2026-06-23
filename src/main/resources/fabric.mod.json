@@ -1,41 +1,31 @@
 {
     "schemaVersion": 1,
-    "id": "ctjs",
-    "name": "ChatTriggers",
+    "id": "zjs",
+    "name": "ZJS",
     "version": "$version",
     "description": "A framework for Minecraft that allows for live scripting and client modification using JavaScript",
     "authors": [
-        "Ecolsson",
-        "FalseHonesty",
-        "kerbybit"
+        "Zephy"
     ],
-    "contributors": [
-        "Squagward",
-        "Debuggings",
-        "DJtheRedstoner",
-        "srockw",
-        "DocilElm"
-    ],
-    "icon": "assets/ctjs/logo.png",
+    "icon": "assets/zjs/logo.png",
     "license": [
         "MIT"
     ],
     "contact": {
-        "homepage": "https://chattriggers.com",
-        "sources": "https://github.com/ChatTriggers/ChatTriggers",
-        "issues": "https://github.com/ChatTriggers/ChatTriggers/issues"
+        "sources": "https://github.com/ZLS-CT/ZJS",
+        "issues": "https://github.com/ZLS-CT/ZJS/issues"
     },
     "environment": "client",
     "entrypoints": {
         "preLaunch": [
-            "com.chattriggers.ctjs.internal.launch.CTJSPreLaunch"
+            "com.zephy.zjs.internal.launch.ZJSPreLaunch"
         ],
         "client": [
-            "com.chattriggers.ctjs.CTJS"
+            "com.zephy.zjs.ZJS"
         ]
     },
     "mixins": [
-        "ctjs.mixins.json"
+        "zjs.mixins.json"
     ],
     "depends": {
         "minecraft": "${minecraft_version}",
