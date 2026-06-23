@@ -52,12 +52,6 @@ internal class DynamicMixinGenerator(private val ctx: GenerationContext, private
         mixinClassNode.accept(writer)
         val bytes = writer.toByteArray()
 
-        if (CTJS.isDevelopment) {
-            val dir = File(CTJS.configLocation, "ChatTriggers/mixin-classes")
-            dir.mkdirs()
-            File(dir, "${ctx.generatedClassName}.class").writeBytes(bytes)
-        }
-
         return bytes
     }
 }

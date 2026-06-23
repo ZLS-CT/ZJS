@@ -15,19 +15,17 @@ import java.util.LinkedList
 
 object ModuleManager {
     val cachedModules = mutableListOf<Module>()
-    val modulesFolder = File(CTJS.MODULES_FOLDER)
     private val pendingOldModules = mutableListOf<Module>()
 
     fun setup() {
-        modulesFolder.mkdirs()
+        CTJS.MODULES_FOLDER.mkdirs()
 
         // Get existing modules
-        val installedModules = getFoldersInDir(modulesFolder).map(::parseModule).distinctBy {
+        val installedModules = getFoldersInDir(CTJS.MODULES_FOLDER).map(::parseModule).distinctBy {
             it.name.lowercase()
         }
 
         // Check if those modules have updates
-        installedModules.forEach(ModuleUpdater::updateModule)
         cachedModules.addAll(installedModules)
 
         // Import required modules
@@ -124,7 +122,7 @@ object ModuleManager {
     fun deleteModule(name: String): Boolean {
         val module = cachedModules.find { it.name.lowercase() == name.lowercase() } ?: return false
 
-        val file = File(modulesFolder, module.name)
+        val file = File(CTJS.MODULES_FOLDER_PATH, module.name)
         check(file.exists()) { "Expected module to have an existing folder!" }
 
         val context = JSContextFactory.enterContext()
@@ -134,7 +132,7 @@ object ModuleManager {
             classLoader.close()
 
             if (file.deleteRecursively()) {
-                CTJS.load()
+                CTJS.reloadModules()
                 return true
             }
         } finally {
@@ -172,7 +170,7 @@ object ModuleManager {
         }.map {
             it.listFiles()?.toList() ?: emptyList()
         }.flatten().forEach {
-            FileUtils.copyFileToDirectory(it, CTJS.assetsDir)
+            FileUtils.copyFileToDirectory(it, CTJS.ASSETS_FOLDER)
         }
     }
 

@@ -160,7 +160,7 @@ class Image(var image: BufferedImage?) {
          * Throws an exception if the file cannot be found.
          */
         @JvmStatic
-        fun fromAsset(name: String) = Image(ImageIO.read(File(CTJS.assetsDir, name)))
+        fun fromAsset(name: String) = Image(ImageIO.read(File(CTJS.ASSETS_FOLDER_PATH, name)))
 
         /**
          * Creates an image object from a URL. Throws an exception if an image
@@ -171,7 +171,7 @@ class Image(var image: BufferedImage?) {
         fun fromUrl(url: String, cachedImageName: String? = null): Image {
             if (cachedImageName == null) return Image(getImageFromUrl(url))
 
-            val resourceFile = File(CTJS.assetsDir, cachedImageName)
+            val resourceFile = File(CTJS.ASSETS_FOLDER_PATH, cachedImageName)
 
             if (resourceFile.exists()) return Image(ImageIO.read(resourceFile))
 

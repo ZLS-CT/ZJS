@@ -75,7 +75,7 @@ class CTSound(private val config: NativeObject) {
         CTJS.sounds.add(this)
 
         val soundManagerAccessor = Client.getMinecraft().soundManager.asMixin<SoundManagerAccessor>()
-        val soundFile = File(CTJS.assetsDir, source)
+        val soundFile = File(CTJS.ASSETS_FOLDER_PATH, source)
         if (soundFile.exists()) {
             isCustom = true
             identifier = makeIdentifier(source)

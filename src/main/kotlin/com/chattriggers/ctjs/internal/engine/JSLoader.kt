@@ -1,5 +1,6 @@
 package com.chattriggers.ctjs.internal.engine
 
+import com.chattriggers.ctjs.CTJS
 import com.chattriggers.ctjs.api.triggers.ITriggerType
 import com.chattriggers.ctjs.api.triggers.Trigger
 import com.chattriggers.ctjs.engine.LogType
@@ -7,7 +8,6 @@ import com.chattriggers.ctjs.engine.MixinCallback
 import com.chattriggers.ctjs.engine.printToConsole
 import com.chattriggers.ctjs.engine.printTraceToConsole
 import com.chattriggers.ctjs.internal.engine.module.Module
-import com.chattriggers.ctjs.internal.engine.module.ModuleManager.modulesFolder
 import com.chattriggers.ctjs.internal.launch.IInjector
 import com.chattriggers.ctjs.internal.launch.Mixin
 import com.chattriggers.ctjs.internal.launch.MixinDetails
@@ -64,7 +64,7 @@ object JSLoader {
         JSContextFactory.addAllURLs(jars)
 
         val cx = JSContextFactory.enterContext()
-        val sourceProvider = UrlModuleSourceProvider(listOf(modulesFolder.toURI()), listOf())
+        val sourceProvider = UrlModuleSourceProvider(listOf(CTJS.MODULES_FOLDER.toURI()), listOf())
         moduleProvider = StrongCachingModuleScriptProvider(sourceProvider)
         moduleScope = ImporterTopLevel(cx)
         evalScope = ImporterTopLevel(cx)
@@ -103,7 +103,7 @@ object JSLoader {
 
         val moduleProvidedLibs = saveResource(
             "/assets/ctjs/js/moduleProvidedLibs.js",
-            File(modulesFolder.parentFile, "chattriggers-modules-provided-libs.js"),
+            File(CTJS.MODULES_FOLDER.parentFile, "chattriggers-modules-provided-libs.js"),
         )
 
         try {
@@ -198,7 +198,7 @@ object JSLoader {
     private fun loadMixinLibs() {
         val mixinProvidedLibs = saveResource(
             "/assets/ctjs/js/mixinProvidedLibs.js",
-            File(modulesFolder.parentFile, "chattriggers-mixin-provided-libs.js"),
+            File(CTJS.MODULES_FOLDER.parentFile, "chattriggers-mixin-provided-libs.js"),
         )
 
         wrapInContext {

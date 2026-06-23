@@ -73,37 +73,4 @@ public class AbstractContainerScreenMixin extends Screen {
             ci
         );
     }
-
-    @Inject(
-        //#if MC<=12111
-        //$$method = "slotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ClickType;)V",
-        //#else
-        method = "slotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ContainerInput;)V",
-        //#endif
-        at = @At(
-            value = "HEAD"
-        ),
-        cancellable = true
-    )
-    private void injectOnMouseClick(
-        Slot slot, int slotId, int button,
-        //#if MC<=12111
-        //$$ClickType actionType,
-        //#else
-        ContainerInput actionType,
-        //#endif
-        CallbackInfo ci
-    ) {
-        if (
-            //#if MC<=12111
-            //$$(slotId != -999 && actionType == ClickType.THROW) || // dropping item from slot
-            //$$(slotId == -999 && actionType == ClickType.PICKUP) // dropping by clicking outside inventory
-            //#else
-            (slotId != -999 && actionType == ContainerInput.THROW) || // dropping item from slot
-            (slotId == -999 && actionType == ContainerInput.PICKUP) // dropping by clicking outside inventory
-            //#endif
-        ) {
-            TriggerType.DROP_ITEM.triggerAll(CTItem.fromMC(menu.getCarried()), button == 0, ci);
-        }
-    }
 }

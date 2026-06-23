@@ -59,11 +59,10 @@ object ClientListener : Initializer {
         Context.exit()
 
         ClientReceiveMessageEvents.ALLOW_CHAT.register { message, _, _, _, _ ->
-            handleChatMessage(message, actionBar = false)
+            handleChatMessage(message)
         }
-
         ClientReceiveMessageEvents.ALLOW_GAME.register { message, overlay ->
-            handleChatMessage(message, actionBar = overlay)
+            handleChatMessage(message)
         }
 
         ClientTickEvents.START_CLIENT_TICK.register {
@@ -80,20 +79,6 @@ object ClientListener : Initializer {
                 TriggerType.TICK.triggerAll(ticksPassed)
                 ticksPassed++
             }
-        }
-
-        ClientSendMessageEvents.ALLOW_CHAT.register { message ->
-            val event = CancellableEvent()
-            TriggerType.MESSAGE_SENT.triggerAll(message, event)
-
-            !event.isCancelled()
-        }
-
-        ClientSendMessageEvents.ALLOW_COMMAND.register { message ->
-            val event = CancellableEvent()
-            TriggerType.MESSAGE_SENT.triggerAll("/$message", event)
-
-            !event.isCancelled()
         }
 
         // Sleep layer isn't affected by screen hiding (F1)
@@ -175,12 +160,6 @@ object ClientListener : Initializer {
             }
         }
 
-        CTEvents.PACKET_RECEIVED.register { packet, ctx ->
-            JSLoader.wrapInContext(packetContext) {
-                TriggerType.PACKET_RECEIVED.triggerAll(packet, ctx)
-            }
-        }
-
         CTEvents.RENDER_TICK.register {
             TriggerType.STEP.triggerAll()
         }
@@ -210,27 +189,17 @@ object ClientListener : Initializer {
         }
     }
 
-    private fun handleChatMessage(message: Component, actionBar: Boolean): Boolean {
+    private fun handleChatMessage(message: Component): Boolean {
         val textComponent = TextComponent(message)
         val event = ChatTrigger.Event(textComponent)
 
-        return if (actionBar) {
-            actionBarHistory += textComponent
-            if (actionBarHistory.size > 1000) {
-                actionBarHistory.removeAt(0)
-            }
-
-            TriggerType.ACTION_BAR.triggerAll(event)
-            !event.isCancelled()
-        } else {
-            chatHistory += textComponent
-            if (chatHistory.size > 1000) {
-                chatHistory.removeAt(0)
-            }
-
-            TriggerType.CHAT.triggerAll(event)
-
-            !event.isCancelled()
+        chatHistory += textComponent
+        if (chatHistory.size > 1000) {
+            chatHistory.removeAt(0)
         }
+
+        TriggerType.CHAT.triggerAll(event)
+
+        return !event.isCancelled()
     }
 }

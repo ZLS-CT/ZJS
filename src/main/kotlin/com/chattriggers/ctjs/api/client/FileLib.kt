@@ -273,7 +273,7 @@ object FileLib {
     }
 
     private fun absoluteLocation(importName: String, fileLocation: String): String {
-        return CTJS.MODULES_FOLDER + File.separator + importName + File.separator + fileLocation
+        return CTJS.MODULES_FOLDER_PATH + File.separator + importName + File.separator + fileLocation
     }
 
     /**

@@ -29,8 +29,7 @@ object JSContextFactory : ContextFactory() {
             isJavaPrimitiveWrap = false
         }
 
-        if (!CTJS.isDevelopment)
-            cx.javaObjectMappingProvider = CTJavaObjectMappingProvider
+        cx.javaObjectMappingProvider = CTJavaObjectMappingProvider
     }
 
     override fun hasFeature(cx: Context?, featureIndex: Int): Boolean {

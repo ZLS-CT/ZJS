@@ -107,7 +107,6 @@
     loadClass("com.chattriggers.ctjs.api.triggers.CommandTrigger");
     loadClass("com.chattriggers.ctjs.api.triggers.EventTrigger");
     loadClass("com.chattriggers.ctjs.api.triggers.RegularTrigger");
-    loadClass("com.chattriggers.ctjs.api.triggers.SoundPlayTrigger");
     loadClass("com.chattriggers.ctjs.api.triggers.StepTrigger");
     loadClass("com.chattriggers.ctjs.api.triggers.Trigger");
     loadClass("com.chattriggers.ctjs.api.triggers.TriggerType");

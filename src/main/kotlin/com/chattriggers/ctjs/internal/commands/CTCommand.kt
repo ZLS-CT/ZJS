@@ -54,9 +54,9 @@ internal object CTCommand : Initializer {
 
     fun register(dispatcher: CommandDispatcher<FabricClientCommandSource>) {
         val command = literal("ct")
-            .then(literal("load").onExecute { CTJS.load(asCommand = true) })
-            .then(literal("reload").onExecute { CTJS.load(asCommand = true) }) // I like reload alias
-            .then(literal("unload").onExecute { CTJS.unload(asCommand = true) })
+            .then(literal("load").onExecute { CTJS.reloadModules(asCommand = true) })
+            .then(literal("reload").onExecute { CTJS.reloadModules(asCommand = true) }) // I like reload alias
+            .then(literal("unload").onExecute { CTJS.unloadModules(asCommand = true) })
             .then(literal("files").onExecute { openFileLocation() })
             .then(
                 literal("import")
@@ -104,9 +104,9 @@ internal object CTCommand : Initializer {
             .then(
                 literal("migrate")
                     .then(
-                        argument("input", FileArgumentType(File(CTJS.MODULES_FOLDER)))
+                        argument("input", FileArgumentType(CTJS.MODULES_FOLDER))
                             .then(
-                                argument("output", FileArgumentType(File(CTJS.MODULES_FOLDER)))
+                                argument("output", FileArgumentType(CTJS.MODULES_FOLDER))
                                     .onExecute {
                                         val input = FileArgumentType.getFile(it, "input")
                                         val output = FileArgumentType.getFile(it, "output")
@@ -135,11 +135,6 @@ internal object CTCommand : Initializer {
                     ChatLib.chat("&cUnable to import module $moduleName")
                     return@thread
                 }
-
-                ChatLib.chat("&aSuccessfully imported ${module.metadata.name ?: module.name}")
-                if (Config.moduleImportHelp && module.metadata.helpMessage != null) {
-                    ChatLib.chat(module.metadata.helpMessage.toString().take(383))
-                }
             }
         }
     }
@@ -163,7 +158,7 @@ internal object CTCommand : Initializer {
 
     private fun openFileLocation() {
         try {
-            FileLib.open(ModuleManager.modulesFolder)
+            FileLib.open(CTJS.MODULES_FOLDER)
         } catch (exception: IOException) {
             exception.printTraceToConsole()
             ChatLib.chat("&cCould not open file location")

@@ -47,8 +47,6 @@ internal object DynamicMixinManager {
     fun applyMixins() {
         val dynamicMixins = mutableListOf<String>()
 
-        if (CTJS.isDevelopment) deleteOldMixinClasses()
-
         for ((mixin, details) in mixins) {
             val ctx = GenerationContext(mixin)
             val generator = DynamicMixinGenerator(ctx, details)
@@ -84,11 +82,6 @@ internal object DynamicMixinManager {
         addUrlMethod.invoke(classLoader, ByteBasedStreamHandler.url)
 
         Mixins.addConfiguration(GENERATED_MIXIN)
-    }
-
-    private fun deleteOldMixinClasses() {
-        val dir = File(CTJS.configLocation, "ChatTriggers/mixin-classes")
-        dir.listFiles()?.forEach { it.delete() }
     }
 
     private object ByteBasedStreamHandler : URLStreamHandler() {

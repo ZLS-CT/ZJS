@@ -146,7 +146,7 @@ object ConsoleHostProcess : Initializer {
                             Config.consoleFontSize = newValue.coerceIn(6..32)
                             onConsoleSettingsChanged(Config.ConsoleSettings.make())
                         }
-                        ReloadCTMessage -> Client.scheduleTask { CTJS.load() }
+                        ReloadCTMessage -> Client.scheduleTask { CTJS.reloadModules() }
                     }
                 }
             }

@@ -13,19 +13,13 @@ sealed interface ITriggerType {
 enum class TriggerType : ITriggerType {
     // client
     CHAT,
-    ACTION_BAR,
     TICK,
     STEP,
     GAME_LOAD,
     GAME_UNLOAD,
-    MESSAGE_SENT,
     ITEM_TOOLTIP,
-    PLAYER_INTERACT,
-    PACKET_SENT,
-    PACKET_RECEIVED,
     SERVER_CONNECT,
     SERVER_DISCONNECT,
-    DROP_ITEM,
 
     // gui
     GUI_OPENED,
@@ -53,10 +47,6 @@ enum class TriggerType : ITriggerType {
     // world
     WORLD_LOAD,
     WORLD_UNLOAD,
-    SOUND_PLAY,
-    SPAWN_PARTICLE,
-    ENTITY_DAMAGE,
-    ENTITY_DEATH,
 
     // misc
     COMMAND,

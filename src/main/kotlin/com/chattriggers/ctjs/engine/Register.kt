@@ -9,7 +9,6 @@ import com.chattriggers.ctjs.api.triggers.PacketTrigger
 import com.chattriggers.ctjs.api.triggers.RegularTrigger
 import com.chattriggers.ctjs.api.triggers.RenderBlockEntityTrigger
 import com.chattriggers.ctjs.api.triggers.RenderEntityTrigger
-import com.chattriggers.ctjs.api.triggers.SoundPlayTrigger
 import com.chattriggers.ctjs.api.triggers.StepTrigger
 import com.chattriggers.ctjs.api.triggers.Trigger
 import com.chattriggers.ctjs.api.triggers.TriggerType
@@ -79,25 +78,6 @@ object Register {
     fun registerChat(method: Any): Trigger = ChatTrigger(method, TriggerType.CHAT)
 
     /**
-     * Registers a new trigger that runs before an action bar message is received.
-     *
-     * Passes through multiple arguments:
-     * - Any number of chat criteria variables
-     * - The chat event, which can be cancelled
-     *
-     * Available modifications:
-     * - [ChatTrigger.triggerIfCanceled] Sets if triggered if event is already cancelled
-     * - [ChatTrigger.setChatCriteria] Sets the chat criteria
-     * - [ChatTrigger.setParameter] Sets the chat parameter
-     * - [Trigger.setPriority] Sets the priority
-     *
-     * @param method The method to call when the event is fired
-     * @return The trigger for additional modification
-     */
-    @JvmStatic
-    fun registerActionBar(method: Any): Trigger = ChatTrigger(method, TriggerType.ACTION_BAR)
-
-    /**
      * Registers a new trigger that runs before every game tick.
      *
      * Passes through one argument:
@@ -161,22 +141,6 @@ object Register {
     fun registerGameUnload(method: Any): Trigger = RegularTrigger(method, TriggerType.GAME_UNLOAD)
 
     /**
-     * Registers a new trigger that runs before a message is sent in chat.
-     *
-     * Passes through two arguments:
-     * - The message
-     * - The message event, which can be cancelled
-     *
-     * Available modifications:
-     * - [Trigger.setPriority] Sets the priority
-     *
-     * @param method The method to call when the event is fired
-     * @return The trigger for additional modification
-     */
-    @JvmStatic
-    fun registerMessageSent(method: Any): Trigger = EventTrigger(method, TriggerType.MESSAGE_SENT)
-
-    /**
      * Registers a new trigger that runs when a tooltip is being rendered.
      * This allows for the user to modify what text is in the tooltip, and even the
      * ability to cancel rendering completely. Note that you must call
@@ -196,62 +160,6 @@ object Register {
      */
     @JvmStatic
     fun registerItemTooltip(method: Any): Trigger = EventTrigger(method, TriggerType.ITEM_TOOLTIP)
-
-    /**
-     * Registers a new trigger that runs before the player interacts.
-     *
-     * Passes through three arguments:
-     * - The [com.chattriggers.ctjs.api.entity.PlayerInteraction]
-     * - The object of interaction, depending on the interaction type. Either a
-     *   [com.chattriggers.ctjs.api.entity.CTEntity],
-     *   [com.chattriggers.ctjs.api.world.block.CTBlock], or
-     *   [com.chattriggers.ctjs.api.inventory.CTItem],
-     * - The event, which can be cancelled if the interaction is not BreakBlock
-     *
-     * Available modifications:
-     * - [Trigger.setPriority] Sets the priority
-     *
-     * @param method The method to call when the event is fired
-     * @return The trigger for additional modification
-     */
-    @JvmStatic
-    fun registerPlayerInteract(method: Any): Trigger = EventTrigger(method, TriggerType.PLAYER_INTERACT)
-
-    /**
-     * Registers a new trigger that runs whenever a packet is sent from the client to the server
-     *
-     * Passes through two arguments:
-     * - The packet
-     * - The event, which can be cancelled
-     *
-     * Available modifications:
-     * - [Trigger.setPriority] Sets the priority
-     * - [ClassFilterTrigger.setFilteredClasses] Sets the packet classes which this trigger
-     *   gets fired for
-     *
-     * @param method The method to call when the event is fired
-     * @return The trigger for additional modification
-     */
-    @JvmStatic
-    fun registerPacketSent(method: Any): Trigger = PacketTrigger(method, TriggerType.PACKET_SENT)
-
-    /**
-     * Registers a new trigger that runs whenever a packet is sent to the client from the server
-     *
-     * Passes through two arguments:
-     * - The packet
-     * - The event, which can be cancelled
-     *
-     * Available modifications:
-     * - [Trigger.setPriority] Sets the priority
-     * - [ClassFilterTrigger.setFilteredClasses] Sets the packet classes which this trigger
-     *   gets fired for
-     *
-     * @param method The method to call when the event is fired
-     * @return The trigger for additional modification
-     */
-    @JvmStatic
-    fun registerPacketReceived(method: Any): Trigger = PacketTrigger(method, TriggerType.PACKET_RECEIVED)
 
     /**
      * Registers a new trigger that runs whenever the player connects to a server
@@ -276,23 +184,6 @@ object Register {
      */
     @JvmStatic
     fun registerServerDisconnect(method: Any): Trigger = RegularTrigger(method, TriggerType.SERVER_DISCONNECT)
-
-    /**
-     * Registers a new trigger that runs before an item is dropped.
-     *
-     * Passes through two arguments:
-     * - The [com.chattriggers.ctjs.api.inventory.CTItem] that was dropped
-     * - Whether the entire stack (true), or just 1 item (false) will be dropped
-     * - The event, which can be cancelled
-     *
-     * Available modifications:
-     * - [Trigger.setPriority] Sets the priority
-     *
-     * @param method The method to call when the event is fired
-     * @return The trigger for additional modification
-     */
-    @JvmStatic
-    fun registerDropItem(method: Any): Trigger = EventTrigger(method, TriggerType.DROP_ITEM)
 
     /**
      * Registers a new trigger that runs when a new gui is first opened.
@@ -652,67 +543,6 @@ object Register {
      */
     @JvmStatic
     fun registerWorldUnload(method: Any): Trigger = RegularTrigger(method, TriggerType.WORLD_UNLOAD)
-
-    /**
-     * Registers a new trigger that runs before a sound is played.
-     *
-     * Passes through six arguments:
-     * - The sound event's position
-     * - The sound event's name
-     * - The sound event's volume
-     * - The sound event's pitch
-     * - The sound event's category's name
-     * - The sound event, which can be cancelled
-     *
-     * Available modifications:
-     * - [SoundPlayTrigger.setCriteria] Sets the sound name criteria
-     * - [Trigger.setPriority] Sets the priority
-     *
-     * @param method The method to call when the event is fired
-     * @return The trigger for additional modification
-     */
-    @JvmStatic
-    fun registerSoundPlay(method: Any): Trigger = SoundPlayTrigger(method)
-
-    /**
-     * Registers a new trigger that runs whenever a particle is spawned
-     *
-     * Passes through two arguments:
-     * - The [com.chattriggers.ctjs.api.entity.CTParticle]
-     * - The event, which can be cancelled
-     *
-     * Available modifications:
-     * - [Trigger.setPriority] Sets the priority
-     *
-     * @param method The method to call when the event is fired
-     * @return The trigger for additional modification
-     */
-    @JvmStatic
-    fun registerSpawnParticle(method: Any): Trigger = EventTrigger(method, TriggerType.SPAWN_PARTICLE)
-
-    /**
-     * Registers a new trigger that runs when an entity is damaged by the player
-     *
-     * Passes through one argument:
-     * - The target Entity that is damaged
-     *
-     * @param method The method to call when the event is fired
-     * @return The trigger for additional modification
-     */
-    @JvmStatic
-    fun registerEntityDamage(method: Any): Trigger = RegularTrigger(method, TriggerType.ENTITY_DAMAGE)
-
-    /**
-     * Registers a new trigger that runs when an entity dies
-     *
-     * Passes through one argument:
-     * - The Entity that died
-     *
-     * @param method The method to call when the event is fired
-     * @return The trigger for additional modification
-     */
-    @JvmStatic
-    fun registerEntityDeath(method: Any): Trigger = RegularTrigger(method, TriggerType.ENTITY_DEATH)
 
     /**
      * Registers a new command that will run the method provided.
