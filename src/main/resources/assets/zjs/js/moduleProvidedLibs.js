@@ -159,15 +159,16 @@
     loadClass("java.util.HashMap");
     loadClass("java.nio.file.Paths");
     loadClass("java.nio.file.Files");
-    loadClass("java.io.File");
+    loadClass("java.io.File", "JavaFile");
     loadClass("java.util.zip.ZipInputStream");
     loadClass("java.io.FileInputStream");
     loadClass("java.io.FileOutputStream");
+    loadClass("java.lang.reflect.Array", "JavaArray");
     loadClass("java.lang.Byte");
     loadClass("java.lang.System");
     loadClass("java.util.concurrent.CountDownLatch");
     loadClass("java.awt.Desktop");
-    loadClass("java.net.URL");
+    loadClass("java.net.URL", "JavaURL");
     loadClass("java.net.URI");
     loadClass("java.awt.Color");
     loadClass("java.lang.Class");
