@@ -259,7 +259,7 @@ open class CTEntity(override val mcValue: Entity) : CTWrapper<Entity> {
         @JvmStatic
         fun fromMC(entity: Entity): CTEntity = when (entity) {
             is Player -> PlayerMP(entity)
-            is LivingEntity -> CTLivingEntity(entity)
+            is LivingEntity -> CTEntity(entity)
             else -> CTEntity(entity)
         }
     }

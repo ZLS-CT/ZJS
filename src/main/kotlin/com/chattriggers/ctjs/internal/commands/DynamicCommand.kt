@@ -2,7 +2,7 @@ package com.chattriggers.ctjs.internal.commands
 
 import com.chattriggers.ctjs.api.commands.DynamicCommands
 import com.chattriggers.ctjs.api.commands.RootCommand
-import com.chattriggers.ctjs.internal.CTClientCommandSource
+import com.chattriggers.ctjs.internal.ClientCommandSource
 import com.chattriggers.ctjs.internal.engine.JSLoader
 import com.chattriggers.ctjs.internal.mixins.commands.CommandContextAccessor
 import com.chattriggers.ctjs.internal.utils.asMixin
@@ -48,7 +48,7 @@ object DynamicCommand {
 
                 parent!!.builder!!.redirect(target.commandNode) {
                     for ((name, arg) in it.asMixin<CommandContextAccessor>().arguments)
-                        it.source.asMixin<CTClientCommandSource>().setContextValue(name, arg.result)
+                        it.source.asMixin<ClientCommandSource>().setContextValue(name, arg.result)
                     it.source
                 }
 
@@ -61,7 +61,7 @@ object DynamicCommand {
 
                 parent!!.builder!!.redirect(target) {
                     for ((name, arg) in it.asMixin<CommandContextAccessor>().arguments)
-                        it.source.asMixin<CTClientCommandSource>().setContextValue(name, arg.result)
+                        it.source.asMixin<ClientCommandSource>().setContextValue(name, arg.result)
                     it.source
                 }
 
@@ -79,14 +79,14 @@ object DynamicCommand {
                 builder!!.executes { ctx ->
                     val obj = NativeObject()
 
-                    for ((key, value) in ctx.source.asMixin<CTClientCommandSource>().contextValues) {
+                    for ((key, value) in ctx.source.asMixin<ClientCommandSource>().contextValues) {
                         ScriptableObject.putProperty(obj, key, value)
                     }
                     for ((key, arg) in ctx.asMixin<CommandContextAccessor>().arguments) {
                         ScriptableObject.putProperty(obj, key, arg.result)
                     }
 
-                    ctx.source.asMixin<CTClientCommandSource>().contextValues.clear()
+                    ctx.source.asMixin<ClientCommandSource>().contextValues.clear()
 
                     JSLoader.invoke(method!!, arrayOf(obj))
                     1

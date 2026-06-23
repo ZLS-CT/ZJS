@@ -2,32 +2,19 @@ package com.chattriggers.ctjs.api.world
 
 import com.chattriggers.ctjs.api.CTWrapper
 import com.chattriggers.ctjs.api.client.Client
-import com.chattriggers.ctjs.api.client.CTPlayer
 import com.chattriggers.ctjs.api.entity.CTTeam
 import com.chattriggers.ctjs.api.message.TextComponent
-import com.chattriggers.ctjs.internal.mixins.ClientPacketListenerAccessor
-import com.chattriggers.ctjs.internal.mixins.PlayerInfoAccessor
-import com.chattriggers.ctjs.internal.mixins.PlayerTabOverlayAccessor
-import com.chattriggers.ctjs.internal.utils.asMixin
 import com.google.common.collect.ComparisonChain
-import com.google.common.collect.Ordering
-import com.mojang.authlib.GameProfile
 import gg.essential.elementa.state.BasicState
 import net.minecraft.client.multiplayer.PlayerInfo
 import net.minecraft.world.scores.DisplaySlot
 import net.minecraft.world.scores.Objective
-import net.minecraft.network.chat.Component
 import net.minecraft.world.level.GameType
-import java.util.UUID
 
-import net.minecraft.util.Util
 import net.minecraft.world.scores.PlayerTeam
-import java.util.concurrent.CompletableFuture
 
 object TabList {
-    private var needsUpdate = true
     private var tabListNames = mutableListOf<Name>()
-    private val playerComparator = Ordering.from(PlayerComparator())
     var customHeader = false
     var customFooter = false
     private var tabListHeader: TextComponent? = null
@@ -49,11 +36,6 @@ object TabList {
      */
     @JvmStatic
     fun getHeaderComponent(): TextComponent? {
-        if (needsUpdate) {
-            updateNames()
-            needsUpdate = false
-        }
-
         return tabListHeader
     }
 
@@ -66,42 +48,12 @@ object TabList {
     fun getHeader() = getHeaderComponent()?.formattedText
 
     /**
-     * Sets the header text for the TabList.
-     * If [header] is null, it will remove the header entirely
-     *
-     * @param header the header to set, or null to clear
-     */
-    @JvmStatic
-    fun setHeader(header: Any?) {
-        customHeader = false
-        when (header) {
-            is TextComponent? -> {
-                tabListHeader = header
-                toMC().setHeader(header)
-            }
-            is CharSequence, is Component -> {
-                tabListHeader = TextComponent(header)
-                toMC().setHeader(tabListHeader)
-            }
-        }
-        customHeader = true
-    }
-
-    @JvmStatic
-    fun clearHeader() = setHeader(null)
-
-    /**
      * Gets the tab list footer as a [TextComponent]
      *
      * @return the footer
      */
     @JvmStatic
     fun getFooterComponent(): TextComponent? {
-        if (needsUpdate) {
-            updateNames()
-            needsUpdate = false
-        }
-
         return tabListFooter
     }
 
@@ -113,31 +65,6 @@ object TabList {
      */
     @JvmStatic
     fun getFooter() = getFooterComponent()?.formattedText
-
-    /**
-     * Sets the footer text for the TabList.
-     * If [footer] is null, it will remove the footer entirely
-     *
-     * @param footer the footer to set, or null to clear
-     */
-    @JvmStatic
-    fun setFooter(footer: Any?) {
-        customFooter = false
-        when (footer) {
-            is TextComponent? -> {
-                tabListHeader = footer
-                toMC().setFooter(footer)
-            }
-            is CharSequence, is Component -> {
-                tabListHeader = TextComponent(footer)
-                toMC().setFooter(tabListHeader)
-            }
-        }
-        customFooter = true
-    }
-
-    @JvmStatic
-    fun clearFooter() = setFooter(null)
 
     /**
      * Gets names set in scoreboard objectives
@@ -164,11 +91,6 @@ object TabList {
      */
     @JvmStatic
     fun getNames(): List<Name> {
-        if (needsUpdate) {
-            updateNames()
-            needsUpdate = false
-        }
-
         return tabListNames
     }
 
@@ -179,124 +101,7 @@ object TabList {
      */
     @JvmStatic
     fun getUnformattedNames(): List<String> {
-        if (needsUpdate) {
-            updateNames()
-            needsUpdate = false
-        }
-
         return tabListNames.map { it.toMC().profile.name }
-    }
-
-    /**
-     * Adds a new name to the tab list
-     *
-     * @param name the formatted name to add
-     * @param useExistingSkin whether to use the skin of the associated Minecraft account using [name].
-     * If false, will use a random default skin (Steve, Alex, etc)
-     */
-    @JvmStatic
-    @JvmOverloads
-    fun addName(name: TextComponent, useExistingSkin: Boolean = true) {
-        val connection = Client.getConnection() ?: return
-        val listedPlayerListEntries = connection.listedOnlinePlayers
-        val playerListEntries = connection.asMixin<ClientPacketListenerAccessor>().playerInfoMap
-
-        val username = name.unformattedText
-
-        val uuid = UUID.randomUUID()
-        val fakeEntry = PlayerInfo(GameProfile(uuid, name.unformattedText), false)
-        fakeEntry.tabListDisplayName = name
-
-        listedPlayerListEntries += fakeEntry
-        playerListEntries[uuid] = fakeEntry
-
-        if (!useExistingSkin) {
-            updateNames()
-            return
-        }
-
-        val mc = Client.getMinecraft()
-        val apiServices = mc.services()
-        val findName = CompletableFuture.supplyAsync ({
-            apiServices.nameToIdCache.get(username)
-        }, Util.backgroundExecutor().forName("getProfile"))
-        findName.thenAcceptAsync {
-            if (!it.isPresent) return@thenAcceptAsync
-
-            val result = apiServices.sessionService.fetchProfile(it.get().id, true) ?: return@thenAcceptAsync
-            val entry = PlayerInfo(result.profile, true)
-            entry.tabListDisplayName = name
-
-            listedPlayerListEntries += entry
-            playerListEntries[result.profile.id] = entry
-
-            listedPlayerListEntries -= fakeEntry
-            playerListEntries.remove(uuid)
-
-            updateNames()
-        }
-    }
-
-    @JvmStatic
-    @JvmOverloads
-    fun addName(name: String, useExistingSkin: Boolean = true) = addName(TextComponent(name), useExistingSkin)
-
-    /**
-     * Removes all names from the tab list with a certain name
-     *
-     * @param name the name of the entry to remove
-     */
-    @JvmStatic
-    fun removeNames(name: TextComponent) {
-        tabListNames.filter {
-            it.getName().style == name.style && it.getName().string == name.string
-        }.forEach(Name::remove)
-    }
-
-    @JvmStatic
-    fun removeNames(name: String) {
-        tabListNames.filter {
-            it.getName().string == name
-        }.forEach(Name::remove)
-    }
-
-    private fun updateNames() {
-        tabListNames.clear()
-
-        if (!customHeader) {
-            tabListHeader = null
-        }
-
-        if (!customFooter) {
-            tabListFooter = null
-        }
-
-        val hud = toMC().asMixin<PlayerTabOverlayAccessor>()
-        val player = CTPlayer.toMC() ?: return
-
-        if (!customHeader) {
-            tabListHeader = hud.header?.let { TextComponent(it) }
-        }
-
-        if (!customFooter) {
-            tabListFooter = hud.footer?.let { TextComponent(it) }
-        }
-
-        tabListNames = playerComparator
-            .sortedCopy(player.connection.onlinePlayers)
-            .mapTo(mutableListOf(), ::Name)
-    }
-
-    internal fun resetCache() {
-        needsUpdate = true
-    }
-
-    fun clearCustom() {
-        tabListNames.clear()
-        customHeader = false
-        customFooter = false
-        tabListHeader = null
-        tabListFooter = null
     }
 
     class Name(override val mcValue: PlayerInfo) : CTWrapper<PlayerInfo> {
@@ -312,47 +117,11 @@ object TabList {
         fun getLatency(): Int = latencyState.get()
 
         /**
-         * Sets the latency associated with this name.
-         * - latency between 0 and 149 represents all 5 bars
-         * - latency between 150 and 299 represents 4 bars
-         * - latency between 300 and 599 represents 3 bars
-         * - latency between 600 and 999 represents 2 bars
-         * - latency between 1000 and more represents 1 bar
-         *
-         * @param latency the latency to set
-         * @return the name to allow for method chaining
-         */
-        fun setLatency(latency: Int) = apply {
-            latencyState.set(latency)
-            mcValue.asMixin<PlayerInfoAccessor>().invokeSetLatency(latency)
-        }
-
-        /**
          * Gets the team associated with this name, if it exists
          *
          * @return the team, or null if it does not exist
          */
         fun getTeam(): CTTeam? = teamState.get()?.let(::CTTeam)
-
-        /**
-         * Sets the team associated with this name
-         *
-         * @param team the new team to set for this name. Custom teams can be created
-         * using [Scoreboard.createTeam]
-         * @return the score to allow for method chaining
-         */
-        fun setTeam(team: CTTeam?) = apply {
-            val scoreboard = Scoreboard.toMC()!!
-            val name = mcValue.profile.name
-
-            if (team == null) {
-                scoreboard.removePlayerFromTeam(name)
-            } else {
-                scoreboard.addPlayerToTeam(name, team.toMC())
-            }
-
-            teamState.set(team?.toMC())
-        }
 
         /**
          * Gets the display text of this name
@@ -370,48 +139,6 @@ object TabList {
             )
         }
 
-        /**
-         * Sets the display name of this name
-         *
-         * @param name the new name
-         * @return the name to allow for method chaining
-         */
-        fun setName(name: TextComponent?) = apply {
-            nameState.set(name)
-            mcValue.setTabListDisplayName(name)
-        }
-
-        /**
-         * Removes this name from the tab list
-         */
-        fun remove() {
-            val connection = Client.getConnection() ?: return
-            val listedPlayerListEntries = connection.listedOnlinePlayers
-            val playerListEntries = connection.asMixin<ClientPacketListenerAccessor>().playerInfoMap
-
-            listedPlayerListEntries.remove(mcValue)
-            playerListEntries.remove(mcValue.profile.id)
-
-            updateNames()
-        }
-
         override fun toString(): String = getName().formattedText
-    }
-
-    internal class PlayerComparator internal constructor() : Comparator<PlayerInfo> {
-        override fun compare(playerOne: PlayerInfo, playerTwo: PlayerInfo): Int {
-            val teamOne = playerOne.team
-            val teamTwo = playerTwo.team
-
-            return ComparisonChain
-                .start()
-                .compareTrueFirst(
-                    playerOne.gameMode != GameType.SPECTATOR,
-                    playerTwo.gameMode != GameType.SPECTATOR,
-                )
-                .compare(teamOne?.name ?: "", teamTwo?.name ?: "")
-                .compare(playerOne.profile.name, playerTwo.profile.name)
-                .result()
-        }
     }
 }

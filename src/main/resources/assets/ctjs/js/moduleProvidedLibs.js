@@ -51,7 +51,6 @@
     loadClass("gg.essential.universal.UKeyboard");
 
     loadClass("com.chattriggers.ctjs.api.client.Client");
-    loadClass("com.chattriggers.ctjs.api.client.CPS");
     loadClass("com.chattriggers.ctjs.api.client.FileLib");
     loadClass("com.chattriggers.ctjs.api.client.CTPlayer");
     loadClass("com.chattriggers.ctjs.api.client.CTSound");
@@ -65,24 +64,14 @@
 
     loadClass("com.chattriggers.ctjs.api.entity.CTBlockEntity");
     loadClass("com.chattriggers.ctjs.api.entity.CTEntity");
-    loadClass("com.chattriggers.ctjs.api.entity.CTLivingEntity");
-    loadClass("com.chattriggers.ctjs.api.entity.CTParticle");
     loadClass("com.chattriggers.ctjs.api.entity.CTTeam");
-    loadClass("com.chattriggers.ctjs.api.entity.PlayerInteraction");
     loadClass("com.chattriggers.ctjs.api.entity.PlayerMP");
-
-    loadClass("com.chattriggers.ctjs.api.inventory.action.Action");
-    loadClass("com.chattriggers.ctjs.api.inventory.action.ClickAction");
-    loadClass("com.chattriggers.ctjs.api.inventory.action.DragAction");
-    loadClass("com.chattriggers.ctjs.api.inventory.action.DropAction");
-    loadClass("com.chattriggers.ctjs.api.inventory.action.KeyAction");
 
     loadClass("com.chattriggers.ctjs.api.inventory.nbt.NBT");
     loadClass("com.chattriggers.ctjs.api.inventory.nbt.NBTBase");
     loadClass("com.chattriggers.ctjs.api.inventory.nbt.NBTTagCompound");
     loadClass("com.chattriggers.ctjs.api.inventory.nbt.NBTTagList");
 
-    loadClass("com.chattriggers.ctjs.api.inventory.CTClickType");
     loadClass("com.chattriggers.ctjs.api.inventory.CTItem");
     loadClass("com.chattriggers.ctjs.api.inventory.CTSlot");
     loadClass("com.chattriggers.ctjs.api.inventory.Inventory");
@@ -97,23 +86,17 @@
 
     loadClass("com.chattriggers.ctjs.api.render.BaseGUIRenderer");
     loadClass("com.chattriggers.ctjs.api.render.BaseWorldRenderer");
-    loadClass("com.chattriggers.ctjs.api.render.Book");
-    loadClass("com.chattriggers.ctjs.api.render.CTPlayerRenderer");
-    loadClass("com.chattriggers.ctjs.api.render.Display");
     loadClass("com.chattriggers.ctjs.api.render.DrawMode");
     loadClass("com.chattriggers.ctjs.api.render.Gui");
     loadClass("com.chattriggers.ctjs.api.render.GUIRenderer");
     loadClass("com.chattriggers.ctjs.api.render.HudRenderLayer");
     loadClass("com.chattriggers.ctjs.api.render.Image");
     loadClass("com.chattriggers.ctjs.api.render.PipelineBuilder");
-    loadClass("com.chattriggers.ctjs.api.render.Rectangle");
     loadClass("com.chattriggers.ctjs.api.render.RenderLayers");
     loadClass("com.chattriggers.ctjs.api.render.RenderPipelines");
     loadClass("com.chattriggers.ctjs.api.render.RenderSnippet");
     loadClass("com.chattriggers.ctjs.api.render.RenderUtils");
-    loadClass("com.chattriggers.ctjs.api.render.Shape");
     loadClass("com.chattriggers.ctjs.api.render.Text");
-    loadClass("com.chattriggers.ctjs.api.render.Toast");
     loadClass("com.chattriggers.ctjs.api.render.VertexFormat");
     loadClass("com.chattriggers.ctjs.api.render.WorldRenderer");
 
@@ -138,10 +121,7 @@
     loadClass("com.chattriggers.ctjs.api.world.block.CTBlockPos");
     loadClass("com.chattriggers.ctjs.api.world.block.CTBlockType");
 
-    loadClass("com.chattriggers.ctjs.api.world.BossBars");
     loadClass("com.chattriggers.ctjs.api.world.CTChunk");
-    loadClass("com.chattriggers.ctjs.api.world.PotionEffect");
-    loadClass("com.chattriggers.ctjs.api.world.PotionEffectType");
     loadClass("com.chattriggers.ctjs.api.world.Scoreboard");
     loadClass("com.chattriggers.ctjs.api.world.Server");
     loadClass("com.chattriggers.ctjs.api.world.TabList");

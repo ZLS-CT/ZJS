@@ -38,8 +38,6 @@ public abstract class MinecraftMixin {
 
         if (this.level != null) {
             TriggerType.WORLD_UNLOAD.triggerAll();
-            Scoreboard.INSTANCE.clearCustom();
-            TabList.INSTANCE.clearCustom();
         }
     }
 
@@ -67,8 +65,6 @@ public abstract class MinecraftMixin {
         if (this.hasSingleplayerServer() || this.getCurrentServer() != null) {
             TriggerType.WORLD_UNLOAD.triggerAll();
             TriggerType.SERVER_DISCONNECT.triggerAll();
-            Scoreboard.INSTANCE.clearCustom();
-            TabList.INSTANCE.clearCustom();
         }
     }
 

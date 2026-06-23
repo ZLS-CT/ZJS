@@ -4,7 +4,6 @@ import com.chattriggers.ctjs.api.client.Client
 import com.chattriggers.ctjs.api.client.Settings
 import com.chattriggers.ctjs.api.entity.CTBlockEntity
 import com.chattriggers.ctjs.api.entity.CTEntity
-import com.chattriggers.ctjs.api.entity.CTParticle
 import com.chattriggers.ctjs.api.entity.PlayerMP
 import com.chattriggers.ctjs.api.render.GUIRenderer
 import com.chattriggers.ctjs.api.world.block.CTBlock
@@ -49,15 +48,6 @@ import net.minecraft.world.item.ItemStackTemplate
 object World {
     @JvmStatic
     fun toMC(): ClientLevel? = Client.getMinecraft().level
-
-    @JvmField
-    val spawn = SpawnWrapper()
-
-    @JvmField
-    val particle = ParticleWrapper()
-
-    @JvmField
-    val border = BorderWrapper()
 
     /**
      * Gets Minecraft's [ClientWorld] object
@@ -230,147 +220,5 @@ object World {
     fun getTicksPerSecond(): Int {
         val mpt = toMC()?.tickRateManager()?.millisecondsPerTick() ?: return 20
         return (1000.0 / mpt).roundToInt()
-    }
-
-    /**
-     * World border object to get border parameters
-     */
-    class BorderWrapper {
-        /**
-         * Gets the border center x location.
-         *
-         * @return the border center x location
-         */
-        fun getCenterX(): Double = toMC()!!.worldBorder.centerX
-
-        /**
-         * Gets the border center z location.
-         *
-         * @return the border center z location
-         */
-        fun getCenterZ(): Double = toMC()!!.worldBorder.centerZ
-
-        /**
-         * Gets the border size.
-         *
-         * @return the border size
-         */
-        fun getSize(): Double = toMC()!!.worldBorder.size
-
-        /**
-         * Gets the border target size.
-         *
-         * @return the border target size
-         */
-        fun getTargetSize(): Double = toMC()!!.worldBorder.lerpTarget
-
-        /**
-         * Gets the border time until the target size is met.
-         *
-         * @return the border time until target
-         */
-        fun getTimeUntilTarget(): Long = toMC()!!.worldBorder.lerpTime
-    }
-
-    /**
-     * World spawn object for getting spawn location.
-     */
-    class SpawnWrapper {
-        /**
-         * Gets the spawn x location.
-         *
-         * @return the spawn x location.
-         */
-        fun getX(): Int = toMC()!!.respawnData.pos().x
-
-        /**
-         * Gets the spawn y location.
-         *
-         * @return the spawn y location.
-         */
-        fun getY(): Int = toMC()!!.respawnData.pos().y
-
-        /**
-         * Gets the spawn z location.
-         *
-         * @return the spawn z location.
-         */
-        fun getZ(): Int = toMC()!!.respawnData.pos().z
-    }
-
-    class ParticleWrapper {
-        /**
-         * Gets an array of all the different particle names you can pass
-         * to [spawnParticle]
-         *
-         * @return the array of name strings
-         */
-        fun getParticleNames(): List<String> = BuiltInRegistries.PARTICLE_TYPE.registryKeySet().map { it.identifier().path }.toList()
-
-        /**
-         * Spawns a particle into the world with the given attributes,
-         * which can be configured further with the returned [CTParticle]
-         *
-         * @param particle the name of the particle to spawn, see [getParticleNames]
-         * @param x the x coordinate to spawn the particle at
-         * @param y the y coordinate to spawn the particle at
-         * @param z the z coordinate to spawn the particle at
-         * @param xSpeed the motion the particle should have in the x direction
-         * @param ySpeed the motion the particle should have in the y direction
-         * @param zSpeed the motion the particle should have in the z direction
-         * @return the newly spawned particle for further configuration
-         */
-        fun spawnParticle(
-            particle: String,
-            x: Double,
-            y: Double,
-            z: Double,
-            xSpeed: Double,
-            ySpeed: Double,
-            zSpeed: Double,
-        ): CTParticle? {
-            val particleType = BuiltInRegistries.PARTICLE_TYPE.get(particle.toIdentifier())
-
-            val blockPos = CTBlockPos(x, y, z)
-            val blockState = getBlockStateAt(blockPos)
-
-            val effect = when (particleType) {
-                ParticleTypes.BLOCK -> BlockParticleOption(ParticleTypes.BLOCK, blockState)
-                ParticleTypes.BLOCK_MARKER -> BlockParticleOption(ParticleTypes.BLOCK_MARKER, blockState)
-                ParticleTypes.DUST -> DustParticleOptions.REDSTONE
-                ParticleTypes.DUST_COLOR_TRANSITION -> DustColorTransitionOptions.SCULK_TO_REDSTONE
-                ParticleTypes.DUST_PILLAR -> BlockParticleOption(ParticleTypes.DUST_PILLAR, blockState)
-                ParticleTypes.FALLING_DUST -> BlockParticleOption(ParticleTypes.FALLING_DUST, blockState)
-                //#if MC<=12111
-                //$$ParticleTypes.ITEM -> ItemParticleOption(ParticleTypes.ITEM, ItemStack(Items.STONE, 1))
-                //#else
-                ParticleTypes.ITEM -> ItemParticleOption(ParticleTypes.ITEM, ItemStackTemplate(Items.STONE, 1))
-                //#endif
-                ParticleTypes.SCULK_CHARGE -> SculkChargeParticleOptions(0f)
-                ParticleTypes.SHRIEK -> ShriekParticleOption(0)
-                ParticleTypes.VIBRATION -> VibrationParticleOption(BlockPositionSource(blockPos.toMC()), 0)
-
-                ParticleTypes.ENTITY_EFFECT -> ColorParticleOption.create(ParticleTypes.ENTITY_EFFECT, 1f, 0f, 0f)
-
-                else -> throw IllegalStateException("Particle not accounted for: $particle")
-            }
-
-            val fx = Client.getMinecraft().particleEngine.createParticle(
-                effect,
-                x,
-                y,
-                z,
-                xSpeed,
-                ySpeed,
-                zSpeed,
-            )
-
-            return fx?.let(::CTParticle)
-        }
-
-        fun spawnParticle(particle: Particle): CTParticle {
-            Client.getMinecraft().particleEngine.add(particle)
-            return CTParticle(particle)
-        }
     }
 }

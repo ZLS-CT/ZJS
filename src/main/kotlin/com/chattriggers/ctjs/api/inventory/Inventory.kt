@@ -1,8 +1,5 @@
 package com.chattriggers.ctjs.api.inventory
 
-import com.chattriggers.ctjs.api.inventory.action.ClickAction
-import com.chattriggers.ctjs.api.inventory.action.DragAction
-import com.chattriggers.ctjs.api.inventory.action.DropAction
 import com.chattriggers.ctjs.api.message.TextComponent
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.world.Container
@@ -105,57 +102,6 @@ class Inventory {
      * @return if this is a container
      */
     fun isScreen(): Boolean = screen != null
-
-    /**
-     * Shorthand for [ClickAction]
-     *
-     * @param slot the slot to click on
-     * @param button the mouse button to use. "LEFT" by default.
-     * @param shift whether shift is being held. False by default
-     * @return this inventory for method chaining
-     */
-    @JvmOverloads
-    fun click(slot: Int, shift: Boolean = false, button: String = "LEFT") = apply {
-        ClickAction(slot, getWindowId())
-            .setClickString(button)
-            .setHoldingShift(shift)
-            .complete()
-    }
-
-    /**
-     * Shorthand for [DropAction]
-     *
-     * @param slot the slot to drop
-     * @param ctrl whether control should be held (drops whole stack)
-     * @return this inventory for method chaining
-     */
-    fun drop(slot: Int, ctrl: Boolean) = apply {
-        DropAction(slot, getWindowId())
-            .setHoldingCtrl(ctrl)
-            .complete()
-    }
-
-    /**
-     * Shorthand for [DragAction]
-     *
-     * @param type what click type this should be: LEFT, MIDDLE, RIGHT
-     * @param slots all of the slots to drag onto
-     * @return this inventory for method chaining
-     */
-    fun drag(type: String, vararg slots: Int) = apply {
-        DragAction(-999, getWindowId()).run {
-            setStage(DragAction.Stage.BEGIN)
-                .setClickType(CTClickType.valueOf(type.uppercase()))
-                .complete()
-
-            setStage(DragAction.Stage.SLOT)
-            slots.forEach { setSlot(it).complete() }
-
-            setStage(DragAction.Stage.END)
-                .setSlot(-999)
-                .complete()
-        }
-    }
 
     /**
      * Gets the name of the inventory, simply "container" for most chest-like blocks.

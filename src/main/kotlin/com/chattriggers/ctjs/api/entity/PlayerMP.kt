@@ -2,16 +2,12 @@ package com.chattriggers.ctjs.api.entity
 
 import com.chattriggers.ctjs.api.client.Client
 import com.chattriggers.ctjs.api.message.TextComponent
-import com.chattriggers.ctjs.api.render.GUIRenderer
-import com.chattriggers.ctjs.internal.NameTagOverridable
-import com.chattriggers.ctjs.internal.utils.asMixin
 import net.minecraft.client.multiplayer.PlayerInfo
 import net.minecraft.world.entity.player.Player
 import net.minecraft.network.chat.Component
 import net.minecraft.world.scores.PlayerTeam
-import org.mozilla.javascript.NativeObject
 
-class PlayerMP(override val mcValue: Player) : CTLivingEntity(mcValue) {
+class PlayerMP(override val mcValue: Player) : CTEntity(mcValue) {
     fun isSpectator() = mcValue.isSpectator
 
     fun getPing(): Int {
@@ -31,27 +27,6 @@ class PlayerMP(override val mcValue: Player) : CTLivingEntity(mcValue) {
 
     fun setTabDisplayName(textComponent: TextComponent) {
         getPlayerInfo()?.tabListDisplayName = textComponent
-    }
-
-    /**
-     * Sets the name for this player shown above their head,
-     * in their name tag
-     *
-     * @param textComponent the new name to display
-     */
-    fun setNametagName(textComponent: TextComponent) {
-        mcValue.asMixin<NameTagOverridable>().ctjs_setOverriddenNametagName(textComponent)
-    }
-
-    /**
-     * Draws the player in the GUI. Takes the same parameters as [GUIRenderer.drawPlayer]
-     * minus `player`.
-     *
-     * @see GUIRenderer.drawPlayer
-     */
-    fun draw(obj: NativeObject) = apply {
-        obj["player"] = this
-        GUIRenderer.drawPlayer(obj)
     }
 
     private fun getPlayerName(playerListEntry: PlayerInfo?): TextComponent {

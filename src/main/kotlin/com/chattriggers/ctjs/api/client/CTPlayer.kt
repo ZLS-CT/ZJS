@@ -8,7 +8,6 @@ import com.chattriggers.ctjs.api.inventory.Inventory
 import com.chattriggers.ctjs.api.inventory.CTItem
 import com.chattriggers.ctjs.api.message.TextComponent
 import com.chattriggers.ctjs.api.render.GUIRenderer
-import com.chattriggers.ctjs.api.world.PotionEffect
 import com.chattriggers.ctjs.api.world.Scoreboard
 import com.chattriggers.ctjs.api.world.World
 import com.chattriggers.ctjs.api.world.block.BlockFace
@@ -20,7 +19,6 @@ import net.minecraft.world.phys.EntityHitResult
 import net.minecraft.world.phys.HitResult
 import net.minecraft.world.phys.Vec2
 import net.minecraft.world.phys.Vec3
-import org.mozilla.javascript.NativeObject
 import java.util.UUID
 
 object CTPlayer {
@@ -248,15 +246,6 @@ object CTPlayer {
     }
 
     /**
-     * Gets the current active potion effects. Returns an empty list
-     * if the player has no active potion effects.
-     *
-     * @return a list of the active [PotionEffect]s
-     */
-    @JvmStatic
-    fun getActivePotionEffects(): List<PotionEffect> = toMC()?.activeEffectsMap?.values?.map(::PotionEffect).orEmpty()
-
-    /**
      * Gets the current object that the player is looking at,
      * whether that be a block or an entity. Returns null when not looking
      * at anything.
@@ -337,35 +326,12 @@ object CTPlayer {
     }
 
     /**
-     * Sets the name for this player shown above their head,
-     * in their name tag
-     *
-     * @param textComponent the new name to display
-     */
-    @JvmStatic
-    fun setNametagName(textComponent: TextComponent) {
-        asPlayerMP()?.setNametagName(textComponent)
-    }
-
-    /**
      * Gets the container the user currently has open, i.e. a chest.
      *
      * @return the currently opened container
      */
     @JvmStatic
     fun getContainer(): Inventory? = (Client.currentGui.get() as? AbstractContainerScreen<*>)?.let(::Inventory)
-
-    /**
-     * Draws the player in the GUI. Takes the same parameters as [GUIRenderer.drawPlayer]
-     * minus `player`.
-     *
-     * @see GUIRenderer.drawPlayer
-     */
-    @JvmStatic
-    fun draw(obj: NativeObject) = apply {
-        obj["player"] = this
-        GUIRenderer.drawPlayer(obj)
-    }
 
     class ArmorWrapper {
         /**
