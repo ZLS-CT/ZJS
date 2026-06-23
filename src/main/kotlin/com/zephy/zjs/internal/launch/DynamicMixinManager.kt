@@ -19,9 +19,9 @@ import java.net.URLConnection
 import java.net.URLStreamHandler
 
 internal object DynamicMixinManager {
-    internal const val GENERATED_PROTOCOL = "ct-generated"
-    internal const val GENERATED_MIXIN = "ct-generated.mixins.json"
-    internal const val GENERATED_PACKAGE = "com/chattriggers/ctjs/generated_mixins"
+    internal const val GENERATED_PROTOCOL = "zjs-generated"
+    internal const val GENERATED_MIXIN = "zjs-generated.mixins.json"
+    internal const val GENERATED_PACKAGE = "com/zephy/zjs/generated_mixins"
 
     lateinit var mixins: Map<Mixin, MixinDetails>
 

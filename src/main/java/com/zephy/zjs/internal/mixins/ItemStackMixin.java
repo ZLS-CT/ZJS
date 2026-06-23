@@ -57,17 +57,17 @@ public class ItemStackMixin implements TooltipOverridable, Skippable {
     }
 
     @Override
-    public void ctjs_setTooltip(List<Component> tooltip) {
+    public void zjs_setTooltip(List<Component> tooltip) {
         overriddenTooltip = tooltip;
     }
 
     @Override
-    public void ctjs_setShouldOverrideTooltip(boolean shouldOverrideTooltip) {
+    public void zjs_setShouldOverrideTooltip(boolean shouldOverrideTooltip) {
         this.shouldOverrideTooltip = shouldOverrideTooltip;
     }
 
     @Override
-    public void ctjs_setShouldSkip(boolean shouldSkip) {
+    public void zjs_setShouldSkip(boolean shouldSkip) {
         shouldSkipFabricEvent = shouldSkip;
     }
 }

@@ -1,5 +1,6 @@
 package com.zephy.zjs.internal.mixins;
 
+import com.zephy.zjs.ZJS;
 import com.zephy.zjs.internal.engine.module.Module;
 import com.zephy.zjs.internal.engine.module.ModuleManager;
 import com.zephy.zjs.internal.engine.module.ModuleMetadata;
@@ -14,7 +15,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-//#if MC>=26.2
+//#if MC<26.2
+//$$import java.util.function.Supplier;
+//#else
 import net.minecraft.CrashReportDetail;
 //#endif
 
@@ -34,7 +37,7 @@ public abstract class SystemReportMixin {
         )
     )
     private void addModules(CallbackInfo ci) {
-        setDetail("ChatTriggers Modules", () -> {
+        setDetail(ZJS.MOD_NAME + " Modules", () -> {
             List<Module> modules = new ArrayList<>(ModuleManager.INSTANCE.getCachedModules());
             modules.sort(Comparator.comparing(Module::getName));
 

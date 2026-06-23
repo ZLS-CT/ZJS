@@ -9,6 +9,7 @@ import com.zephy.zjs.internal.mixins.AbstractContainerScreenAccessor
 import com.zephy.zjs.internal.mixins.KeyMappingAccessor
 import com.zephy.zjs.internal.utils.asMixin
 import com.mojang.realmsclient.RealmsMainScreen
+import com.zephy.zjs.ZJS
 import gg.essential.universal.UKeyboard
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.components.ChatComponent
@@ -314,7 +315,7 @@ object Client {
      */
     @JvmStatic
     @JvmOverloads
-    fun getKeyBindFromKey(keyCode: Int, description: String, category: String = "ChatTriggers"): KeyBind {
+    fun getKeyBindFromKey(keyCode: Int, description: String, category: String = ZJS.MOD_NAME): KeyBind {
         return getKeyBindFromKey(keyCode) ?: KeyBind(description, keyCode, category)
     }
 

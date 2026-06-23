@@ -103,7 +103,7 @@ object JSLoader {
 
         val moduleProvidedLibs = saveResource(
             "/assets/zjs/js/moduleProvidedLibs.js",
-            File(ZJS.MODULES_FOLDER.parentFile, "chattriggers-modules-provided-libs.js"),
+            File(ZJS.MODULES_FOLDER, "modules-provided-libs.js"),
         )
 
         try {
@@ -198,7 +198,7 @@ object JSLoader {
     private fun loadMixinLibs() {
         val mixinProvidedLibs = saveResource(
             "/assets/zjs/js/mixinProvidedLibs.js",
-            File(ZJS.MODULES_FOLDER.parentFile, "chattriggers-mixin-provided-libs.js"),
+            File(ZJS.MODULES_FOLDER, "mixin-provided-libs.js"),
         )
 
         wrapInContext {

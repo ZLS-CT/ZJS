@@ -24,32 +24,6 @@ import com.llamalad7.mixinextras.sugar.Local;
 
 @Mixin(Gui.class)
 public class GuiMixin {
-    //#if MC<26.2
-    //$$@Inject(
-        //#if MC<=12111
-        //$$method = "displayScoreboardSidebar(Lnet/minecraft/client/gui/GuiGraphics;Lnet/minecraft/world/scores/Objective;)V",
-        //#else
-        //$$method = "displayScoreboardSidebar(Lnet/minecraft/client/gui/GuiGraphicsExtractor;Lnet/minecraft/world/scores/Objective;)V",
-        //#endif
-    //$$    at = @At(
-    //$$        value = "HEAD"
-    //$$    ),
-    //$$    cancellable = true
-    //$$)
-    //$$private void injectRenderScoreboard(
-        //#if MC<=12111
-        //$$GuiGraphics drawContext,
-        //#else
-        //$$GuiGraphicsExtractor drawContext,
-        //#endif
-    //$$    Objective objective, CallbackInfo ci
-    //$$) {
-    //$$    if (!Scoreboard.getShouldRender()) {
-    //$$        ci.cancel();
-    //$$    }
-    //$$}
-    //#endif
-
     @Inject(
         //#if MC<=12111
         //$$method = "render",

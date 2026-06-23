@@ -68,10 +68,10 @@ object ConsoleHostProcess : Initializer {
         val keybind = KeyMappingHelper.registerKeyMapping(
         //#endif
             KeyMapping(
-                "ctjs.key.binding.console",
+                "${ZJS.MOD_ID}.key.binding.console",
                 InputConstants.Type.KEYSYM,
                 GLFW.GLFW_KEY_GRAVE_ACCENT,
-                KeyMapping.Category.register(Identifier.parse("ctjs.key.category")),
+                KeyMapping.Category.register(Identifier.parse("${ZJS.MOD_ID}.key.category")),
             ),
         )
 

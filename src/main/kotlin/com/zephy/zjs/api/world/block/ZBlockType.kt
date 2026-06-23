@@ -35,6 +35,8 @@ class ZBlockType(override val mcValue: Block) : ZWrapper<Block> {
 
     fun getID(): Int = BuiltInRegistries.BLOCK.indexOf(mcValue)
 
+    fun getDefaultState() = mcValue.defaultBlockState()
+
     /**
      * Gets the block's registry name.
      * Example: minecraft:oak_planks

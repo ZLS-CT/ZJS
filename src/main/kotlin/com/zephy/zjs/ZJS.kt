@@ -33,9 +33,11 @@ class ZJS : ClientModInitializer {
     }
 
     companion object {
-        const val MOD_ID = "ctjs"
-        const val MOD_NAME = "ChatTriggers"
-        const val MOD_VERSION = "3.0.6b"
+        const val MOD_ID = "zjs"
+        const val MOD_NAME = "ZJS"
+        const val COMMAND_PREFIX = MOD_ID
+        const val MOD_VERSION = "1.0.0"
+        const val USER_AGENT = "Mozilla/5.0 (${MOD_NAME})"
 
         const val CONFIG_FOLDER_PATH = "./config"
         const val MOD_FOLDER_PATH = "${CONFIG_FOLDER_PATH}/${MOD_NAME}"
@@ -63,7 +65,7 @@ class ZJS : ClientModInitializer {
         }
 
         @JvmOverloads
-        internal fun makeWebRequest(url: String, userAgent: String? = "Mozilla/5.0 (ChatTriggers)"): URLConnection =
+        internal fun makeWebRequest(url: String, userAgent: String? = USER_AGENT): URLConnection =
             URI(url).toURL().openConnection().apply {
                 setRequestProperty("User-Agent", userAgent)
                 connectTimeout = 3000
@@ -96,7 +98,7 @@ class ZJS : ClientModInitializer {
             }
 
             if (asCommand) {
-                ChatLib.chat("&7Unloaded ChatTriggers")
+                ChatLib.chat("&7Unloaded ${MOD_NAME}")
             }
         }
 
@@ -106,7 +108,7 @@ class ZJS : ClientModInitializer {
             unloadModules(asCommand = false)
 
             if (asCommand) {
-                ChatLib.chat("&cReloading ChatTriggers...")
+                ChatLib.chat("&cReloading ${MOD_NAME}...")
             }
 
             thread {

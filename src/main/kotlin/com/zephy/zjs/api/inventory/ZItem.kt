@@ -57,7 +57,7 @@ class ZItem(override val mcValue: ItemStack) : ZWrapper<ItemStack> {
 
     @JvmOverloads
     fun getLore(advanced: Boolean = false): MutableList<TextComponent> {
-        mcValue.asMixin<Skippable>().ctjs_setShouldSkip(true)
+        mcValue.asMixin<Skippable>().zjs_setShouldSkip(true)
         val tooltip = mcValue
             .getTooltipLines(
                 TooltipContext.EMPTY,
@@ -67,20 +67,20 @@ class ZItem(override val mcValue: ItemStack) : ZWrapper<ItemStack> {
                 TextComponent(it)
             }
 
-        mcValue.asMixin<Skippable>().ctjs_setShouldSkip(false)
+        mcValue.asMixin<Skippable>().zjs_setShouldSkip(false)
 
         return tooltip
     }
 
     fun setLore(lore: List<TextComponent>) {
         mcValue.asMixin<TooltipOverridable>().apply {
-            ctjs_setTooltip(lore)
-            ctjs_setShouldOverrideTooltip(true)
+            zjs_setTooltip(lore)
+            zjs_setShouldOverrideTooltip(true)
         }
     }
 
     fun resetLore() {
-        mcValue.asMixin<TooltipOverridable>().ctjs_setShouldOverrideTooltip(false)
+        mcValue.asMixin<TooltipOverridable>().zjs_setShouldOverrideTooltip(false)
     }
 
     // TODO: make a component wrapper?

@@ -1,5 +1,6 @@
 package com.zephy.zjs.internal.console
 
+import com.zephy.zjs.ZJS
 import com.zephy.zjs.engine.LogType
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants
@@ -35,7 +36,7 @@ class ConsoleFrame(
             .also(GraphicsEnvironment.getLocalGraphicsEnvironment()::registerFont)
     }
 
-    private val frame = JFrame("ChatTriggers ${init.modVersion} JS Console")
+    private val frame = JFrame("${ZJS.MOD_NAME} ${init.modVersion} JS Console")
 
     private val textArea = JTextPane()
     private val inputField = RSyntaxTextArea(5, 1).apply {
@@ -81,12 +82,12 @@ class ConsoleFrame(
                         if (command == "help") {
                             writer.println(
                                 """
-                                -------------- ChatTriggers Console Help --------------
+                                -------------- ${ZJS.MOD_NAME} Console Help --------------
                                  Shortcuts:
                                   Control + Enter: Run code in the textbox
                                   Control + UP / DOWN: Cycle between ran code history
                                   Control + L: Clear console
-                                  Control + R: Reload ChatTriggers
+                                  Control + R: Reload modules
                                   Control +: Increase console font size
                                   Control -: Decreate console font size
                                 -------------------------------------------------------
@@ -159,8 +160,8 @@ class ConsoleFrame(
 
             val trimmedTrace = if (index != -1) {
                 err.trace.dropLast(err.trace.size - index - 1).map {
-                    val fileNameIndex = it.fileName?.indexOf("ChatTriggers/modules/") ?: return@map it
-                    val classNameIndex = it.className.indexOf("ChatTriggers_modules_")
+                    val fileNameIndex = it.fileName?.indexOf("${ZJS.MOD_NAME}/modules/") ?: return@map it
+                    val classNameIndex = it.className.indexOf("${ZJS.MOD_NAME}_modules_")
 
                     if (fileNameIndex != -1) {
                         StackTrace(

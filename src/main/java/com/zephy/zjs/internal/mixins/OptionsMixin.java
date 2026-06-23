@@ -26,7 +26,7 @@ public class OptionsMixin implements BoundKeyUpdater {
     }
 
     @Override
-    public void ctjs_updateBoundKey(KeyMapping keyBinding) {
+    public void zjs_updateBoundKey(KeyMapping keyBinding) {
         String string = keyBinding.saveString();
         String string2 = visitor.process("key_" + keyBinding.saveString(), string);
         if (!string.equals(string2)) {

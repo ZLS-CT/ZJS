@@ -29,7 +29,7 @@ internal object ZCommand : Initializer {
     }
 
     fun register(dispatcher: CommandDispatcher<FabricClientCommandSource>) {
-        val command = literal("ct")
+        val command = literal(ZJS.COMMAND_PREFIX)
             .then(literal("load").onExecute { ZJS.reloadModules(asCommand = true) })
             .then(literal("reload").onExecute { ZJS.reloadModules(asCommand = true) })
             .then(literal("unload").onExecute { ZJS.unloadModules(asCommand = true) })
@@ -45,13 +45,13 @@ internal object ZCommand : Initializer {
     private fun getUsage() =
         """
         &b&m${ChatLib.getChatBreak()}
-        &c/ct reload &7- &oReloads all modules.
-        &c/ct unload &7- &oUnloads all modules.
-        &c/ct files &7- &oOpens the ChatTriggers folder.
-        &c/ct modules &7- &oOpens the modules GUI.
-        &c/ct console [language] &7- &oOpens the ChatTriggers console.
-        &c/ct config &7- &oOpens the ChatTriggers settings.
-        &c/ct &7- &oDisplays this help dialog.
+        &c/${ZJS.COMMAND_PREFIX} reload &7- &oReloads all modules.
+        &c/${ZJS.COMMAND_PREFIX} unload &7- &oUnloads all modules.
+        &c/${ZJS.COMMAND_PREFIX} files &7- &oOpens the modules folder.
+        &c/${ZJS.COMMAND_PREFIX} modules &7- &oOpens the modules GUI.
+        &c/${ZJS.COMMAND_PREFIX} console [language] &7- &oOpens the console.
+        &c/${ZJS.COMMAND_PREFIX} config &7- &oOpens the global config.
+        &c/${ZJS.COMMAND_PREFIX} &7- &oDisplays this help dialog.
         &b&m${ChatLib.getChatBreak()}
         """.trimIndent()
 

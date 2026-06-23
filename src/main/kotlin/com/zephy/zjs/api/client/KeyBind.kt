@@ -1,5 +1,6 @@
 package com.zephy.zjs.api.client
 
+import com.zephy.zjs.ZJS
 import com.zephy.zjs.api.triggers.RegularTrigger
 import com.zephy.zjs.api.triggers.TriggerType
 import com.zephy.zjs.api.world.World
@@ -33,7 +34,7 @@ class KeyBind {
      * @see [org.lwjgl.input.Keyboard](http://legacy.lwjgl.org/javadoc/org/lwjgl/input/Keyboard.html)
      */
     @JvmOverloads
-    constructor(description: String, keyCode: Int, category: String = "ChatTriggers") {
+    constructor(description: String, keyCode: Int, category: String = ZJS.MOD_NAME) {
         val possibleDuplicate = Client.getMinecraft().options.keyMappings.find {
             I18n.get(it.saveString()) == I18n.get(description) &&
                 // TODO: check if this is right
@@ -58,7 +59,7 @@ class KeyBind {
             // We need to update the bound key for the KeyBind we just made to the previous binding,
             // just in case it existed last time the game was opened. This will only matter for the first
             // time launching the game, as subsequent CT loads will cause possibleDuplicate to be found.
-            Client.getMinecraft().options.asMixin<BoundKeyUpdater>().ctjs_updateBoundKey(keyBinding)
+            Client.getMinecraft().options.asMixin<BoundKeyUpdater>().zjs_updateBoundKey(keyBinding)
             KeyMapping.resetMapping()
 
             addKeyBinding(keyBinding)

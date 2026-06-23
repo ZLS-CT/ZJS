@@ -26,16 +26,13 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 //#endif
 
-//#if MC>=26.1
-
-//#endif
-
 //#if MC<26.2
 //$$import net.minecraft.util.profiling.ProfilerFiller;
 //$$import org.joml.Matrix4f;
 //$$import com.mojang.blaze3d.resource.ResourceHandle;
 //$$import net.minecraft.client.Camera;
 //$$import net.minecraft.client.renderer.MultiBufferSource;
+//$$import net.minecraft.client.renderer.chunk.ChunkSectionsToRender;
 //#endif
 
 @Mixin(LevelRenderer.class)

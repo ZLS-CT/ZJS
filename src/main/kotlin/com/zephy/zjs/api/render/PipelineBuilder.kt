@@ -19,6 +19,8 @@ import java.util.Optional
 
 //#if MC>=26.2
 import com.mojang.blaze3d.GpuFormat
+import com.zephy.zjs.ZJS
+
 //#endif
 
 object PipelineBuilder {
@@ -142,7 +144,7 @@ object PipelineBuilder {
 
         val basePipeline = RenderPipeline
             .builder(snippet.toMC())
-            .withLocation("ctjs/custom/pipelines/${location ?: hashCode()}")
+            .withLocation("${ZJS.MOD_ID}/custom/pipelines/${location ?: hashCode()}")
             //#if MC<26.2
             //$$.withVertexFormat(vertexFormat.toMC(), drawMode.toMC())
             //#else
@@ -192,7 +194,7 @@ object PipelineBuilder {
             val layerBuilder = RenderSetup.builder(build())
 
             if (textureIdentifier != null) {
-                layerBuilder.withTexture("ctjs/custom/textures/${location ?: hashCode()}", textureIdentifier!!)
+                layerBuilder.withTexture("${ZJS.MOD_ID}/custom/textures/${location ?: hashCode()}", textureIdentifier!!)
             }
 
             if (layering != null) {
@@ -210,7 +212,7 @@ object PipelineBuilder {
             //#endif
 
             val layer = createRenderLayer(
-                "ctjs/custom/layers/${location ?: hashCode()}",
+                "${ZJS.MOD_ID}/custom/layers/${location ?: hashCode()}",
                 layerBuilder.createRenderSetup(),
             )
 

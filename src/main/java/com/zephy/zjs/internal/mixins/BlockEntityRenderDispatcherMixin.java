@@ -24,7 +24,7 @@ import java.util.Map;
 @Mixin(BlockEntityRenderDispatcher.class)
 public abstract class BlockEntityRenderDispatcherMixin {
     @Unique
-    private final Map<BlockEntityRenderState, Object[]> ctjs$stateToEntityData = new IdentityHashMap<>();
+    private final Map<BlockEntityRenderState, Object[]> zjs$stateToEntityData = new IdentityHashMap<>();
 
     @Inject(
         method = "tryExtractRenderState",
@@ -47,7 +47,7 @@ public abstract class BlockEntityRenderDispatcherMixin {
         net.minecraft.world.phys.Vec3 cameraPosition,
         S state
     ) {
-        ctjs$stateToEntityData.put(state, new Object[]{ blockEntity, partialTicks });
+        zjs$stateToEntityData.put(state, new Object[]{ blockEntity, partialTicks });
     }
 
     @Inject(
@@ -67,7 +67,7 @@ public abstract class BlockEntityRenderDispatcherMixin {
         CallbackInfo ci,
         BlockEntityRenderer<?, S> renderer
     ) {
-        Object[] data = ctjs$stateToEntityData.remove(renderState);
+        Object[] data = zjs$stateToEntityData.remove(renderState);
         if (data != null) {
             BlockEntity entity = (BlockEntity) data[0];
             float partialTicks = (float) data[1];

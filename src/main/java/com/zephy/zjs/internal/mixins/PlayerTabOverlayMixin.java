@@ -48,7 +48,7 @@ public class PlayerTabOverlayMixin {
         ),
         cancellable = true
     )
-    private void ctjs$keepCustomHeader(Component header, CallbackInfo ci) {
+    private void zjs$keepCustomHeader(Component header, CallbackInfo ci) {
         if (TabList.INSTANCE.getCustomHeader()) {
             ci.cancel();
         }
@@ -61,7 +61,7 @@ public class PlayerTabOverlayMixin {
         ),
         cancellable = true
     )
-    private void ctjs$keepCustomFooter(Component footer, CallbackInfo ci) {
+    private void zjs$keepCustomFooter(Component footer, CallbackInfo ci) {
         if (TabList.INSTANCE.getCustomFooter()) {
             ci.cancel();
         }

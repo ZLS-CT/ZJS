@@ -1,5 +1,6 @@
 package com.zephy.zjs.internal.listeners
 
+import com.zephy.zjs.ZJS
 import com.zephy.zjs.api.client.Client
 import com.zephy.zjs.api.entity.ZBlockEntity
 import com.zephy.zjs.api.entity.ZEntity
@@ -71,7 +72,7 @@ object ClientListener : Initializer {
         // Sleep layer isn't affected by screen hiding (F1)
         HudElementRegistry.attachElementAfter(
             HudRenderLayer.SLEEP.toMC(),
-            Identifier.fromNamespaceAndPath("ctjs", "screen_overlay"))
+            Identifier.fromNamespaceAndPath(ZJS.MOD_ID, "screen_overlay"))
         {
             //#if MC<=12111
             //$$drawContext: GuiGraphics,
@@ -91,7 +92,7 @@ object ClientListener : Initializer {
         // Subtitles is last HUD layer to render
         HudElementRegistry.attachElementAfter(
             HudRenderLayer.SUBTITLES.toMC(),
-            Identifier.fromNamespaceAndPath("ctjs", "hideable_screen_overlay"))
+            Identifier.fromNamespaceAndPath(ZJS.MOD_ID, "hideable_screen_overlay"))
         {
             //#if MC<=12111
             //$$drawContext: GuiGraphics,
