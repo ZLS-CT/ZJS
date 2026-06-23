@@ -2,7 +2,6 @@ package com.zephy.zjs.internal.commands
 
 import com.zephy.zjs.engine.LogType
 import com.zephy.zjs.engine.printToConsole
-import com.zephy.zjs.internal.engine.Events
 import com.zephy.zjs.internal.utils.Initializer
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.builder.ArgumentBuilder
