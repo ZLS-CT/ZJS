@@ -3,7 +3,6 @@ package com.chattriggers.ctjs.internal.engine.module
 import com.chattriggers.ctjs.api.message.ChatLib
 import com.chattriggers.ctjs.api.render.RenderUtils
 import com.chattriggers.ctjs.api.render.Text
-import com.fasterxml.jackson.core.Version
 import java.io.File
 
 //#if MC<=12111
@@ -17,7 +16,6 @@ import net.minecraft.client.gui.GuiGraphicsExtractor
 //#endif
 
 class Module(val name: String, var metadata: ModuleMetadata, val folder: File) {
-    var targetModVersion: Version? = null
     var requiredBy = mutableSetOf<String>()
 
     private val gui = object {

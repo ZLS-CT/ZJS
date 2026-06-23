@@ -1,40 +1,28 @@
 [versions]
-mapping-io = "0.8.0"
-jackson-core = "2.20.0"
-textarea = "3.6.3"
-serialization = "1.11.0"
-koffee = "315bc11234"
-devauth = "1.2.1"
-dokka = "1.9.20"
-elementa = "745"
-vigilance = "314"
-universalcraft = "505"
-
-# Kotlin
 kotlin = "2.3.10"
+universalcraft = "505"
+vigilance = "314"
+elementa = "745"
+mapping-io = "0.8.0"
+koffee = "315bc11234"
+serialization = "1.11.0"
+textarea = "3.6.3"
 ksp = "2.3.9"
 
 [libraries]
-elementa = { module = "gg.essential:elementa", version.ref = "elementa" }
 vigilance = { module = "gg.essential:vigilance", version.ref = "vigilance" }
-
+elementa = { module = "gg.essential:elementa", version.ref = "elementa" }
 mapping-io = { module = "net.fabricmc:mapping-io", version.ref = "mapping-io" }
-jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson-core" }
-textarea = { module = "com.fifesoft:rsyntaxtextarea", version.ref = "textarea" }
-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 koffee = { module = "com.github.ChatTriggers:koffee", version.ref = "koffee" }
-
-devauth = { module = "me.djtheredstoner:DevAuth-fabric", version.ref = "devauth" }
-versioning = { module = "org.jetbrains.dokka:versioning-plugin", version.ref = "dokka" }
-
+serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+textarea = { module = "com.fifesoft:rsyntaxtextarea", version.ref = "textarea" }
 ksp = { module = "com.google.devtools.ksp:symbol-processing-api", version.ref = "ksp" }
 gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 [bundles]
-included = ["mapping-io", "jackson-core", "textarea", "serialization", "koffee"]
+included = ["mapping-io", "textarea", "serialization", "koffee"]
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

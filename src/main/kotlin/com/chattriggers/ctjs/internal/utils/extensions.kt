@@ -1,7 +1,6 @@
 package com.chattriggers.ctjs.internal.utils
 
 import com.chattriggers.ctjs.internal.launch.Descriptor
-import com.fasterxml.jackson.core.Version
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.TextColor
 import net.minecraft.resources.Identifier
@@ -12,17 +11,6 @@ import org.mozilla.javascript.Scriptable
 import java.net.URLEncoder
 import java.nio.charset.Charset
 import kotlin.reflect.KClass
-
-fun String.toVersion(): Version {
-    val (semvar, extra) = if ('-' in this) {
-        split('-')
-    } else {
-        listOf(this, null)
-    }
-
-    val split = semvar!!.split(".").map(String::toInt)
-    return Version(split.getOrElse(0) { 0 }, split.getOrElse(1) { 0 }, split.getOrElse(2) { 0 }, extra, null, null)
-}
 
 fun String.toIdentifier(): Identifier {
     return Identifier.withDefaultNamespace(if (':' in this) this else "minecraft:$this")

@@ -13,7 +13,6 @@ import com.chattriggers.ctjs.internal.engine.module.ModuleManager
 import com.chattriggers.ctjs.internal.engine.module.ModulesGui
 import com.chattriggers.ctjs.internal.listeners.ClientListener
 import com.chattriggers.ctjs.internal.utils.Initializer
-import com.chattriggers.ctjs.internal.utils.toVersion
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.StringReader
 import com.mojang.brigadier.arguments.ArgumentType
@@ -135,15 +134,6 @@ internal object CTCommand : Initializer {
                 if (module == null) {
                     ChatLib.chat("&cUnable to import module $moduleName")
                     return@thread
-                }
-
-                val allModules = listOf(module) + dependencies
-                val modVersion = CTJS.MOD_VERSION.toVersion()
-                allModules.forEach {
-                    val version = it.targetModVersion ?: return@forEach
-                    if (version.majorVersion < modVersion.majorVersion) {
-                        ModuleManager.tryReportOldVersion(it)
-                    }
                 }
 
                 ChatLib.chat("&aSuccessfully imported ${module.metadata.name ?: module.name}")

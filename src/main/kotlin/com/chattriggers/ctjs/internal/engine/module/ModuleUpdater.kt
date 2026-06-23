@@ -10,7 +10,6 @@ import com.chattriggers.ctjs.internal.engine.CTEvents
 import com.chattriggers.ctjs.internal.engine.module.ModuleManager.cachedModules
 import com.chattriggers.ctjs.internal.engine.module.ModuleManager.modulesFolder
 import com.chattriggers.ctjs.internal.utils.Initializer
-import com.chattriggers.ctjs.internal.utils.toVersion
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import org.apache.commons.io.FileUtils
 import java.io.File
@@ -63,14 +62,6 @@ object ModuleUpdater : Initializer {
             val newMetadataText = connection.getInputStream().bufferedReader().readText()
             val newMetadata = CTJS.json.decodeFromString<ModuleMetadata>(newMetadataText)
 
-            if (newMetadata.version == null) {
-                ("Remote version of module ${metadata.name} has no version numbers, so it will " +
-                    "not be updated!").printToConsole(LogType.WARN)
-                return
-            } else if (metadata.version != null && metadata.version.toVersion() >= newMetadata.version.toVersion()) {
-                return
-            }
-
             downloadModule(metadata.name)
             "Updated module ${metadata.name}".printToConsole()
 
@@ -106,7 +97,6 @@ object ModuleUpdater : Initializer {
 
         val moduleDir = File(modulesFolder, realName)
         val module = ModuleManager.parseModule(moduleDir)
-        module.targetModVersion = modVersion.toVersion()
 
         if (requiredBy != null) {
             module.metadata.isRequired = true
