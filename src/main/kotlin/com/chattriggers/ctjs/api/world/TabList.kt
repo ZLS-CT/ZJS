@@ -4,12 +4,10 @@ import com.chattriggers.ctjs.api.CTWrapper
 import com.chattriggers.ctjs.api.client.Client
 import com.chattriggers.ctjs.api.entity.CTTeam
 import com.chattriggers.ctjs.api.message.TextComponent
-import com.google.common.collect.ComparisonChain
 import gg.essential.elementa.state.BasicState
 import net.minecraft.client.multiplayer.PlayerInfo
 import net.minecraft.world.scores.DisplaySlot
 import net.minecraft.world.scores.Objective
-import net.minecraft.world.level.GameType
 
 import net.minecraft.world.scores.PlayerTeam
 

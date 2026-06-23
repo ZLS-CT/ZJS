@@ -6,7 +6,6 @@ import com.chattriggers.ctjs.api.world.block.CTBlockPos
 import com.chattriggers.ctjs.api.world.block.CTBlockType
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.level.block.entity.BlockEntity
-import net.minecraft.world.level.block.entity.BlockEntityType
 
 class CTBlockEntity(override val mcValue: BlockEntity) : CTWrapper<BlockEntity> {
     fun getX(): Int = getBlockPos().x

@@ -37,16 +37,6 @@ class CTItem(override val mcValue: ItemStack) : CTWrapper<ItemStack> {
 
     constructor(type: ItemType) : this(type.toMC().defaultInstance)
 
-    //#if MC>26.1
-    @Deprecated("Holder was removed in 26.1+")
-    //#endif
-    fun getHolder(): CTEntity? =
-        //#if MC<=12111
-        //$$mcValue.entityRepresentation?.let(CTEntity::fromMC)
-        //#else
-        null
-        //#endif
-
     fun getStackSize(): Int = mcValue.count
 
     fun setStackSize(size: Int) = apply {
@@ -57,25 +47,7 @@ class CTItem(override val mcValue: ItemStack) : CTWrapper<ItemStack> {
         it.unwrapKey().getOrNull() to EnchantmentHelper.getItemEnchantmentLevel(it, mcValue)
     }
 
-    fun isEnchantable() = mcValue.isEnchantable
-
-    fun isEnchanted() = mcValue.isEnchanted
-
-    fun canPlaceOn(pos: CTBlockPos) = mcValue.canPlaceOnBlockInAdventureMode(BlockInWorld(World.toMC()!!, pos.toMC(), false))
-
-    fun canPlaceOn(block: CTBlock) = canPlaceOn(block.pos)
-
-    fun canHarvest(pos: CTBlockPos) = mcValue.canBreakBlockInAdventureMode(BlockInWorld(World.toMC()!!, pos.toMC(), false))
-
-    fun canHarvest(block: CTBlock) = canHarvest(block.pos)
-
-    fun getDurability() = getMaxDamage() - getDamage()
-
-    fun getMaxDamage() = mcValue.maxDamage
-
     fun getDamage() = mcValue.damageValue
-
-    fun isDamageable() = mcValue.isDamageableItem
 
     fun getName(): String = TextComponent(mcValue.hoverName).formattedText
 

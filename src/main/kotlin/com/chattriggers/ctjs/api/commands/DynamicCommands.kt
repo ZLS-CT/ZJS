@@ -381,21 +381,6 @@ object DynamicCommands : CommandCollection() {
     fun columnPos() = wrapArgument(ColumnPosArgument.columnPos(), ::PosArgumentWrapper)
 
     /**
-     * @see <a href="https://minecraft.wiki/w/Argument_types#minecraft:dimension">minecraft:dimension</a>
-     */
-    @JvmStatic
-    fun dimension() = wrapArgument(
-        choices(
-            "minecraft:overworld",
-            "minecraft:the_nether",
-            "minecraft:the_end",
-            "minecraft:overworld_caves",
-        ),
-    ) { name ->
-        CTEntity.CTDimensionType.entries.first { it.toMC().identifier().toString() == name }
-    }
-
-    /**
      * @see <a href="https://minecraft.wiki/w/Argument_types#minecraft:entity">minecraft:entity</a>
      */
     @JvmStatic

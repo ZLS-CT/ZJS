@@ -8,8 +8,6 @@ import net.minecraft.network.chat.Component
 import net.minecraft.world.scores.PlayerTeam
 
 class PlayerMP(override val mcValue: Player) : CTEntity(mcValue) {
-    fun isSpectator() = mcValue.isSpectator
-
     fun getPing(): Int {
         return getPlayerInfo()?.latency ?: -1
     }
@@ -24,10 +22,6 @@ class PlayerMP(override val mcValue: Player) : CTEntity(mcValue) {
      * @return the display name
      */
     fun getDisplayName() = getPlayerName(getPlayerInfo())
-
-    fun setTabDisplayName(textComponent: TextComponent) {
-        getPlayerInfo()?.tabListDisplayName = textComponent
-    }
 
     private fun getPlayerName(playerListEntry: PlayerInfo?): TextComponent {
         return playerListEntry?.tabListDisplayName?.let { TextComponent(it) }

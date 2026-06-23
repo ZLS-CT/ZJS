@@ -24,11 +24,6 @@ abstract class CommandCollection : Initializer {
             allCommands.forEach { it.registerImpl(dispatcher) }
         }
 
-        CTEvents.NETWORK_COMMAND_DISPATCHER_REGISTER.register { dispatcher ->
-            networkDispatcher = dispatcher as CommandDispatcher<SharedSuggestionProvider>
-            allCommands.forEach { it.registerImpl(dispatcher) }
-        }
-
         ClientPlayConnectionEvents.DISCONNECT.register { _, _ ->
             clientDispatcher = null
             networkDispatcher = null

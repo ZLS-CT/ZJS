@@ -46,21 +46,6 @@ object ChatLib {
     }
 
     /**
-     * Shows text in the action bar.
-     * The text can be a String or a [TextComponent]
-     *
-     * @param text the text to show
-     */
-    @JvmStatic
-    fun actionBar(text: Any?) {
-        when (text) {
-            is TextComponent -> text
-            is CharSequence -> TextComponent(text)
-            else -> TextComponent(text.toString())
-        }.actionBar()
-    }
-
-    /**
      * Simulates a chat message to be caught by other triggers for testing.
      * The text can be a String or a [TextComponent]
      *

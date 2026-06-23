@@ -6,10 +6,6 @@ import com.chattriggers.ctjs.api.render.Text
 import java.io.File
 
 //#if MC<=12111
-//$$import org.joml.Quaternionf
-//#endif
-
-//#if MC<=12111
 //$$import net.minecraft.client.gui.GuiGraphics
 //#else
 import net.minecraft.client.gui.GuiGraphicsExtractor
@@ -79,11 +75,11 @@ class Module(val name: String, var metadata: ModuleMetadata, val folder: File) {
             gui.description.draw(drawContext, x + 3, y + 15)
 
             if (metadata.version != null) {
-            //#if MC<=12111
-            //$$drawContext.drawString(
-            //#else
-            drawContext.text(
-            //#endif
+                //#if MC<=12111
+                //$$drawContext.drawString(
+                //#else
+                drawContext.text(
+                //#endif
                     RenderUtils.getTextRenderer(),
                     ChatLib.addColor("&8v${metadata.version}"),
                     x + width - RenderUtils.getStringWidth(ChatLib.addColor("&8v${metadata.version}")),
@@ -112,27 +108,6 @@ class Module(val name: String, var metadata: ModuleMetadata, val folder: File) {
 
             drawContext.pose().popMatrix()
             gui.description.getHeight() + 27
-        }
-    }
-
-    fun click(x: Double, y: Double, width: Float) {
-        if (x > gui.x &&
-            x < gui.x + width &&
-            y > gui.y &&
-            y < gui.y + 13
-        ) {
-            gui.collapsed = !gui.collapsed
-            return
-        }
-
-        if (gui.collapsed || (metadata.isRequired && requiredBy.isNotEmpty())) return
-
-        if (x > gui.x &&
-            x < gui.x + 45 &&
-            y > gui.y + gui.description.getHeight() + 15 &&
-            y < gui.y + gui.description.getHeight() + 25
-        ) {
-            ModuleManager.deleteModule(name)
         }
     }
 

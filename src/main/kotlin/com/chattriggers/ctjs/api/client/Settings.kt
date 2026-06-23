@@ -1,14 +1,7 @@
 package com.chattriggers.ctjs.api.client
 
-import com.chattriggers.ctjs.api.CTWrapper
-import com.chattriggers.ctjs.api.world.World
-import net.minecraft.client.CloudStatus
-import net.minecraft.client.GraphicsPreset
-import net.minecraft.server.level.ParticleStatus
 import net.minecraft.world.entity.player.PlayerModelPart
 import net.minecraft.sounds.SoundSource
-import net.minecraft.world.Difficulty
-import net.minecraft.world.entity.player.ChatVisiblity
 
 object Settings {
     @JvmStatic
@@ -25,9 +18,6 @@ object Settings {
     fun setFOV(fov: Int) {
         toMC().fov().set(fov)
     }
-
-    @JvmStatic
-    fun getDifficulty() = World.getDifficulty()
 
     @JvmField
     val skin = SkinWrapper()
@@ -142,11 +132,6 @@ object Settings {
     }
 
     class VideoWrapper {
-
-        fun setGraphicsMode(mode: CTGraphicsMode) {
-            toMC().graphicsPreset().set(mode.toMC())
-        }
-
         fun getRenderDistance() = toMC().renderDistance().get()
 
         fun setRenderDistance(distance: Int) {
@@ -183,18 +168,6 @@ object Settings {
             toMC().gamma().set(brightness)
         }
 
-        fun getClouds() = CTCloudRenderMode.fromMC(toMC().cloudStatus().get())
-
-        fun setClouds(clouds: CTCloudRenderMode) {
-            toMC().cloudStatus().set(clouds.toMC())
-        }
-
-        fun getParticles() = CTParticlesMode.fromMC(toMC().particles().get())
-
-        fun setParticles(particles: CTParticlesMode) {
-            toMC().particles().set(particles.toMC())
-        }
-
         fun getFullscreen() = toMC().fullscreen().get()
 
         fun setFullscreen(toggled: Boolean) {
@@ -221,12 +194,6 @@ object Settings {
     }
 
     class ChatWrapper {
-        fun getVisibility() = CTChatVisibility.fromMC(toMC().chatVisibility().get())
-
-        fun setVisibility(visibility: CTChatVisibility) {
-            toMC().chatVisibility().set(visibility.toMC())
-        }
-
         fun getColors() = toMC().chatColors().get()
 
         fun setColors(toggled: Boolean) {
@@ -279,91 +246,6 @@ object Settings {
 
         fun setReducedDebugInfo(toggled: Boolean) {
             toMC().reducedDebugInfo().set(toggled)
-        }
-    }
-
-    enum class CTCloudRenderMode(override val mcValue: CloudStatus) : CTWrapper<CloudStatus> {
-        OFF(CloudStatus.OFF),
-        FAST(CloudStatus.FAST),
-        FANCY(CloudStatus.FANCY),
-        ;
-
-        companion object {
-            @JvmStatic
-            fun fromMC(mcValue: CloudStatus) = entries.first { it.mcValue == mcValue }
-
-            @JvmStatic
-            fun from(value: Any) = when (value) {
-                is CharSequence -> valueOf(value.toString())
-                is CloudStatus -> fromMC(value)
-                is CTCloudRenderMode -> value
-                else -> throw IllegalArgumentException("Cannot create CloudRenderMode from $value")
-            }
-        }
-    }
-
-    enum class CTParticlesMode(override val mcValue: ParticleStatus) : CTWrapper<ParticleStatus> {
-        ALL(ParticleStatus.ALL),
-        DECREASED(ParticleStatus.DECREASED),
-        MINIMAL(ParticleStatus.MINIMAL),
-        ;
-
-        companion object {
-            @JvmStatic
-            fun fromMC(mcValue: ParticleStatus) = entries.first { it.mcValue == mcValue }
-
-            @JvmStatic
-            fun from(value: Any) = when (value) {
-                is CharSequence -> valueOf(value.toString())
-                is ParticleStatus -> fromMC(value)
-                is CTParticlesMode -> value
-                else -> throw IllegalArgumentException("Cannot create ParticlesMode from $value")
-            }
-        }
-    }
-
-    enum class CTChatVisibility(override val mcValue: ChatVisiblity) : CTWrapper<ChatVisiblity> {
-        FULL(ChatVisiblity.FULL),
-        SYSTEM(ChatVisiblity.SYSTEM),
-        HIDDEN(ChatVisiblity.HIDDEN),
-        ;
-
-        companion object {
-            @JvmStatic
-            fun fromMC(mcValue: ChatVisiblity) = entries.first { it.mcValue == mcValue }
-
-            @JvmStatic
-            fun from(value: Any) = when (value) {
-                is CharSequence -> valueOf(value.toString())
-                is ChatVisiblity -> fromMC(value)
-                is CTChatVisibility -> value
-                else -> throw IllegalArgumentException("Cannot create ChatVisibility from $value")
-            }
-        }
-    }
-
-    enum class CTDifficulty(override val mcValue: Difficulty) : CTWrapper<Difficulty> {
-        PEACEFUL(Difficulty.PEACEFUL),
-        EASY(Difficulty.EASY),
-        NORMAL(Difficulty.NORMAL),
-        HARD(Difficulty.HARD),
-        ;
-
-        companion object {
-            @JvmStatic
-            fun fromMC(mcValue: Difficulty) = entries.first { it.mcValue == mcValue }
-        }
-    }
-
-    enum class CTGraphicsMode(override val mcValue: GraphicsPreset) : CTWrapper<GraphicsPreset> {
-        FAST(GraphicsPreset.FAST),
-        FANCY(GraphicsPreset.FANCY),
-        FABULOUS(GraphicsPreset.FABULOUS),
-        ;
-
-        companion object {
-            @JvmStatic
-            fun fromMC(mcValue: GraphicsPreset) = entries.first { it.mcValue == mcValue }
         }
     }
 }

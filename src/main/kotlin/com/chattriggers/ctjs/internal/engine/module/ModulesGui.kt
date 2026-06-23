@@ -7,6 +7,7 @@ import com.chattriggers.ctjs.api.render.RenderUtils
 import com.chattriggers.ctjs.api.render.Text
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.input.MouseButtonEvent
+import net.minecraft.network.chat.Component.literal
 
 //#if MC<=12111
 //$$import net.minecraft.client.gui.GuiGraphics
@@ -14,7 +15,7 @@ import net.minecraft.client.input.MouseButtonEvent
 import net.minecraft.client.gui.GuiGraphicsExtractor
 //#endif
 
-object ModulesGui : Screen(net.minecraft.network.chat.Component.literal("Modules")) {
+object ModulesGui : Screen(literal("Modules")) {
     private val window = object {
         val title = Text("Modules").setScale(2f).setShadow(true)
         val exit = Text(ChatLib.addColor("&cx")).setScale(2f)
@@ -74,34 +75,6 @@ object ModulesGui : Screen(net.minecraft.network.chat.Component.literal("Modules
         }
 
         drawContext.pose().popMatrix()
-    }
-
-    override fun mouseClicked(click: MouseButtonEvent, double: Boolean): Boolean {
-        super.mouseClicked(click, double)
-        val mouseX = click.x
-        val mouseY = click.y
-        var width = RenderUtils.screen.getWidth() - 100f
-        if (width > 500) width = 500f
-
-        if (mouseX > RenderUtils.screen.getWidth() - 20 && mouseY > RenderUtils.screen.getHeight() - 20) {
-            window.scroll = 0f
-            return false
-        }
-
-        if (mouseX > RenderUtils.screen.getWidth() / 2f + width / 2f - 25 &&
-            mouseX < RenderUtils.screen.getWidth() / 2f + width / 2f &&
-            mouseY > window.scroll + 95 &&
-            mouseY < window.scroll + 120
-        ) {
-            CTPlayer.toMC()?.clientSideCloseContainer()
-            return false
-        }
-
-        ModuleManager.cachedModules.toList().forEach {
-            it.click(mouseX, mouseY, width)
-        }
-
-        return false
     }
 
     override fun mouseScrolled(

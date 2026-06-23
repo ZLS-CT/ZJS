@@ -59,13 +59,5 @@ class CTBlockType(override val mcValue: Block) : CTWrapper<Block> {
      */
     fun getName() = TextComponent(mcValue.name).formattedText
 
-    fun getLightValue(): Int = getDefaultState().lightEmission
-
-    fun getDefaultState() = mcValue.defaultBlockState()
-
-    fun canProvidePower() = getDefaultState().isSignalSource
-
-    fun isTranslucent() = getDefaultState().useShapeForLightOcclusion()
-
     override fun toString(): String = "BlockType{${getRegistryName()}}"
 }

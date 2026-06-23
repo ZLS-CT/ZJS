@@ -37,7 +37,7 @@ import kotlin.io.path.nameWithoutExtension
  *
  * REQUIRED:
  * - source (String) - a namespaced-identifier (e.g. `minecraft:music_disc.cat`) for a Minecraft sound, or a filename
- *                     relative to ChatTriggers assets directory
+ *                     relative to the assets directory
  *
  * OPTIONAL:
  * - stream (boolean) - whether to stream this sound rather than preload it (should be true for large files), defaults to false

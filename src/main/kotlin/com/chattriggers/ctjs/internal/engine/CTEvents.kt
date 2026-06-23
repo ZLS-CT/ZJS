@@ -50,10 +50,6 @@ internal object CTEvents {
             matrixStack: PoseStack, partialTicks: Float)
     }
 
-    fun interface PacketReceivedCallback {
-        fun receive(packet: Packet<*>, cb: CallbackInfo)
-    }
-
     fun interface MouseButtonCallback {
         fun process(mouseX: Double, mouseY: Double, button: Int, pressed: Boolean)
     }
@@ -68,10 +64,6 @@ internal object CTEvents {
 
     fun interface GuiMouseDragCallback {
         fun process(dx: Double, dy: Double, mouseX: Double, mouseY: Double, button: Int, gui: Screen, ci: CallbackInfo)
-    }
-
-    fun interface BreakBlockCallback {
-        fun breakBlock(pos: BlockPos)
     }
 
     fun interface NetworkCommandDispatcherRegisterCallback {
@@ -119,11 +111,6 @@ internal object CTEvents {
     }
 
     @JvmField
-    val PACKET_RECEIVED = make<PacketReceivedCallback> { listeners ->
-        PacketReceivedCallback { packet, cb -> listeners.forEach { it.receive(packet, cb) } }
-    }
-
-    @JvmField
     val RENDER_TICK = make<VoidCallback> { listeners ->
         VoidCallback { listeners.forEach(VoidCallback::invoke) }
     }
@@ -153,13 +140,6 @@ internal object CTEvents {
     val GUI_MOUSE_DRAG = make<GuiMouseDragCallback> { listeners ->
         GuiMouseDragCallback { dx, dy, mouseX, mouseY, button, screen, ci ->
             listeners.forEach { it.process(dx, dy, mouseX, mouseY, button, screen, ci) }
-        }
-    }
-
-    @JvmField
-    val BREAK_BLOCK = make<BreakBlockCallback> { listeners ->
-        BreakBlockCallback { pos ->
-            listeners.forEach { it.breakBlock(pos) }
         }
     }
 

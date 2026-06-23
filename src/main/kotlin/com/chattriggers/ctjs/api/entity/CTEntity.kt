@@ -4,16 +4,11 @@ import com.chattriggers.ctjs.api.CTWrapper
 import com.chattriggers.ctjs.api.message.TextComponent
 import com.chattriggers.ctjs.api.render.GUIRenderer
 import com.chattriggers.ctjs.api.world.CTChunk
-import com.chattriggers.ctjs.api.world.World
 import com.chattriggers.ctjs.api.world.block.CTBlockPos
 import net.minecraft.world.entity.player.Player
-import net.minecraft.resources.ResourceKey
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.Entity
-import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.phys.Vec3
-import net.minecraft.world.level.dimension.BuiltinDimensionTypes
-import net.minecraft.world.level.dimension.DimensionType
 import java.util.UUID
 import kotlin.math.sqrt
 
@@ -163,17 +158,6 @@ open class CTEntity(override val mcValue: Entity) : CTWrapper<Entity> {
      */
     fun getUUID(): UUID = mcValue.uuid
 
-    /**
-     * Gets the entity's air level.
-     *
-     * The returned value will be an integer. If the player is not taking damage, it
-     * will be between 300 (not in water) and 0. If the player is taking damage, it
-     * will be between -20 and 0, getting reset to 0 every time the player takes damage.
-     *
-     * @return the entity's air level
-     */
-    fun getAir(): Int = mcValue.airSupply
-
     fun distanceTo(other: CTEntity): Float = distanceTo(other.mcValue)
 
     fun distanceTo(other: Entity): Float = mcValue.distanceTo(other)
@@ -188,53 +172,15 @@ open class CTEntity(override val mcValue: Entity) : CTWrapper<Entity> {
 
     fun isOnGround() = mcValue.onGround()
 
-    fun isCollided() = World.toMC()?.getEntities(mcValue, mcValue.boundingBox)?.isNotEmpty() ?: false
-
-    fun getDistanceWalked() = mcValue.moveDist / 0.6f
-
-    fun getStepHeight() = mcValue.maxUpStep()
-
-    fun hasNoClip() = mcValue.noPhysics
-
-    fun getTicksExisted() = mcValue.tickCount
-
-    fun getFireResistance() = mcValue.remainingFireTicks
-
-    fun isImmuneToFire() = mcValue.fireImmune()
-
-    fun isInWater() = mcValue.isInWater
-
-    fun isWet() = mcValue.isInWaterOrRain
-
-    fun getDimension() = mcValue.level().dimensionTypeRegistration().value().let { key ->
-        CTDimensionType.entries.first { it.toMC() == key }
-    }
-
-    fun getMaxInPortalTime() = mcValue.portalCooldown
-
-    fun isSilent() = mcValue.isSilent
-
-    fun isInLava() = mcValue.isInLava
-
     @JvmOverloads
     fun getLookVector(partialTicks: Float = GUIRenderer.partialTicks) = mcValue.getViewVector(partialTicks)
 
     @JvmOverloads
     fun getEyePosition(partialTicks: Float = GUIRenderer.partialTicks) = mcValue.eyePosition
 
-    fun canBeCollidedWith() = mcValue.canBeCollidedWith(null)
-
-    fun canBePushed() = mcValue.isPushable
-
     fun isSneaking() = mcValue.isCrouching
 
     fun isSprinting() = mcValue.isSprinting
-
-    fun isInvisible() = mcValue.isInvisible
-
-    fun isOutsideBorder() = World.toMC()?.worldBorder?.isWithinBounds(mcValue.onPos) ?: false
-
-    fun isBurning(): Boolean = mcValue.isOnFire
 
     fun getWorld() = mcValue.level()
 
@@ -245,21 +191,10 @@ open class CTEntity(override val mcValue: Entity) : CTWrapper<Entity> {
         return "${this::class.simpleName}(name=${getName()}, pos=[${coordStrings.joinToString()}])"
     }
 
-    enum class CTDimensionType(
-        override val mcValue: ResourceKey<DimensionType>,
-    ) : CTWrapper<ResourceKey<DimensionType>> {
-        OVERWORLD(BuiltinDimensionTypes.OVERWORLD),
-        NETHER(BuiltinDimensionTypes.NETHER),
-        END(BuiltinDimensionTypes.END),
-        OVERWORLD_CAVES(BuiltinDimensionTypes.OVERWORLD_CAVES),
-		;
-    }
-
     companion object {
         @JvmStatic
         fun fromMC(entity: Entity): CTEntity = when (entity) {
             is Player -> PlayerMP(entity)
-            is LivingEntity -> CTEntity(entity)
             else -> CTEntity(entity)
         }
     }

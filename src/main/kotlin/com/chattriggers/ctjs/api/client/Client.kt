@@ -1,6 +1,5 @@
 package com.chattriggers.ctjs.api.client
 
-import com.chattriggers.ctjs.api.client.Keyboard.isCtrlDown
 import com.chattriggers.ctjs.api.inventory.CTSlot
 import com.chattriggers.ctjs.api.message.TextComponent
 import com.chattriggers.ctjs.api.world.World

@@ -30,30 +30,5 @@ open class CTBlock(
 
     fun getState() = World.toMC()?.getBlockState(pos.toMC())
 
-    @JvmOverloads
-    fun isEmittingPower(face: BlockFace? = null): Boolean {
-        if (face != null) return World.toMC()!!.hasSignal(pos.toMC(), face.toMC())
-        return BlockFace.entries.any { isEmittingPower(it) }
-    }
-
-    @JvmOverloads
-    fun getEmittingPower(face: BlockFace? = null): Int {
-        if (face != null) return World.toMC()!!.getSignal(pos.toMC(), face.toMC())
-        return BlockFace.entries.asSequence().map(::getEmittingPower).firstOrNull { it != 0 } ?: 0
-    }
-
-    fun isReceivingPower() = World.toMC()!!.hasNeighborSignal(pos.toMC())
-
-    fun getReceivingPower() = World.toMC()!!.getBestNeighborSignal(pos.toMC())
-
-    /**
-     * Checks whether the block can be mined with the tool in the player's hand
-     *
-     * @return whether the block can be mined
-     */
-    fun canBeHarvested(): Boolean = CTPlayer.getHeldItem()?.let(::canBeHarvestedWith) ?: false
-
-    fun canBeHarvestedWith(item: CTItem): Boolean = item.canHarvest(this)
-
     override fun toString() = "Block{type=$type, pos=($x, $y, $z), face=$face}"
 }

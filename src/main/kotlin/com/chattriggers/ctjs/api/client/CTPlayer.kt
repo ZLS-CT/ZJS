@@ -155,52 +155,6 @@ object CTPlayer {
     fun getUUID(): UUID = Client.getMinecraft().gameProfile.id
 
     @JvmStatic
-    fun getHP(): Float = toMC()?.health ?: 0f
-
-    @JvmStatic
-    fun getHunger(): Int = toMC()?.foodData?.foodLevel ?: 0
-
-    @JvmStatic
-    fun getSaturation(): Float = toMC()?.foodData?.saturationLevel ?: 0f
-
-    @JvmStatic
-    fun getArmorPoints(): Int = toMC()?.armorValue ?: 0
-
-    /**
-     * Gets the player's air level.
-     *
-     * The returned value will be an integer. If the player is not taking damage, it
-     * will be between 300 (not in water) and 0. If the player is taking damage, it
-     * will be between -20 and 0, getting reset to 0 every time the player takes damage.
-     *
-     * @return the player's air level
-     */
-    @JvmStatic
-    fun getAirLevel(): Int = toMC()?.airSupply ?: 0
-
-    @JvmStatic
-    fun getXPLevel(): Int = toMC()?.experienceLevel ?: 0
-
-    @JvmStatic
-    fun getXPProgress(): Float = toMC()?.experienceProgress ?: 0f
-
-    @JvmStatic
-    fun getBiome(): String {
-        val pos = toMC()?.onPos ?: return ""
-        val biomeEntry = World.toMC()?.getBiome(pos) ?: return ""
-
-        return biomeEntry.unwrapKey().get().identifier().path
-    }
-
-    /**
-     * Gets the light level at the player's current position.
-     *
-     * @return the light level at the player's current position
-     */
-    @JvmStatic
-    fun getLightLevel(): Int = toMC()?.onPos?.let { World.toMC()?.getMaxLocalRawBrightness(it) } ?: 0
-
-    @JvmStatic
     fun isMoving(): Boolean = toMC()?.speed?.let { it != 0f } ?: false
 
     @JvmStatic
@@ -216,9 +170,6 @@ object CTPlayer {
      */
     @JvmStatic
     fun isFlying(): Boolean = toMC()?.abilities?.flying ?: false
-
-    @JvmStatic
-    fun isSleeping(): Boolean = toMC()?.isSleeping ?: false
 
     /**
      * Gets the direction the player is facing.
@@ -282,16 +233,6 @@ object CTPlayer {
     }
 
     /**
-     * Sets the current held item based on the provided index.
-     *
-     * @param index the new held item index
-     */
-    @JvmStatic
-    fun setHeldItemIndex(index: Int) {
-        toMC()?.inventory?.selectedSlot = index
-    }
-
-    /**
      * Gets the current index of the held item.
      *
      * @return the current index
@@ -314,16 +255,6 @@ object CTPlayer {
      */
     @JvmStatic
     fun getDisplayName(): TextComponent = asPlayerMP()?.getDisplayName() ?: TextComponent("")
-
-    /**
-     * Sets the name for this player shown in tab list
-     *
-     * @param textComponent the new name to display
-     */
-    @JvmStatic
-    fun setTabDisplayName(textComponent: TextComponent) {
-        asPlayerMP()?.setTabDisplayName(textComponent)
-    }
 
     /**
      * Gets the container the user currently has open, i.e. a chest.

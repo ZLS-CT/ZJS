@@ -61,21 +61,6 @@ object World {
     @JvmStatic
     fun isLoaded(): Boolean = toMC() != null
 
-    @JvmStatic
-    fun isRaining(): Boolean = toMC()?.isRaining ?: false
-
-    @JvmStatic
-    fun getRainingStrength(): Float = toMC()?.getRainLevel(GUIRenderer.partialTicks) ?: -1f
-
-    @JvmStatic
-    fun getTime(): Long = toMC()?.gameTime ?: -1L
-
-    @JvmStatic
-    fun getDifficulty(): Settings.CTDifficulty? = toMC()?.difficulty?.let(Settings.CTDifficulty::fromMC)
-
-    @JvmStatic
-    fun getMoonPhase(): Int = toMC()?.environmentAttributes()?.getDimensionValue(EnvironmentAttributes.MOON_PHASE)?.ordinal ?: -1
-
     /**
      * Gets the [CTBlock] at a location in the world.
      *
@@ -104,46 +89,6 @@ object World {
      */
     @JvmStatic
     fun getBlockStateAt(pos: CTBlockPos): BlockState = toMC()!!.getBlockState(pos.toMC())
-
-    /**
-     * Gets the skylight level at the given position. This is the value seen in the debug (F3) menu
-     *
-     * @param x the x coordinate
-     * @param y the y coordinate
-     * @param z the z coordinate
-     * @return the skylight level at the location
-     */
-    @JvmStatic
-    fun getSkyLightLevel(x: Int, y: Int, z: Int): Int = getSkyLightLevel(CTBlockPos(x, y, z))
-
-    /**
-     * Gets the skylight level at the given position. This is the value seen in the debug (F3) menu
-     *
-     * @param pos The block position
-     * @return the skylight level at the location
-     */
-    @JvmStatic
-    fun getSkyLightLevel(pos: CTBlockPos): Int = toMC()?.getBrightness(LightLayer.SKY, pos.toMC()) ?: 0
-
-    /**
-     * Gets the block light level at the given position. This is the value seen in the debug (F3) menu
-     *
-     * @param x the x coordinate
-     * @param y the y coordinate
-     * @param z the z coordinate
-     * @return the block light level at the location
-     */
-    @JvmStatic
-    fun getBlockLightLevel(x: Int, y: Int, z: Int): Int = getBlockLightLevel(CTBlockPos(x, y, z))
-
-    /**
-     * Gets the block light level at the given position. This is the value seen in the debug (F3) menu
-     *
-     * @param pos The block position
-     * @return the block light level at the location
-     */
-    @JvmStatic
-    fun getBlockLightLevel(pos: CTBlockPos): Int = toMC()?.getBrightness(LightLayer.BLOCK, pos.toMC()) ?: 0
 
     /**
      * Gets all of the players in the world, and returns their wrapped versions.
@@ -208,17 +153,5 @@ object World {
         return getAllBlockEntities().filter {
             clazz.isInstance(it.toMC())
         }
-    }
-
-    /**
-     * Returns the TPS of the current world.
-     *
-     * On modern version (1.20.3+), this is variable. On earlier versions,
-     * it is always 20.
-     */
-    @JvmStatic
-    fun getTicksPerSecond(): Int {
-        val mpt = toMC()?.tickRateManager()?.millisecondsPerTick() ?: return 20
-        return (1000.0 / mpt).roundToInt()
     }
 }

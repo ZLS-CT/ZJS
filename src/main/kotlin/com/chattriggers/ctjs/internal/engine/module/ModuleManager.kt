@@ -24,17 +24,9 @@ object ModuleManager {
         val installedModules = getFoldersInDir(CTJS.MODULES_FOLDER).map(::parseModule).distinctBy {
             it.name.lowercase()
         }
-
-        // Check if those modules have updates
         cachedModules.addAll(installedModules)
 
-        // Import required modules
-        installedModules.distinct().forEach { module ->
-            module.metadata.requires?.forEach { ModuleUpdater.importModule(it, module.name) }
-        }
-
         sortModules()
-
         loadAssetsAndJars(cachedModules)
     }
 
@@ -99,67 +91,6 @@ object ModuleManager {
         }
 
         return Module(directory.name, metadata, directory)
-    }
-
-    data class ImportedModule(val module: Module?, val dependencies: List<Module>)
-
-    fun importModule(moduleName: String): ImportedModule {
-        val newModules = ModuleUpdater.importModule(moduleName)
-
-        loadAssetsAndJars(newModules)
-
-        newModules.forEach {
-            if (it.metadata.mixinEntry != null) {
-                ChatLib.chat("&cModule ${it.name} has dynamic mixins which require a restart to take effect")
-            }
-        }
-
-        entryPass(newModules)
-
-        return ImportedModule(newModules.getOrNull(0), newModules.drop(1))
-    }
-
-    fun deleteModule(name: String): Boolean {
-        val module = cachedModules.find { it.name.lowercase() == name.lowercase() } ?: return false
-
-        val file = File(CTJS.MODULES_FOLDER_PATH, module.name)
-        check(file.exists()) { "Expected module to have an existing folder!" }
-
-        val context = JSContextFactory.enterContext()
-        try {
-            val classLoader = context.applicationClassLoader as URLClassLoader
-
-            classLoader.close()
-
-            if (file.deleteRecursively()) {
-                CTJS.reloadModules()
-                return true
-            }
-        } finally {
-            Context.exit()
-        }
-
-        return false
-    }
-
-    fun reportOldVersions() {
-        pendingOldModules.forEach(::reportOldVersion)
-        pendingOldModules.clear()
-    }
-
-    fun tryReportOldVersion(module: Module) {
-        if (World.isLoaded()) {
-            reportOldVersion(module)
-        } else {
-            pendingOldModules.add(module)
-        }
-    }
-
-    private fun reportOldVersion(module: Module) {
-        ChatLib.chat(
-            "&cWarning: The module \"${module.name}\" was made for an older version of CT, " +
-                "so it may not work correctly.",
-        )
     }
 
     private fun loadAssets(modules: List<Module>) {

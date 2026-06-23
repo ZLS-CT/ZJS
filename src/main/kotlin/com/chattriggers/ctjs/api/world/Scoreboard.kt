@@ -10,17 +10,11 @@ import net.minecraft.world.scores.ScoreAccess
 import net.minecraft.world.scores.DisplaySlot
 import net.minecraft.world.scores.Objective
 import net.minecraft.network.chat.numbers.NumberFormat
-import net.minecraft.network.chat.numbers.StyledFormat
-import net.minecraft.network.chat.Style
 import net.minecraft.world.scores.PlayerTeam
-import org.mozilla.javascript.NativeObject
 
 object Scoreboard {
-    private var needsUpdate = true
     private var scoreboardNames = mutableListOf<Score>()
     private var scoreboardTitle = TextComponent("")
-    private var shouldRender = true
-    var customTitle = false
 
     @JvmStatic
     fun toMC() = World.toMC()?.scoreboard
@@ -39,31 +33,7 @@ object Scoreboard {
      * @return the scoreboard title
      */
     @JvmStatic
-    fun getTitle(): TextComponent {
-        if (needsUpdate) {
-            updateNames()
-            needsUpdate = false
-        }
-
-        return scoreboardTitle
-    }
-
-    /**
-     * Sets the scoreboard title.
-     *
-     * @param title the new title
-     * @return the scoreboard title
-     */
-    @JvmStatic
-    fun setTitle(title: TextComponent) {
-        customTitle = false
-        getSidebar()?.displayName = title
-        scoreboardTitle = title
-        customTitle = true
-    }
-
-    @JvmStatic
-    fun setTitle(title: String) = setTitle(TextComponent(title))
+    fun getTitle(): TextComponent = scoreboardTitle
 
     /**
      * Get all currently visible strings on the scoreboard. (excluding title)
@@ -73,15 +43,7 @@ object Scoreboard {
      */
     @JvmStatic
     @JvmOverloads
-    fun getLines(descending: Boolean = true): List<Score> {
-        // the array will only be updated upon request
-        if (needsUpdate) {
-            updateNames()
-            needsUpdate = false
-        }
-
-        return if (descending) scoreboardNames else scoreboardNames.asReversed()
-    }
+    fun getLines(descending: Boolean = true): List<Score> = if (descending) scoreboardNames else scoreboardNames.asReversed()
 
     /**
      * Gets the line at the specified index (0 based)
@@ -105,134 +67,6 @@ object Scoreboard {
         it.getScore() == score
     }
 
-    /**
-     * Sets a line in the scoreboard to the specified name and score.
-     *
-     * @param score the score value for this item
-     * @param line the [TextComponent] to display on said line
-     * @param override whether to remove old lines with the same score
-     */
-    @JvmStatic
-    @JvmOverloads
-    fun setLine(score: Int, line: TextComponent, override: Boolean = false) {
-        val scoreboard = toMC() ?: return
-        val sidebarObjective = getSidebar() ?: return
-
-        if (override) {
-            removeScores(score)
-            addLine(score, line)
-            return
-        }
-
-        scoreboard.trackedPlayers.forEach {
-            val scoreboardScore = scoreboard.getOrCreatePlayerScore(it, sidebarObjective, true)
-            if (scoreboardScore.get() == score) {
-                scoreboardScore.display(line)
-            }
-        }
-    }
-
-    @JvmStatic
-    @JvmOverloads
-    fun setLine(score: Int, line: String, override: Boolean = false) = setLine(score, TextComponent(line), override)
-
-    /**
-     * Adds a line to the scoreboard
-     *
-     * @param score the score value for this item
-     * @param line the [TextComponent] to display on said line
-     */
-    @JvmStatic
-    fun addLine(score: Int, line: TextComponent) {
-        val scoreboard = toMC() ?: return
-        val sidebarObjective = getSidebar() ?: return
-
-        val newLine = scoreboard.getOrCreatePlayerScore({ Math.random().toString() }, sidebarObjective, true)
-        newLine.display(line)
-        newLine.set(score)
-
-        updateNames()
-    }
-
-    @JvmStatic
-    fun addLine(score: Int, line: String) = addLine(score, TextComponent(line))
-
-    /**
-     * Removes all lines from the scoreboard matching with a certain score
-     *
-     * @param score the score of the lines to remove
-     */
-    @JvmStatic
-    fun removeScores(score: Int) {
-        getLinesByScore(score).forEach(Score::remove)
-    }
-
-    /**
-     * Removes the line at a certain index
-     *
-     * @param index the index of the line to remove
-     */
-    @JvmStatic
-    @JvmOverloads
-    fun removeIndex(index: Int, descending: Boolean = true) {
-        val names = if (descending) scoreboardNames else scoreboardNames.asReversed()
-        val line = names.removeAt(index)
-        line.remove()
-    }
-
-    @JvmStatic
-    fun setShouldRender(shouldRender: Boolean) {
-        Scoreboard.shouldRender = shouldRender
-    }
-
-    @JvmStatic
-    fun getShouldRender() = shouldRender
-
-    /**
-     * Creates or gets a [CTTeam] with a given name
-     *
-     * @param name the name of the team
-     */
-    @JvmStatic
-    fun createTeam(name: String): CTTeam = CTTeam(toMC()!!.addPlayerTeam(name))
-
-    private fun updateNames() {
-        scoreboardNames.clear()
-
-        if (!customTitle) {
-            scoreboardTitle = TextComponent("")
-        }
-
-        val scoreboard = toMC() ?: return
-        val objective = getSidebar() ?: return
-
-        if (!customTitle) {
-            scoreboardTitle = TextComponent(objective.displayName)
-        }
-
-        val newScores = scoreboard.trackedPlayers.asSequence().filter {
-            objective in scoreboard.listPlayerScores(it)
-        }.map {
-            scoreboard.getOrCreatePlayerScore(it, objective, true)
-        }.mapTo(mutableListOf(), ::Score)
-
-        scoreboardNames = newScores.sortedWith(compareBy<Score> {
-            it.getScore()
-        }.reversed().thenBy {
-            it.getName().formattedText.lowercase()
-        }).toMutableList()
-    }
-
-    internal fun resetCache() {
-        needsUpdate = true
-    }
-
-    fun clearCustom() {
-        scoreboardNames.clear()
-        customTitle = false
-        scoreboardTitle = TextComponent("")
-    }
-
     class Score(override val mcValue: ScoreAccess) : CTWrapper<ScoreAccess> {
         private val scoreState = BasicState(mcValue.get())
         private val nameState = BasicState(mcValue.display())
@@ -252,42 +86,12 @@ object Scoreboard {
         fun getTeam(): CTTeam? = teamState.get()?.let(::CTTeam)
 
         /**
-         * Sets the team associated with this score
-         *
-         * @param team the new team to set for this line. Custom teams can be created using [createTeam]
-         * @return the score to allow for method chaining
-         */
-        fun setTeam(team: CTTeam?) = apply {
-            val scoreboard = Scoreboard.toMC()!!
-            val name = mcValue.asMixin<`Scoreboard$1Accessor`>().holder.scoreboardName
-
-            if (team == null) {
-                scoreboard.removePlayerFromTeam(name)
-            } else {
-                scoreboard.addPlayerToTeam(name, team.toMC())
-            }
-
-            teamState.set(team?.toMC())
-        }
-
-        /**
          * Gets the score value for this score,
          * i.e. the number on the right of the board
          *
          * @return the actual point value
          */
         fun getScore(): Int = scoreState.get()
-
-        /**
-         * Sets the score value for this score
-         *
-         * @param score the new point value
-         * @return the score to allow for method chaining
-         */
-        fun setScore(score: Int) = apply {
-            scoreState.set(score)
-            mcValue.set(score)
-        }
 
         /**
          * Gets the display text of this score
@@ -306,55 +110,11 @@ object Scoreboard {
         }
 
         /**
-         * Sets the name of this score
-         *
-         * @param name the new name
-         * @return the score to allow for method chaining
-         */
-        fun setName(name: TextComponent?) = apply {
-            nameState.set(name)
-            mcValue.display(name)
-        }
-
-        /**
          * Gets the number format of this score
          *
          * @return the number format
          */
         fun getNumberFormat(): NumberFormat? = formatState.get()
-
-        /**
-         * Sets the number format of this score
-         *
-         * @param format either a formatting string, i.e. "&6", style in the form of an object, see [TextComponent], a
-         * [NumberFormat], or hex value
-         * @return the score to allow for method chaining
-         *
-         * @see [TextComponent]
-         */
-        fun setNumberFormat(format: Any?) = apply {
-            val style = when (format) {
-                is CharSequence -> StyledFormat(TextComponent(format.toString()).style)
-                is NativeObject -> StyledFormat(TextComponent.jsObjectToStyle(format))
-                is NumberFormat -> format
-                is Number -> StyledFormat(Style.EMPTY.withColor(format.toInt()))
-                else -> null
-            }
-
-            formatState.set(style)
-            mcValue.numberFormatOverride(style)
-        }
-
-        /**
-         * Removes this score from the scoreboard
-         */
-        fun remove() {
-            val scoreboard = Scoreboard.toMC() ?: return
-            val sidebarObjective = getSidebar() ?: return
-
-            scoreboard.resetSinglePlayerScore(toMC().asMixin<`Scoreboard$1Accessor`>().holder, sidebarObjective)
-            updateNames()
-        }
 
         override fun toString(): String = getName().formattedText
     }
