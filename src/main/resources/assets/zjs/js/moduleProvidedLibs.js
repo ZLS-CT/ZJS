@@ -1,15 +1,6 @@
 (function(global) {
     global.Mappings = com.zephy.zjs.api.Mappings;
 
-    // function getJavaType(clazz) {
-    //     // console.log(`20 | ${clazz}`)
-    //     const mappedName = Mappings.mapClassName(clazz);
-    //     // console.log(`21 | ${clazz} -> ${mappedName}`)
-    //     // console.log(`24 | ${Object.keys(Packages)}`)
-    //     if (mappedName)
-    //         return Packages[mappedName.replaceAll("/", ".")]
-    //     return Packages[clazz];
-    // }
     function getJavaType(clazz) {
         const mappedName = (Mappings.mapClassName(clazz) ?? clazz).replaceAll("/", ".");
         return mappedName.split(".").reduce((pkg, part) => pkg?.[part], Packages);

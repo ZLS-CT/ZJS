@@ -12,10 +12,6 @@ import net.minecraft.world.scores.PlayerTeam
 
 object TabList {
     private var tabListNames = mutableListOf<Name>()
-    var customHeader = false
-    var customFooter = false
-    private var tabListHeader: TextComponent? = null
-    private var tabListFooter: TextComponent? = null
 
     @JvmStatic
     fun toMC() = Client.getTabGui()
@@ -25,39 +21,6 @@ object TabList {
      */
     @JvmStatic
     fun getObjective(): Objective? = Scoreboard.toMC()?.getDisplayObjective(DisplaySlot.LIST)
-
-    /**
-     * Gets the tab list header as a [TextComponent]
-     *
-     * @return the header
-     */
-    @JvmStatic
-    fun getHeaderComponent(): TextComponent? = tabListHeader
-
-    /**
-     * Gets the tab list header as a formatted string.
-     *
-     * @return the header
-     */
-    @JvmStatic
-    fun getHeader() = getHeaderComponent()?.formattedText
-
-    /**
-     * Gets the tab list footer as a [TextComponent]
-     *
-     * @return the footer
-     */
-    @JvmStatic
-    fun getFooterComponent(): TextComponent? = tabListFooter
-
-    /**
-     * Gets the tab list footer as a string.
-     * Be aware that this can contain color codes.
-     *
-     * @return the footer
-     */
-    @JvmStatic
-    fun getFooter() = getFooterComponent()?.formattedText
 
     /**
      * Gets names set in scoreboard objectives
