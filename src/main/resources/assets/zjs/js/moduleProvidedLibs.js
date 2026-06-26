@@ -170,6 +170,7 @@
     loadClass("java.security.cert.CertificateFactory");
     loadClass("java.io.DataInputStream");
     loadClass("java.io.DataOutputStream");
+    loadClass("java.io.ByteArrayInputStream");
     loadClass("java.io.ByteArrayOutputStream");
     loadClass("java.io.InputStreamReader");
     loadClass("java.io.OutputStreamWriter");
@@ -272,6 +273,9 @@
         Console.println(toPrint, LogType.INFO, end, color);
     };
 
+    global.getModulePath = function getModulePath() {
+        return com.zephy.zjs.internal.engine.JSLoader.getModulePath();
+    };
 
     /**
      * @fileoverview console.js

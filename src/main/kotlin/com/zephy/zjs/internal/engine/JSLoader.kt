@@ -37,6 +37,7 @@ import kotlin.contracts.contract
 object JSLoader {
     private val triggers = ConcurrentHashMap<ITriggerType, ConcurrentSkipListSet<Trigger>>()
 
+    private val currentModuleName = ThreadLocal<String>()
     private lateinit var moduleScope: Scriptable
     private lateinit var evalScope: Scriptable
     private lateinit var require: ZRequire
@@ -117,11 +118,14 @@ object JSLoader {
 
     fun entryPass(module: Module, entryURI: URI): Unit = wrapInContext {
         try {
+            currentModuleName.set(module.name)
             require.loadZModule(module.name, entryURI)
         } catch (e: Throwable) {
             println("Error loading module ${module.name}")
             "Error loading module ${module.name}".printToConsole(LogType.ERROR)
             e.printTraceToConsole()
+        } finally {
+            currentModuleName.remove()
         }
     }
 
@@ -193,6 +197,12 @@ object JSLoader {
             e.printTraceToConsole()
             removeTrigger(trigger)
         }
+    }
+
+    @JvmStatic
+    fun getModulePath(): String? {
+        val name = currentModuleName.get() ?: return null
+        return File(ZJS.MODULES_FOLDER, name).absolutePath
     }
 
     private fun loadMixinLibs() {
