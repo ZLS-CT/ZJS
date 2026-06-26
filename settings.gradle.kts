@@ -9,7 +9,6 @@ pluginManagement {
 }
 
 includeBuild("../essential-gradle-toolkit")
-include("JavaModUpdater")
 include(":typing-generator")
 include("rhino")
 project(":rhino").projectDir = file("../rhino")
