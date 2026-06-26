@@ -458,22 +458,6 @@ object Register {
     fun registerRenderEntity(method: Any): Trigger = RenderEntityTrigger(method)
 
     /**
-     * Registers a new trigger that runs before the player list is being drawn.
-     *
-     * Passes through one argument:
-     * - The render event, which can be cancelled
-     *
-     * Available modifications:
-     * - [EventTrigger.triggerIfCanceled] Sets if triggered if event is already cancelled
-     * - [Trigger.setPriority] Sets the priority
-     *
-     * @param method The method to call when the event is fired
-     * @return The trigger for additional modification
-     */
-    @JvmStatic
-    fun registerRenderPlayerList(method: Any): Trigger = EventTrigger(method, TriggerType.RENDER_PLAYER_LIST)
-
-    /**
      * Registers a new trigger that runs before the hud overlay is drawn.
      *
      * Available modifications:

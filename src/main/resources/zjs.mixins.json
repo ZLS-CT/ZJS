@@ -28,8 +28,6 @@
         "MouseHandlerMixin",
         "OptionsAccessor",
         "OptionsMixin",
-        "PlayerTabOverlayAccessor",
-        "PlayerTabOverlayMixin",
         "RenderTickCounterMixin",
         "commands.ClientSuggestionProviderMixin",
         "commands.ClientPacketListenerMixin",
