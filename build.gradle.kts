@@ -72,6 +72,11 @@ tasks {
                 line.replace("JAVA_\$compatibilityLevel", "JAVA_$javaVersion")
             }
         }
+        filesMatching("zls.mixins.json") {
+            filter { line ->
+                line.replace("JAVA_\$compatibilityLevel", "JAVA_$javaVersion")
+            }
+        }
     }
 }
 
