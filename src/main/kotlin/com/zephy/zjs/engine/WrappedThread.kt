@@ -2,20 +2,23 @@ package com.zephy.zjs.engine
 
 import com.zephy.zjs.internal.engine.JSContextFactory
 import org.mozilla.javascript.Context
-import java.util.concurrent.ForkJoinPool
 
 @Suppress("unused")
 class WrappedThread(private val task: Runnable) {
     fun start() {
-        ForkJoinPool.commonPool().execute {
+        val thread = Thread {
             try {
                 JSContextFactory.enterContext()
                 task.run()
-                Context.exit()
             } catch (e: Throwable) {
                 e.printTraceToConsole()
+            } finally {
+                // Always exit context, even if task throws
+                Context.exit()
             }
         }
+        thread.isDaemon = false
+        thread.start()
     }
 
     // Provide the following methods as no-ops to avoid breaking
