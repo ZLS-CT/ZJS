@@ -10,6 +10,8 @@ import com.zephy.zjs.api.render.HudRenderLayer
 import com.zephy.zjs.api.triggers.CancellableEvent
 import com.zephy.zjs.api.triggers.ChatTrigger
 import com.zephy.zjs.api.triggers.TriggerType
+import com.zephy.zjs.api.world.Scoreboard
+import com.zephy.zjs.api.world.TabList
 import com.zephy.zjs.api.world.World
 import com.zephy.zjs.internal.engine.ZEvents
 import com.zephy.zjs.internal.engine.JSContextFactory
@@ -66,6 +68,9 @@ object ClientListener : Initializer {
             if (World.isLoaded() && World.toMC()?.tickRateManager()?.runsNormally() == true) {
                 TriggerType.TICK.triggerAll(ticksPassed)
                 ticksPassed++
+
+                Scoreboard.resetCache()
+                TabList.resetCache()
             }
         }
 

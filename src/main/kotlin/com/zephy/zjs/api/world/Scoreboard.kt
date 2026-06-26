@@ -13,6 +13,7 @@ import net.minecraft.network.chat.numbers.NumberFormat
 import net.minecraft.world.scores.PlayerTeam
 
 object Scoreboard {
+    private var needsUpdate = true
     private var scoreboardNames = mutableListOf<Score>()
     private var scoreboardTitle = TextComponent("")
 
@@ -33,7 +34,13 @@ object Scoreboard {
      * @return the scoreboard title
      */
     @JvmStatic
-    fun getTitle(): TextComponent = scoreboardTitle
+    fun getTitle(): TextComponent {
+        if (needsUpdate) {
+            updateNames()
+            needsUpdate = false
+        }
+        return scoreboardTitle
+    }
 
     /**
      * Get all currently visible strings on the scoreboard. (excluding title)
@@ -43,8 +50,13 @@ object Scoreboard {
      */
     @JvmStatic
     @JvmOverloads
-    fun getLines(descending: Boolean = true): List<Score> =
-        if (descending) scoreboardNames else scoreboardNames.asReversed()
+    fun getLines(descending: Boolean = true): List<Score> {
+        if (needsUpdate) {
+            updateNames()
+            needsUpdate = false
+        }
+        return if (descending) scoreboardNames else scoreboardNames.asReversed()
+    }
 
     /**
      * Gets the line at the specified index (0 based)
@@ -66,6 +78,29 @@ object Scoreboard {
     @JvmStatic
     fun getLinesByScore(score: Int): List<Score> = getLines().filter {
         it.getScore() == score
+    }
+
+    private fun updateNames() {
+        scoreboardNames.clear()
+
+        val scoreboard = toMC() ?: return
+        val objective = getSidebar() ?: return
+
+        val newScores = scoreboard.trackedPlayers.asSequence().filter {
+            objective in scoreboard.listPlayerScores(it)
+        }.map {
+            scoreboard.getOrCreatePlayerScore(it, objective, true)
+        }.mapTo(mutableListOf(), ::Score)
+
+        scoreboardNames = newScores.sortedWith(compareBy<Score> {
+            it.getScore()
+        }.reversed().thenBy {
+            it.getName().formattedText.lowercase()
+        }).toMutableList()
+    }
+
+    internal fun resetCache() {
+        needsUpdate = true
     }
 
     class Score(override val mcValue: ScoreAccess) : ZWrapper<ScoreAccess> {
