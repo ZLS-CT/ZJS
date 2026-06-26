@@ -47,6 +47,8 @@ base {
 
 tasks {
     processResources {
+        from(getByPath(":JavaModUpdater:jar").outputs)
+
         val minecraftVersion = project.platform.mcVersionStr
         val version = project.version
         val minFabricApiVersion = project.findProperty("min-fabric-api")?.toString()
