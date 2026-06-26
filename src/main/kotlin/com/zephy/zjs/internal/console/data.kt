@@ -82,7 +82,7 @@ sealed class C2HMessage
 class EvalTextMessage(val id: Int, val string: String) : C2HMessage()
 
 @Serializable
-data object ReloadCTMessage : C2HMessage()
+data object ReloadZJSMessage : C2HMessage()
 
 @Serializable
 class FontSizeMessage(val delta: Int) : C2HMessage()

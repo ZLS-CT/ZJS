@@ -39,7 +39,7 @@ object JSLoader {
 
     private lateinit var moduleScope: Scriptable
     private lateinit var evalScope: Scriptable
-    private lateinit var require: CTRequire
+    private lateinit var require: ZRequire
     private lateinit var moduleProvider: ModuleScriptProvider
 
     private var mixinLibsLoaded = false
@@ -68,7 +68,7 @@ object JSLoader {
         moduleProvider = StrongCachingModuleScriptProvider(sourceProvider)
         moduleScope = ImporterTopLevel(cx)
         evalScope = ImporterTopLevel(cx)
-        require = CTRequire(moduleProvider)
+        require = ZRequire(moduleProvider)
         require.install(moduleScope)
         require.install(evalScope)
         Context.exit()
@@ -83,7 +83,7 @@ object JSLoader {
             modules.forEach { module ->
                 try {
                     val uri = File(module.folder, module.metadata.mixinEntry!!).normalize().toURI()
-                    require.loadCTModule(uri.toString(), uri)
+                    require.loadZModule(uri.toString(), uri)
                 } catch (e: Throwable) {
                     e.printTraceToConsole()
                 }
@@ -117,7 +117,7 @@ object JSLoader {
 
     fun entryPass(module: Module, entryURI: URI): Unit = wrapInContext {
         try {
-            require.loadCTModule(module.name, entryURI)
+            require.loadZModule(module.name, entryURI)
         } catch (e: Throwable) {
             println("Error loading module ${module.name}")
             "Error loading module ${module.name}".printToConsole(LogType.ERROR)
@@ -308,9 +308,9 @@ object JSLoader {
         return res
     }
 
-    private class CTRequire(
+    private class ZRequire(
         moduleProvider: ModuleScriptProvider,
     ) : Require(Context.getContext(), moduleScope, moduleProvider, null, null, false) {
-        fun loadCTModule(cachedName: String, uri: URI): Scriptable = getExportedModuleInterface(Context.getContext(), cachedName, uri, null, false)
+        fun loadZModule(cachedName: String, uri: URI): Scriptable = getExportedModuleInterface(Context.getContext(), cachedName, uri, null, false)
     }
 }

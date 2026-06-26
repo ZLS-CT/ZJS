@@ -114,7 +114,7 @@ object ConsoleHostProcess : Initializer {
                 val initMessage = InitMessage(
                     ZJS.MOD_VERSION,
                     ConfigUpdateMessage.constructFromConfig(Config.ConsoleSettings.make()),
-                    this::class.java.getResourceAsStream("/assets/zjs/FiraCode-Regular.otf")?.readAllBytes(),
+                    this::class.java.getResourceAsStream("/assets/${ZJS.MOD_ID}/FiraCode-Regular.otf")?.readAllBytes(),
                 )
 
                 synchronized(socketOut) {
@@ -146,7 +146,7 @@ object ConsoleHostProcess : Initializer {
                             Config.consoleFontSize = newValue.coerceIn(6..32)
                             onConsoleSettingsChanged(Config.ConsoleSettings.make())
                         }
-                        ReloadCTMessage -> Client.scheduleTask { ZJS.reloadModules() }
+                        ReloadZJSMessage -> Client.scheduleTask { ZJS.reloadModules() }
                     }
                 }
             }
