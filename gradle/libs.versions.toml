@@ -10,8 +10,6 @@ textarea = "3.6.3"
 ksp = "2.3.9"
 
 [libraries]
-vigilance = { module = "gg.essential:vigilance", version.ref = "vigilance" }
-elementa = { module = "gg.essential:elementa", version.ref = "elementa" }
 mapping-io = { module = "net.fabricmc:mapping-io", version.ref = "mapping-io" }
 koffee = { module = "com.github.ChatTriggers:koffee", version.ref = "koffee" }
 serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }

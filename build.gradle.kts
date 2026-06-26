@@ -47,8 +47,8 @@ base {
 
 tasks {
     processResources {
-        val minecraftVersion = project.platform.mcVersionStr
         val version = project.version
+        val minecraftVersion = project.platform.mcVersionStr
         val minFabricApiVersion = project.findProperty("min-fabric-api")?.toString()
 
         inputs.property("version", version)

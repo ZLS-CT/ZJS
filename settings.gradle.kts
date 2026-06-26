@@ -12,6 +12,7 @@ includeBuild("../essential-gradle-toolkit")
 include(":typing-generator")
 include("rhino")
 project(":rhino").projectDir = file("../rhino")
+
 rootProject.name = "zjs"
 rootProject.buildFileName = "root.gradle.kts"
 
