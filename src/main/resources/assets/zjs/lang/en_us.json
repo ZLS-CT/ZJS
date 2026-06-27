@@ -1,4 +1,4 @@
 {
-    "zjs.key.binding.console": "Console",
-    "zjs.key.category": "ZJS"
+    "key.category.zjs.global": "ZJS",
+    "zjs.key.binding.console": "Console"
 }

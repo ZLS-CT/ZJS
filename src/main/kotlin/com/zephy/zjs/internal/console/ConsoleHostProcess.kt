@@ -71,7 +71,7 @@ object ConsoleHostProcess : Initializer {
                 "${ZJS.MOD_ID}.key.binding.console",
                 InputConstants.Type.KEYSYM,
                 GLFW.GLFW_KEY_GRAVE_ACCENT,
-                KeyMapping.Category.register(Identifier.parse("${ZJS.MOD_ID}.key.category")),
+                KeyMapping.Category.register(Identifier.fromNamespaceAndPath(ZJS.MOD_ID, "global")),
             ),
         )
 
