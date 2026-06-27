@@ -13,7 +13,7 @@ include(":typing-generator")
 include("rhino")
 project(":rhino").projectDir = file("../rhino")
 
-rootProject.name = "zjs"
+rootProject.name = "ZJS"
 rootProject.buildFileName = "root.gradle.kts"
 
 val versionList = listOf(
