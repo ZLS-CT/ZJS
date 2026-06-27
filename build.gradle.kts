@@ -92,16 +92,6 @@ afterEvaluate {
             }
         }
         into(outputDir)
-
-//        if (project.platform.mcVersion == 12111) {
-//            into(file("${System.getenv("APPDATA")}/ModrinthApp/profiles/ChatTriggers 1.21.11/mods"))
-//        }
-//        if (project.platform.mcVersion == 260102) {
-//            into(file("${System.getenv("APPDATA")}/ModrinthApp/profiles/Test New ChatTriggers 26.1.2/mods"))
-//        }
-        if (project.platform.mcVersion == 260200) {
-            into(file("${System.getenv("APPDATA")}/ModrinthApp/profiles/Test ZLS 26.2/mods"))
-        }
     }
 
     tasks.named("build") {
