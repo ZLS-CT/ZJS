@@ -11,11 +11,12 @@
     </td>
     <td valign="top" align="center">
         <h3>ZJS - A Minecraft JavaScript Modding Framework</h3>
-        <p>ZJS is a minimized fork of [ChatTriggers](https://chattriggers.com), a framework for Minecraft that enables live scripting and client modification using JavaScript, providing libraries, wrappers, and objects to make modding easier.</p>
+        <p>ZJS is a minimized fork of ChatTriggers, a framework for Minecraft that enables live scripting and client modification using JavaScript, providing libraries, wrappers, and objects to make modding easier.</p>
         <p>This fork serves as a subset of features from the original ChatTriggers mod, with many features stripped for use in another project of mine. For the full version, see the links below.</p>
         <br/>
 
-> **Supported versions** mirror those used by Hypixel SkyBlock (**1.21.11** - **26.2**).
+> **Supported versions** mirror those used by Hypixel SkyBlock
+> (**1.21.11** - **26.2**)
 
   </tr>
 </table>
