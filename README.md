@@ -16,7 +16,7 @@
         <br/>
 
 > **Supported versions** mirror those used by Hypixel SkyBlock
-> (**1.21.11** - **26.2**)
+> (**26.1.2** - **26.2**)
 
   </tr>
 </table>
