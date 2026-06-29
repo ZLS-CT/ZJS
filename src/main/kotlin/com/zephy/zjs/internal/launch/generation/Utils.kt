@@ -160,7 +160,6 @@ internal object Utils {
         val classInfo = ClassInfo.forName(mappedClass.name)
             ?: ClassInfo.forName(mappedClass.name)
             ?: ClassInfo.forName(mappedClass.name)
-        println("${classInfo?.name} has ${classInfo?.methods?.size} methods")
 
         val mappedMethods = mappedClass.findMethods(descriptor.name, classInfo)
             ?: error("Cannot find method ${descriptor.name} in class ${mappedClass.name}")
@@ -178,15 +177,12 @@ internal object Utils {
                 }
             }
 
-            println("1 | Found method ${method.name} in class ${mappedClass.name} with descriptor ${method.toDescriptor()}")
             val result = classInfo.findMethodInHierarchy(
                 method.name,
                 method.toDescriptor(),
                 ClassInfo.SearchType.ALL_CLASSES,
                 ClassInfo.INCLUDE_ALL or ClassInfo.INCLUDE_INITIALISERS,
             ) ?: continue
-
-            println("2 | Found method ${result.name} in class ${result.name} matching mapped method ${method.name} with descriptor ${method.toDescriptor()}")
 
             if (value != null) {
                 error(
