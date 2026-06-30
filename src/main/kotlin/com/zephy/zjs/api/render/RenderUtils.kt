@@ -1006,10 +1006,11 @@ object RenderUtils {
         val bi = (b.coerceIn(0f, 1f) * 255).toInt()
         val ai = (a.coerceIn(0f, 1f) * 255).toInt()
 
-        val colorInt = ((ai and 0xFF) shl 24) or
-                ((ri and 0xFF) shl 16) or
-                ((gi and 0xFF) shl 8) or
-                (bi and 0xFF)
+        val colorInt =
+            ((ai and 0xFF) shl 24) or
+            ((ri and 0xFF) shl 16) or
+            ((gi and 0xFF) shl 8) or
+            (bi and 0xFF)
 
         return colorInt.toLong() and 0xFFFFFFFFL
     }
@@ -1122,15 +1123,6 @@ object RenderUtils {
         val height: Float
     )
 
-//    @JvmStatic
-//    internal fun splitText(text: String): TextLines {
-//        val lines = ChatLib.addColor(text).split(NEWLINE_REGEX)
-//        return TextLines(
-//            lines,
-//            lines.maxOf { getFontRenderer().width(it) }.toFloat(),
-//            (getFontRenderer().lineHeight * lines.size + (lines.size - 1)).toFloat(),
-//        )
-//    }
     @JvmStatic
     fun splitText(text: Component, maxWidth: Int): TextLines {
         val textRenderer = getTextRenderer()
@@ -1207,11 +1199,11 @@ object RenderUtils {
         fun getIntComponentsRGBA(): IntArray = intArrayOf(r, g, b, a)
         fun getLongRGBA(): Long {
             return (
-                    (r.coerceIn(0, 255) shl 24) or
-                            (g.coerceIn(0, 255) shl 16) or
-                            (b.coerceIn(0, 255) shl 8) or
-                            a.coerceIn(0, 255)
-                    ).toLong() and 0xFFFFFFFFL
+                (r.coerceIn(0, 255) shl 24) or
+                (g.coerceIn(0, 255) shl 16) or
+                (b.coerceIn(0, 255) shl 8) or
+                a.coerceIn(0, 255)
+            ).toLong() and 0xFFFFFFFFL
         }
         fun getRGBA(): FloatArray = floatArrayOf(
             r.coerceIn(0, 255) / 255f,
@@ -1224,11 +1216,11 @@ object RenderUtils {
         fun getIntComponentsARGB(): IntArray = intArrayOf(a, r, g, b)
         fun getLongARGB(): Long {
             return (
-                    (a.coerceIn(0, 255) shl 24) or
-                            (r.coerceIn(0, 255) shl 16) or
-                            (g.coerceIn(0, 255) shl 8) or
-                            b.coerceIn(0, 255)
-                    ).toLong() and 0xFFFFFFFFL
+                (a.coerceIn(0, 255) shl 24) or
+                (r.coerceIn(0, 255) shl 16) or
+                (g.coerceIn(0, 255) shl 8) or
+                b.coerceIn(0, 255)
+            ).toLong() and 0xFFFFFFFFL
         }
         fun getARGB(): FloatArray = floatArrayOf(
             a.coerceIn(0, 255) / 255f,
