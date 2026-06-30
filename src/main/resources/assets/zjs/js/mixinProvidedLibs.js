@@ -2,7 +2,6 @@
     // A restricted version of Java.type
     global.Java = {
         type(arg) {
-            // java.lang.System.out.println(`23 | ${arg}`)
             if (typeof arg !== 'string')
                 throw new Error('Java.type expects a string as its only object');
             if (arg.startsWith('net.minecraft') || arg.startsWith('com.mojang.blaze3d'))
