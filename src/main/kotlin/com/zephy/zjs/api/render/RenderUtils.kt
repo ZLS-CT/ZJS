@@ -1125,6 +1125,16 @@ object RenderUtils {
 
     @JvmStatic
     fun splitText(text: Component, maxWidth: Int): TextLines {
+        //#if MC>=26.1
+        return Client.synchronizedTask {
+        //#endif
+            computeSplitText(text, maxWidth)
+        //#if MC>=26.1
+        }
+        //#endif
+    }
+
+    private fun computeSplitText(text: Component, maxWidth: Int): TextLines {
         val textRenderer = getTextRenderer()
         val wrappedLines = textRenderer.splitter.splitLines(text, maxWidth, Style.EMPTY)
 
