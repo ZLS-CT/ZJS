@@ -36,7 +36,7 @@ class ZJS : ClientModInitializer {
         const val MOD_ID = "zjs"
         const val MOD_NAME = "ZJS"
         const val COMMAND_PREFIX = MOD_ID
-        const val MOD_VERSION = "1.0.0"
+        const val MOD_VERSION = "1.0.1"
         const val USER_AGENT = "Mozilla/5.0 (${MOD_NAME})"
 
         const val CONFIG_FOLDER_PATH = "./config"
