@@ -16,7 +16,7 @@ class StepTrigger(method: Any) : Trigger(method, TriggerType.STEP) {
      */
     fun setFps(fps: Long) = apply {
         this.fps = if (fps < 1) 1L else fps
-        systemTime = Client.getSystemTime() + 1000 / this.fps
+        systemTime = Client.getSystemTime()
     }
 
     /**
@@ -27,7 +27,7 @@ class StepTrigger(method: Any) : Trigger(method, TriggerType.STEP) {
      */
     fun setDelay(delay: Long) = apply {
         this.delay = if (delay < 1) 1L else delay
-        systemTime = Client.getSystemTime() - this.delay * 1000
+        systemTime = Client.getSystemTime()
     }
 
     override fun register(): Trigger {
@@ -36,18 +36,16 @@ class StepTrigger(method: Any) : Trigger(method, TriggerType.STEP) {
     }
 
     override fun trigger(args: Array<out Any?>) {
-        if (delay < 0) {
-            // run trigger based on set fps value (60 per second by default)
-            while (systemTime < Client.getSystemTime() + 1000 / fps) {
-                callMethod(arrayOf(++elapsed))
-                systemTime += 1000 / fps
-            }
-        } else {
-            // run trigger based on set delay in seconds
-            while (Client.getSystemTime() > systemTime + delay * 1000) {
-                callMethod(arrayOf(++elapsed))
-                systemTime += delay * 1000
-            }
+        val interval = if (delay < 0) 1000 / fps else delay * 1000
+        val now = Client.getSystemTime()
+
+        if (now - systemTime > interval * 10) {
+            systemTime = now - interval
+        }
+
+        while (Client.getSystemTime() >= systemTime + interval) {
+            systemTime += interval
+            callMethod(arrayOf(++elapsed))
         }
     }
 }
