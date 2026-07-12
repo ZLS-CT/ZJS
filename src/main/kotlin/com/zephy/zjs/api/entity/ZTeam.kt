@@ -42,6 +42,8 @@ class ZTeam(override val mcValue: PlayerTeam) : ZWrapper<PlayerTeam> {
     //#if MC<26.2
     //$$fun getLegacyColor(): String = mcValue.color.toString()
     //$$fun getChatFormatting(): String = getLegacyColor()
+    //$$fun getTeamColor(): String = getLegacyColor()
+    //$$fun getTextColor(): String = getLegacyColor()
     //#else
     fun getTeamColor(): TeamColor = mcValue.color.getOrElse { TeamColor.WHITE }
     fun getTextColor(): TextColor = getTeamColor().textColor()
