@@ -40,10 +40,10 @@ class ZTeam(override val mcValue: PlayerTeam) : ZWrapper<PlayerTeam> {
     fun getSuffix() = TextComponent(mcValue.playerSuffix).formattedText
 
     //#if MC<26.2
-    //$$fun getLegacyColor(): String = mcValue.color.toString()
-    //$$fun getChatFormatting(): String = getLegacyColor()
+    //$$fun getTextColor(): ChatFormatting = mcValue.color
+    //$$fun getLegacyColor(): String = getTextColor().toString()
     //$$fun getTeamColor(): String = getLegacyColor()
-    //$$fun getTextColor(): String = getLegacyColor()
+    //$$fun getChatFormatting(): ChatFormatting = getTextColor()
     //#else
     fun getTeamColor(): TeamColor = mcValue.color.getOrElse { TeamColor.WHITE }
     fun getTextColor(): TextColor = getTeamColor().textColor()
