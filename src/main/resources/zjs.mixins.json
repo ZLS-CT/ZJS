@@ -42,6 +42,7 @@
         "ChunkAccessAccessor",
         "ItemStackMixin",
         "CompoundTagAccessor",
+        "DrawContextMixin",
         "Scoreboard$1Accessor",
         "SystemReportMixin",
         "commands.CommandContextAccessor",
