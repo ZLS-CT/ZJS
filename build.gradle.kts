@@ -26,6 +26,10 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(project(":typing-generator"))
     ksp(project(":typing-generator"))
+
+    modCompileOnly("org.zephy.zkeys:${project.platform}:1.0.0") { isTransitive = false }
+    modCompileOnly("org.zephy.zrenderlib:${project.platform}:1.0.0") { isTransitive = false }
+    include("org.zephy.zrenderlib:${project.platform}:1.0.0") { isTransitive = false }
 }
 
 loom {

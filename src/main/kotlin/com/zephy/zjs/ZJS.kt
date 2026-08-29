@@ -6,7 +6,6 @@ import com.zephy.zjs.api.client.KeyBind
 import com.zephy.zjs.api.client.ZSound
 import com.zephy.zjs.api.commands.DynamicCommands
 import com.zephy.zjs.api.message.ChatLib
-import com.zephy.zjs.api.render.Image
 import com.zephy.zjs.api.triggers.TriggerType
 import com.zephy.zjs.api.world.World
 import com.zephy.zjs.engine.Console
@@ -16,6 +15,7 @@ import com.zephy.zjs.internal.engine.module.ModuleManager
 import com.zephy.zjs.internal.utils.Initializer
 import kotlinx.serialization.json.Json
 import net.fabricmc.api.ClientModInitializer
+import org.zephy.zrenderlib.ZRenderLib
 import java.io.File
 import java.net.URI
 import java.net.URLConnection
@@ -56,7 +56,6 @@ class ZJS : ClientModInitializer {
         var isLoaded = true
             private set
 
-        internal val images = mutableListOf<Image>()
         internal val sounds = mutableListOf<ZSound>()
 
         internal val json = Json {
@@ -90,10 +89,9 @@ class ZJS : ClientModInitializer {
             }
 
             Client.scheduleTask {
-                images.forEach(Image::destroy)
+                ZRenderLib.destroyImages()
+                ZRenderLib.clearImages()
                 sounds.forEach(ZSound::destroy)
-
-                images.clear()
                 sounds.clear()
             }
 

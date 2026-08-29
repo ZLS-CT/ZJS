@@ -1,11 +1,11 @@
 package com.zephy.zjs.api.world
 
+import com.zephy.zjs.api.BasicState
 import com.zephy.zjs.api.ZWrapper
 import com.zephy.zjs.api.entity.ZTeam
 import com.zephy.zjs.api.message.TextComponent
 import com.zephy.zjs.internal.mixins.`Scoreboard$1Accessor`
 import com.zephy.zjs.internal.utils.asMixin
-import gg.essential.elementa.state.BasicState
 import net.minecraft.world.scores.ScoreAccess
 import net.minecraft.world.scores.DisplaySlot
 import net.minecraft.world.scores.Objective

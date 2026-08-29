@@ -1,7 +1,6 @@
 package com.zephy.zjs.internal.engine.module
 
 import com.zephy.zjs.api.message.ChatLib
-import com.zephy.zjs.api.render.RenderUtils
 import com.zephy.zjs.api.render.Text
 import java.io.File
 
@@ -10,6 +9,7 @@ import java.io.File
 //#else
 import net.minecraft.client.gui.GuiGraphicsExtractor
 //#endif
+import org.zephy.zrenderlib.RenderUtils
 
 class Module(val name: String, var metadata: ModuleMetadata, val folder: File) {
     var requiredBy = mutableSetOf<String>()

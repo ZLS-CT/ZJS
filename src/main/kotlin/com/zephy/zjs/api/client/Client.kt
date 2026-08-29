@@ -10,7 +10,6 @@ import com.zephy.zjs.internal.mixins.KeyMappingAccessor
 import com.zephy.zjs.internal.utils.asMixin
 import com.mojang.realmsclient.RealmsMainScreen
 import com.zephy.zjs.ZJS
-import gg.essential.universal.UKeyboard
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.components.ChatComponent
 import net.minecraft.client.gui.components.PlayerTabOverlay
@@ -28,6 +27,7 @@ import kotlin.math.roundToInt
 
 import net.minecraft.network.chat.Component
 import net.minecraft.network.protocol.Packet
+import org.zephy.zkeys.ZKeys
 
 object Client {
     internal var referenceSystemTime: Long = 0
@@ -165,13 +165,13 @@ object Client {
     fun isTabbedIn(): Boolean = getMinecraft().isWindowActive
 
     @JvmStatic
-    fun isControlDown(): Boolean = UKeyboard.isCtrlKeyDown()
+    fun isControlDown(): Boolean = ZKeys.isCtrlDown()
 
     @JvmStatic
-    fun isShiftDown(): Boolean = UKeyboard.isShiftKeyDown()
+    fun isShiftDown(): Boolean = ZKeys.isShiftDown()
 
     @JvmStatic
-    fun isAltDown(): Boolean = UKeyboard.isAltKeyDown()
+    fun isAltDown(): Boolean = ZKeys.isAltDown()
 
     @JvmStatic
     fun getFPS(): Int = getMinecraft().fps

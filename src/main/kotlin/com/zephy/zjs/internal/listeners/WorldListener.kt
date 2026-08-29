@@ -1,6 +1,5 @@
 package com.zephy.zjs.internal.listeners
 
-import com.zephy.zjs.api.render.GUIRenderer
 import com.zephy.zjs.api.triggers.CancellableEvent
 import com.zephy.zjs.api.triggers.TriggerType
 import com.mojang.blaze3d.systems.RenderSystem
@@ -8,6 +7,7 @@ import net.minecraft.core.BlockPos
 
 import com.mojang.blaze3d.vertex.PoseStack
 import org.joml.Matrix4f
+import org.zephy.zrenderlib.RenderUtils
 
 object WorldListener {
     private var matrixStack: PoseStack? = null
@@ -38,14 +38,14 @@ object WorldListener {
     fun triggerRenderStart(ticks: Float) {
         deltaTicks = ticks
         if (matrixStack == null) return
-        GUIRenderer.withMatrix(matrixStack, ticks) {
+        RenderUtils.withMatrix(matrixStack, ticks) {
             TriggerType.PRE_RENDER_WORLD.triggerAll(ticks)
         }
     }
 
     fun triggerRenderLast() {
         if (matrixStack == null) return
-        GUIRenderer.withMatrix(matrixStack, deltaTicks) {
+        RenderUtils.withMatrix(matrixStack, deltaTicks) {
             TriggerType.POST_RENDER_WORLD.triggerAll(deltaTicks)
         }
     }

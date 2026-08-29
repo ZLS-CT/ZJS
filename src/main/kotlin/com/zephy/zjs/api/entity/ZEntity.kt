@@ -2,13 +2,13 @@ package com.zephy.zjs.api.entity
 
 import com.zephy.zjs.api.ZWrapper
 import com.zephy.zjs.api.message.TextComponent
-import com.zephy.zjs.api.render.GUIRenderer
 import com.zephy.zjs.api.world.ZChunk
 import com.zephy.zjs.api.world.block.ZBlockPos
 import net.minecraft.world.entity.player.Player
 import net.minecraft.util.Mth
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.phys.Vec3
+import org.zephy.zrenderlib.RenderUtils
 import java.util.UUID
 import kotlin.math.sqrt
 
@@ -31,11 +31,11 @@ open class ZEntity(override val mcValue: Entity) : ZWrapper<Entity> {
 
     fun getLastPos() = Vec3(getLastX(), getLastY(), getLastZ())
 
-    fun getRenderX() = getLastX() + (getX() - getLastX()) * GUIRenderer.partialTicks
+    fun getRenderX() = getLastX() + (getX() - getLastX()) * RenderUtils.partialTicks
 
-    fun getRenderY() = getLastY() + (getY() - getLastY()) * GUIRenderer.partialTicks
+    fun getRenderY() = getLastY() + (getY() - getLastY()) * RenderUtils.partialTicks
 
-    fun getRenderZ() = getLastZ() + (getZ() - getLastZ()) * GUIRenderer.partialTicks
+    fun getRenderZ() = getLastZ() + (getZ() - getLastZ()) * RenderUtils.partialTicks
 
     fun getRenderPos() = Vec3(getRenderX(), getRenderY(), getRenderZ())
 
@@ -45,7 +45,7 @@ open class ZEntity(override val mcValue: Entity) : ZWrapper<Entity> {
      *
      * @return the entity's pitch
      */
-    fun getPitch() = Mth.wrapDegrees(mcValue.getViewXRot(GUIRenderer.partialTicks))
+    fun getPitch() = Mth.wrapDegrees(mcValue.getViewXRot(RenderUtils.partialTicks))
 
     /**
      * Gets the yaw, the vertical direction the entity is facing towards.
@@ -53,7 +53,7 @@ open class ZEntity(override val mcValue: Entity) : ZWrapper<Entity> {
      *
      * @return the entity's yaw
      */
-    fun getYaw() = Mth.wrapDegrees(mcValue.getViewYRot(GUIRenderer.partialTicks))
+    fun getYaw() = Mth.wrapDegrees(mcValue.getViewYRot(RenderUtils.partialTicks))
 
     /**
      * Gets the entity's x motion.
@@ -173,10 +173,10 @@ open class ZEntity(override val mcValue: Entity) : ZWrapper<Entity> {
     fun isOnGround() = mcValue.onGround()
 
     @JvmOverloads
-    fun getLookVector(partialTicks: Float = GUIRenderer.partialTicks) = mcValue.getViewVector(partialTicks)
+    fun getLookVector(partialTicks: Float = RenderUtils.partialTicks) = mcValue.getViewVector(partialTicks)
 
     @JvmOverloads
-    fun getEyePosition(partialTicks: Float = GUIRenderer.partialTicks) = mcValue.eyePosition
+    fun getEyePosition(partialTicks: Float = RenderUtils.partialTicks) = mcValue.eyePosition
 
     fun isSneaking() = mcValue.isCrouching
 

@@ -31,3 +31,11 @@ versionList.forEach { version ->
         buildFileName = "../../build.gradle.kts"
     }
 }
+
+includeBuild("../ZRenderLib") {
+    dependencySubstitution {
+        versionList.forEach { version ->
+            substitute(module("org.zephy.zrenderlib:$version")).using(project(":$version"))
+        }
+    }
+}

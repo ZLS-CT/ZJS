@@ -6,9 +6,6 @@ import com.zephy.zjs.api.triggers.RegularTrigger
 import com.zephy.zjs.api.triggers.TriggerType
 import com.zephy.zjs.internal.mixins.AbstractWidgetAccessor
 import com.zephy.zjs.internal.utils.asMixin
-import gg.essential.universal.UKeyboard
-import gg.essential.universal.UMatrixStack
-import gg.essential.universal.UScreen
 import net.fabricmc.fabric.api.client.screen.v1.ScreenMouseEvents
 import net.minecraft.client.gui.components.Button
 
@@ -17,6 +14,10 @@ import net.minecraft.client.gui.components.Button
 //#else
 import net.minecraft.client.gui.GuiGraphicsExtractor
 //#endifg
+import org.zephy.zkeys.KeyModifiers
+import org.zephy.zrenderlib.RenderUtils
+import org.zephy.zrenderlib.UMatrixStack
+import org.zephy.zrenderlib.UScreen
 
 class Gui @JvmOverloads constructor(
     title: TextComponent = TextComponent(""),
@@ -287,9 +288,7 @@ class Gui @JvmOverloads constructor(
         //#endif
         val currentDrawContext = drawContexts.last()
         RenderUtils.pushMatrix(UMatrixStack(currentDrawContext.pose()))
-
-        GUIRenderer.partialTicks = partialTicks
-
+        RenderUtils.partialTicks = partialTicks
         this.mouseX = mouseX
         this.mouseY = mouseY
         onDraw?.trigger(arrayOf(currentDrawContext, mouseX, mouseY, partialTicks))
@@ -300,11 +299,11 @@ class Gui @JvmOverloads constructor(
     /**
      * Internal method to run trigger. Not meant for public use
      */
-    override fun onKeyPressed(keyCode: Int, typedChar: Char, modifiers: UKeyboard.Modifiers?) {
+    override fun onKeyPressed(keyCode: Int, typedChar: Char, modifiers: KeyModifiers?) {
         super.onKeyPressed(keyCode, typedChar, modifiers)
         if (keyCode != 0) {
             var char = keyCode.toChar()
-            if (modifiers?.isShift != true) {
+            if (modifiers?.shift != true) {
                 char = char.lowercaseChar()
             }
             onKeyTyped?.trigger(arrayOf<Any>(char, keyCode))

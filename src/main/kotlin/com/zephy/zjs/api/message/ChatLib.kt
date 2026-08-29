@@ -2,7 +2,6 @@ package com.zephy.zjs.api.message
 
 import com.zephy.zjs.api.client.Client
 import com.zephy.zjs.api.client.Settings
-import com.zephy.zjs.api.render.RenderUtils
 import com.zephy.zjs.internal.listeners.ClientListener
 import com.zephy.zjs.internal.mixins.ChatComponentAccessor
 import com.zephy.zjs.internal.utils.asMixin
@@ -23,6 +22,7 @@ import net.minecraft.client.multiplayer.chat.GuiMessage
 import net.minecraft.client.multiplayer.chat.GuiMessageSource
 import net.minecraft.client.multiplayer.chat.GuiMessageTag
 //#endif
+import org.zephy.zrenderlib.RenderUtils
 
 object ChatLib {
     private val chatLineIds = mutableMapOf<GuiMessage, Int>()
@@ -83,7 +83,7 @@ object ChatLib {
      */
     @JvmStatic
     fun addColor(message: String?): String {
-        return message.toString().replace("(?<!\\\\)&(?![^0-9a-fk-or]|$)".toRegex(), "\u00a7")
+        return RenderUtils.addColor(message)
     }
 
     /**

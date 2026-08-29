@@ -5,8 +5,6 @@ import com.zephy.zjs.api.client.Client
 import com.zephy.zjs.api.entity.ZBlockEntity
 import com.zephy.zjs.api.entity.ZEntity
 import com.zephy.zjs.api.message.TextComponent
-import com.zephy.zjs.api.render.GUIRenderer
-import com.zephy.zjs.api.render.HudRenderLayer
 import com.zephy.zjs.api.triggers.CancellableEvent
 import com.zephy.zjs.api.triggers.ChatTrigger
 import com.zephy.zjs.api.triggers.TriggerType
@@ -16,7 +14,6 @@ import com.zephy.zjs.api.world.World
 import com.zephy.zjs.internal.engine.ZEvents
 import com.zephy.zjs.internal.engine.JSContextFactory
 import com.zephy.zjs.internal.utils.Initializer
-import gg.essential.universal.UMatrixStack
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
@@ -34,6 +31,9 @@ import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry
 //#else
 import net.minecraft.client.gui.GuiGraphicsExtractor
 //#endif
+import org.zephy.zrenderlib.HudRenderLayer
+import org.zephy.zrenderlib.RenderUtils
+import org.zephy.zrenderlib.UMatrixStack
 
 object ClientListener : Initializer {
     private var ticksPassed: Int = 0
@@ -89,7 +89,7 @@ object ClientListener : Initializer {
             if (Client.currentGui.get() != null) return@attachElementAfter
 
             val partialTicks = tickCounter.gameTimeDeltaTicks
-            GUIRenderer.withMatrix(UMatrixStack(drawContext.pose()).toMC(), partialTicks) {
+            RenderUtils.withMatrix(UMatrixStack(drawContext.pose()).toMC(), partialTicks) {
                 TriggerType.RENDER_SCREEN_OVERLAY.triggerAll(drawContext, partialTicks)
             }
         }
@@ -109,7 +109,7 @@ object ClientListener : Initializer {
             if (Client.currentGui.get() != null) return@attachElementAfter
 
             val partialTicks = tickCounter.gameTimeDeltaTicks
-            GUIRenderer.withMatrix(UMatrixStack(drawContext.pose()).toMC(), partialTicks) {
+            RenderUtils.withMatrix(UMatrixStack(drawContext.pose()).toMC(), partialTicks) {
                 TriggerType.RENDER_HIDEABLE_SCREEN_OVERLAY.triggerAll(drawContext, partialTicks)
             }
         }
@@ -127,7 +127,7 @@ object ClientListener : Initializer {
             //#else
             ScreenEvents.beforeExtract(screen).register { _, drawContext, mouseX, mouseY, partialTicks ->
             //#endif
-                GUIRenderer.withMatrix(UMatrixStack(drawContext.pose()).toMC(), partialTicks) {
+                RenderUtils.withMatrix(UMatrixStack(drawContext.pose()).toMC(), partialTicks) {
                     TriggerType.PRE_RENDER_GUI.triggerAll(drawContext, mouseX, mouseY, screen, partialTicks)
                 }
             }
@@ -138,7 +138,7 @@ object ClientListener : Initializer {
             //#else
             ScreenEvents.afterExtract(screen).register { _, drawContext, mouseX, mouseY, partialTicks ->
             //#endif
-                GUIRenderer.withMatrix(UMatrixStack(drawContext.pose()).toMC(), partialTicks) {
+                RenderUtils.withMatrix(UMatrixStack(drawContext.pose()).toMC(), partialTicks) {
                     TriggerType.POST_RENDER_GUI.triggerAll(drawContext, mouseX, mouseY, screen, partialTicks, )
 
                     TriggerType.RENDER_SCREEN_OVERLAY.triggerAll(drawContext, partialTicks)
@@ -158,13 +158,13 @@ object ClientListener : Initializer {
         }
 
         ZEvents.RENDER_HUD_OVERLAY.register { ctx, stack, partialTicks ->
-            GUIRenderer.withMatrix(UMatrixStack(stack).toMC(), partialTicks) {
+            RenderUtils.withMatrix(UMatrixStack(stack).toMC(), partialTicks) {
                 TriggerType.RENDER_HUD_OVERLAY.triggerAll(ctx, partialTicks)
             }
         }
 
         ZEvents.RENDER_ENTITY.register { stack, entity, partialTicks, ci ->
-            GUIRenderer.withMatrix(UMatrixStack(stack).toMC(), partialTicks) {
+            RenderUtils.withMatrix(UMatrixStack(stack).toMC(), partialTicks) {
                 TriggerType.RENDER_ENTITY.triggerAll(ZEntity.fromMC(entity), partialTicks, ci)
             }
         }

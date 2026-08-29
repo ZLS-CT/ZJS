@@ -10,6 +10,7 @@ import org.mozilla.javascript.NativeObject
 //#else
 import net.minecraft.client.gui.GuiGraphicsExtractor
 //#endif
+import org.zephy.zrenderlib.RenderUtils
 
 class Text {
     private lateinit var string: String

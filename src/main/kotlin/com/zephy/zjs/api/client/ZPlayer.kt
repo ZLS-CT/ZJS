@@ -7,7 +7,6 @@ import com.zephy.zjs.api.entity.ZTeam
 import com.zephy.zjs.api.inventory.Inventory
 import com.zephy.zjs.api.inventory.ZItem
 import com.zephy.zjs.api.message.TextComponent
-import com.zephy.zjs.api.render.GUIRenderer
 import com.zephy.zjs.api.world.Scoreboard
 import com.zephy.zjs.api.world.World
 import com.zephy.zjs.api.world.block.BlockFace
@@ -19,6 +18,7 @@ import net.minecraft.world.phys.EntityHitResult
 import net.minecraft.world.phys.HitResult
 import net.minecraft.world.phys.Vec2
 import net.minecraft.world.phys.Vec3
+import org.zephy.zrenderlib.RenderUtils
 import java.util.UUID
 
 object ZPlayer {
@@ -74,13 +74,13 @@ object ZPlayer {
     fun getLastPos(): Vec3 = Vec3(getLastX(), getLastY(), getLastZ())
 
     @JvmStatic
-    fun getRenderX(): Double = getLastX() + (getX() - getLastX()) * GUIRenderer.partialTicks
+    fun getRenderX(): Double = getLastX() + (getX() - getLastX()) * RenderUtils.partialTicks
 
     @JvmStatic
-    fun getRenderY(): Double = getLastY() + (getY() - getLastY()) * GUIRenderer.partialTicks
+    fun getRenderY(): Double = getLastY() + (getY() - getLastY()) * RenderUtils.partialTicks
 
     @JvmStatic
-    fun getRenderZ(): Double = getLastZ() + (getZ() - getLastZ()) * GUIRenderer.partialTicks
+    fun getRenderZ(): Double = getLastZ() + (getZ() - getLastZ()) * RenderUtils.partialTicks
 
     @JvmStatic
     fun getRenderPos(): Vec3 = Vec3(getRenderX(), getRenderY(), getRenderZ())

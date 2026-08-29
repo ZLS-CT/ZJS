@@ -63,7 +63,6 @@
     loadClass("com.zephy.zjs.api.client.Client");
     loadClass("com.zephy.zjs.api.client.FileLib");
     loadClass("com.zephy.zjs.api.client.KeyBind");
-    loadClass("com.zephy.zjs.api.client.Keyboard");
     loadClass("com.zephy.zjs.api.client.MathLib");
     loadClass("com.zephy.zjs.api.client.Settings");
     loadClass("com.zephy.zjs.api.client.ZPlayer");
@@ -90,25 +89,32 @@
     loadClass("com.zephy.zjs.api.message.ChatLib");
     loadClass("com.zephy.zjs.api.message.TextComponent");
 
-    loadClass("com.zephy.zjs.api.render.renderstates.GradientGUIRenderState");
-    loadClass("com.zephy.zjs.api.render.renderstates.GUIRenderState");
-    loadClass("com.zephy.zjs.api.render.renderstates.TexturedGUIRenderState");
-
-    loadClass("com.zephy.zjs.api.render.BaseGUIRenderer");
-    loadClass("com.zephy.zjs.api.render.BaseWorldRenderer");
-    loadClass("com.zephy.zjs.api.render.DrawMode");
     loadClass("com.zephy.zjs.api.render.Gui");
-    loadClass("com.zephy.zjs.api.render.GUIRenderer");
-    loadClass("com.zephy.zjs.api.render.HudRenderLayer");
-    loadClass("com.zephy.zjs.api.render.Image");
-    loadClass("com.zephy.zjs.api.render.PipelineBuilder");
-    loadClass("com.zephy.zjs.api.render.RenderLayers");
-    loadClass("com.zephy.zjs.api.render.RenderPipelines");
-    loadClass("com.zephy.zjs.api.render.RenderSnippet");
-    loadClass("com.zephy.zjs.api.render.RenderUtils");
     loadClass("com.zephy.zjs.api.render.Text");
-    loadClass("com.zephy.zjs.api.render.VertexFormat");
-    loadClass("com.zephy.zjs.api.render.WorldRenderer");
+
+    loadClass("org.zephy.zrenderlib.renderstates.GradientGUIRenderState");
+    loadClass("org.zephy.zrenderlib.renderstates.GUIRenderState");
+    loadClass("org.zephy.zrenderlib.renderstates.TexturedGUIRenderState");
+
+    loadClass("org.zephy.zrenderlib.AdvancedDrawContext");
+    loadClass("org.zephy.zrenderlib.BaseGUIRenderer");
+    loadClass("org.zephy.zrenderlib.BaseWorldRenderer");
+    loadClass("org.zephy.zrenderlib.DrawMode");
+    loadClass("org.zephy.zrenderlib.GUIEntityRenderer");
+    loadClass("org.zephy.zrenderlib.GUIRenderer");
+    loadClass("org.zephy.zrenderlib.HudRenderLayer");
+    loadClass("org.zephy.zrenderlib.Image");
+    loadClass("org.zephy.zrenderlib.PipelineBuilder");
+    loadClass("org.zephy.zrenderlib.RenderLayers");
+    loadClass("org.zephy.zrenderlib.RenderPipelines");
+    loadClass("org.zephy.zrenderlib.RenderSnippet");
+    loadClass("org.zephy.zrenderlib.RenderUtils");
+    loadClass("org.zephy.zrenderlib.TemporaryTextureAllocator");
+    loadClass("org.zephy.zrenderlib.UMatrixStack");
+    loadClass("org.zephy.zrenderlib.UScreen");
+    loadClass("org.zephy.zrenderlib.VertexFormat");
+    loadClass("org.zephy.zrenderlib.WorldRenderer");
+    loadClass("org.zephy.zrenderlib.ZRenderLib");
 
     // For module authors to use with custom triggers
     loadClass("com.zephy.zjs.api.triggers.CancellableEvent");
@@ -145,7 +151,7 @@
     global.Console = Java.type("com.zephy.zjs.engine.Console").INSTANCE;
 
     // Misc
-    loadClass("gg.essential.universal.UKeyboard");
+    loadClass("org.zephy.zkeys.ZKeys");
     loadClass("java.util.ArrayList");
     loadClass("java.util.HashMap");
     loadClass("java.nio.file.Paths");

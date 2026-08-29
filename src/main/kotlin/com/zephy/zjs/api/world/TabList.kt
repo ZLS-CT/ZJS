@@ -2,12 +2,12 @@ package com.zephy.zjs.api.world
 
 import com.google.common.collect.ComparisonChain
 import com.google.common.collect.Ordering
+import com.zephy.zjs.api.BasicState
 import com.zephy.zjs.api.ZWrapper
 import com.zephy.zjs.api.client.Client
 import com.zephy.zjs.api.client.ZPlayer
 import com.zephy.zjs.api.entity.ZTeam
 import com.zephy.zjs.api.message.TextComponent
-import gg.essential.elementa.state.BasicState
 import net.minecraft.client.multiplayer.PlayerInfo
 import net.minecraft.world.level.GameType
 import net.minecraft.world.scores.DisplaySlot

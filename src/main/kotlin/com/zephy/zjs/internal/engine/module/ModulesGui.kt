@@ -1,8 +1,6 @@
 package com.zephy.zjs.internal.engine.module
 
 import com.zephy.zjs.api.message.ChatLib
-import com.zephy.zjs.api.render.GUIRenderer
-import com.zephy.zjs.api.render.RenderUtils
 import com.zephy.zjs.api.render.Text
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component.literal
@@ -12,6 +10,8 @@ import net.minecraft.network.chat.Component.literal
 //#else
 import net.minecraft.client.gui.GuiGraphicsExtractor
 //#endif
+import org.zephy.zrenderlib.GUIRenderer
+import org.zephy.zrenderlib.RenderUtils
 
 object ModulesGui : Screen(literal("Modules")) {
     private val window = object {

@@ -4,7 +4,6 @@ import com.zephy.zjs.api.ZWrapper
 import com.zephy.zjs.api.client.Client
 import com.zephy.zjs.api.client.ZPlayer
 import com.zephy.zjs.api.message.TextComponent
-import com.zephy.zjs.api.render.RenderUtils
 import com.zephy.zjs.api.world.World
 import com.zephy.zjs.internal.Skippable
 import com.zephy.zjs.internal.TooltipOverridable
@@ -20,6 +19,7 @@ import net.minecraft.world.item.TooltipFlag
 import net.minecraft.ReportedException
 import net.minecraft.CrashReport
 import net.minecraft.client.renderer.SubmitNodeStorage
+import org.zephy.zrenderlib.RenderUtils
 import kotlin.jvm.optionals.getOrNull
 
 class ZItem(override val mcValue: ItemStack) : ZWrapper<ItemStack> {
