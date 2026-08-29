@@ -37,7 +37,6 @@ private val providedTypes = mutableMapOf(
     "Items" to "net.minecraft.world.item.Items",
     "ByteArrayTag" to "net.minecraft.nbt.ByteArrayTag",
     "ByteTag" to "net.minecraft.nbt.ByteTag",
-    "CompoundTag" to "net.minecraft.nbt.CompoundTag",
     "DoubleTag" to "net.minecraft.nbt.DoubleTag",
     "FloatTag" to "net.minecraft.nbt.FloatTag",
     "IntArrayTag" to "net.minecraft.nbt.IntArrayTag",

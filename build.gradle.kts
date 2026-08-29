@@ -66,9 +66,7 @@ tasks {
         val javaVersion = project.java.toolchain.languageVersion.get().asInt()
         inputs.property("compatibilityLevel", javaVersion)
         filesMatching("zjs.mixins.json") {
-            filter { line ->
-                line.replace("JAVA_\$compatibilityLevel", "JAVA_$javaVersion")
-            }
+            filter { line -> line.replace("\$compatibilityLevel", "JAVA_${javaVersion}") }
         }
     }
 }

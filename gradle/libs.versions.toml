@@ -1,8 +1,5 @@
 [versions]
 kotlin = "2.3.10"
-universalcraft = "505"
-vigilance = "314"
-elementa = "745"
 mapping-io = "0.8.0"
 koffee = "315bc11234"
 serialization = "1.11.0"

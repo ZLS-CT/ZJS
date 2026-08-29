@@ -2,7 +2,7 @@
     "required": true,
     "minVersion": "0.8",
     "package": "com.zephy.zjs.internal.mixins",
-    "compatibilityLevel": "JAVA_$compatibilityLevel",
+    "compatibilityLevel": "$compatibilityLevel",
     "client": [
         "BlockEntityRenderDispatcherMixin",
         "ChatFormattingAccessor",
