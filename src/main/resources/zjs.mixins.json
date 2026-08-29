@@ -4,11 +4,9 @@
     "package": "com.zephy.zjs.internal.mixins",
     "compatibilityLevel": "JAVA_$compatibilityLevel",
     "client": [
-        //#if MC>=26.1
         "BlockEntityRenderDispatcherMixin",
         "ChatFormattingAccessor",
         "TextColorAccessor",
-        //#endif
         "AbstractContainerScreenAccessor",
         "AbstractContainerScreenMixin",
         "AbstractSoundInstanceAccessor",

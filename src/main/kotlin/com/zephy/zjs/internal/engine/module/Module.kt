@@ -4,11 +4,7 @@ import com.zephy.zjs.api.message.ChatLib
 import com.zephy.zjs.api.render.Text
 import java.io.File
 
-//#if MC<=12111
-//$$import net.minecraft.client.gui.GuiGraphics
-//#else
 import net.minecraft.client.gui.GuiGraphicsExtractor
-//#endif
 import org.zephy.zrenderlib.RenderUtils
 
 class Module(val name: String, var metadata: ModuleMetadata, val folder: File) {
@@ -22,11 +18,7 @@ class Module(val name: String, var metadata: ModuleMetadata, val folder: File) {
     }
 
     fun draw(
-        //#if MC<=12111
-        //$$drawContext: GuiGraphics,
-        //#else
         drawContext: GuiGraphicsExtractor,
-        //#endif
         x: Int,
         y: Int,
         width: Int
@@ -37,11 +29,7 @@ class Module(val name: String, var metadata: ModuleMetadata, val folder: File) {
         drawContext.pose().pushMatrix()
 
         drawContext.fill(x, y, x + width, y + 13, 0xaa000000.toInt())
-        //#if MC<=12111
-        //$$drawContext.drawString(
-        //#else
         drawContext.text(
-        //#endif
             RenderUtils.getTextRenderer(),
             metadata.name ?: name,
             x + 3, y + 3, -1
@@ -51,35 +39,19 @@ class Module(val name: String, var metadata: ModuleMetadata, val folder: File) {
             drawContext.pose().pushMatrix()
             drawContext.pose().translate(x + width - 5f, y + 8f)
             drawContext.pose().rotate(Math.PI.toFloat())
-            //#if MC<=12111
-            //$$drawContext.drawString(
-            //#else
-            drawContext.text(
-            //#endif
-                RenderUtils.getTextRenderer(), "^", 0, 0, -1, false
-            )
+            drawContext.text(RenderUtils.getTextRenderer(), "^", 0, 0, -1, false)
             drawContext.pose().popMatrix()
             16
         } else {
             gui.description.setMaxWidth(width - 5)
 
             drawContext.fill(x, y + 13, x + width, y + (gui.description.getHeight() + 25), 0x50000000)
-            //#if MC<=12111
-            //$$drawContext.drawString(
-            //#else
-            drawContext.text(
-            //#endif
-                RenderUtils.getTextRenderer(), "^", x + width - 10, y + 5, -1, false
-            )
+            drawContext.text(RenderUtils.getTextRenderer(), "^", x + width - 10, y + 5, -1, false)
 
             gui.description.draw(drawContext, x + 3, y + 15)
 
             if (metadata.version != null) {
-                //#if MC<=12111
-                //$$drawContext.drawString(
-                //#else
                 drawContext.text(
-                //#endif
                     RenderUtils.getTextRenderer(),
                     ChatLib.addColor("&8v${metadata.version}"),
                     x + width - RenderUtils.getStringWidth(ChatLib.addColor("&8v${metadata.version}")),
@@ -88,11 +60,7 @@ class Module(val name: String, var metadata: ModuleMetadata, val folder: File) {
                 )
             }
 
-            //#if MC<=12111
-            //$$drawContext.drawString(
-            //#else
             drawContext.text(
-            //#endif
                 RenderUtils.getTextRenderer(),
                 ChatLib.addColor(
                     if (metadata.isRequired && requiredBy.isNotEmpty()) {

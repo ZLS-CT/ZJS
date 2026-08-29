@@ -112,11 +112,7 @@ class ZItem(override val mcValue: ItemStack) : ZWrapper<ItemStack> {
             .pushMatrix()
             .translate(x + 8, y + 8, 150 + z)
         try {
-            //#if MC<=12111
-            //$$val orderedRender = Client.getMinecraft().gameRenderer.submitNodeStorage
-            //#else
             val orderedRender = SubmitNodeStorage()
-            //#endif
             //#if MC<26.2
             //$$val vertexConsumers = Client.getMinecraft().renderBuffers().bufferSource()
             //#else

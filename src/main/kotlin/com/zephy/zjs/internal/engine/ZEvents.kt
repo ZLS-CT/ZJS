@@ -11,11 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.level.block.entity.BlockEntity
 
-//#if MC<=12111
-//$$import net.minecraft.client.gui.GuiGraphics
-//#else
 import net.minecraft.client.gui.GuiGraphicsExtractor
-//#endif
 
 internal object ZEvents {
     fun interface VoidCallback {
@@ -39,13 +35,7 @@ internal object ZEvents {
     }
 
     fun interface RenderHudOverlayCallback {
-        fun render(
-            //#if MC<=12111
-            //$$context: GuiGraphics,
-            //#else
-            context: GuiGraphicsExtractor,
-            //#endif
-            matrixStack: PoseStack, partialTicks: Float)
+        fun render(context: GuiGraphicsExtractor, matrixStack: PoseStack, partialTicks: Float)
     }
 
     fun interface MouseButtonCallback {

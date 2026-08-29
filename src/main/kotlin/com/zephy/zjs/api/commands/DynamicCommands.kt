@@ -867,11 +867,7 @@ object DynamicCommands : CommandCollection() {
     }
 
     data class ItemStackArgumentWrapper(private val impl: ItemInput) : Predicate<ZItem> {
-        //#if MC<=12111
-        //$$val itemType = ItemType(impl.item)
-        //#else
         val itemType = ItemType(impl.item.value())
-        //#endif
 
         override fun test(item: ZItem) = ItemStack.isSameItemSameComponents(itemType.asItem().toMC(), item.toMC())
 

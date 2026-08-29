@@ -4,12 +4,7 @@ import com.zephy.zjs.api.message.ChatLib
 import com.zephy.zjs.api.render.Text
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component.literal
-
-//#if MC<=12111
-//$$import net.minecraft.client.gui.GuiGraphics
-//#else
 import net.minecraft.client.gui.GuiGraphicsExtractor
-//#endif
 import org.zephy.zrenderlib.GUIRenderer
 import org.zephy.zrenderlib.RenderUtils
 
@@ -21,16 +16,8 @@ object ModulesGui : Screen(literal("Modules")) {
         var scroll = 0f
     }
 
-    //#if MC<=12111
-    //$$override fun render(
-    //#else
     override fun extractRenderState(
-    //#endif
-        //#if MC<=12111
-        //$$drawContext: GuiGraphics,
-        //#else
         drawContext: GuiGraphicsExtractor,
-        //#endif
         mouseX: Int, mouseY: Int, deltaTicks: Float) {
         drawContext.pose().pushMatrix()
 

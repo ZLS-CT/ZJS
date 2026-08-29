@@ -13,15 +13,9 @@ import java.awt.Toolkit
 import java.awt.datatransfer.StringSelection
 import java.util.regex.Pattern
 import kotlin.math.roundToInt
-
-//#if MC<=12111
-//$$import net.minecraft.client.GuiMessage
-//$$import net.minecraft.client.GuiMessageTag
-//#else
 import net.minecraft.client.multiplayer.chat.GuiMessage
 import net.minecraft.client.multiplayer.chat.GuiMessageSource
 import net.minecraft.client.multiplayer.chat.GuiMessageTag
-//#endif
 import org.zephy.zrenderlib.RenderUtils
 
 object ChatLib {
@@ -274,13 +268,8 @@ object ChatLib {
     }
 
     private fun editLines(replacements: Array<out Any>, matcher: (GuiMessage) -> Boolean) {
-        val mc = Client.getMinecraft()
-        //#if MC<=12111
-        //$$val indicator = if (mc.isSingleplayer) GuiMessageTag.systemSinglePlayer() else GuiMessageTag.system()
-        //#else
         val source = if (Client.isSingleplayer()) GuiMessageSource.SYSTEM_CLIENT else GuiMessageSource.SYSTEM_SERVER
         val indicator = if (Client.isSingleplayer()) GuiMessageTag.systemSinglePlayer() else GuiMessageTag.system()
-        //#endif
         var edited = false
         val it = chatHudAccessor.allMessages?.listIterator() ?: return
 
@@ -292,11 +281,7 @@ object ChatLib {
                 chatLineIds.remove(next)
                 for (replacement in replacements) {
                     val message = replacement as? TextComponent ?: TextComponent(replacement)
-                    //#if MC<=12111
-                    //$$val line = GuiMessage(next.addedTime, message, null, indicator)
-                    //#else
                     val line = GuiMessage(next.addedTime, message, null, source, indicator)
-                    //#endif
                     if (message.getChatLineId() != -1) {
                         chatLineIds[line] = message.getChatLineId()
                     }
@@ -444,11 +429,7 @@ object ChatLib {
         require(message.getChatLineId() != -1)
 
         val chatGui = Client.getChatGui()
-        //#if MC<=12111
-        //$$chatGui.addMessage(message)
-        //#else
         chatGui.addClientSystemMessage(message)
-        //#endif
         val newChatLine = chatHudAccessor.allMessages[0]
 
         check(message == newChatLine.content()) {

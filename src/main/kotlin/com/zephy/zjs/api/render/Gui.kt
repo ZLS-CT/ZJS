@@ -8,12 +8,7 @@ import com.zephy.zjs.internal.mixins.AbstractWidgetAccessor
 import com.zephy.zjs.internal.utils.asMixin
 import net.fabricmc.fabric.api.client.screen.v1.ScreenMouseEvents
 import net.minecraft.client.gui.components.Button
-
-//#if MC<=12111
-//$$import net.minecraft.client.gui.GuiGraphics
-//#else
 import net.minecraft.client.gui.GuiGraphicsExtractor
-//#endifg
 import org.zephy.zkeys.KeyModifiers
 import org.zephy.zrenderlib.RenderUtils
 import org.zephy.zrenderlib.UMatrixStack
@@ -281,11 +276,7 @@ class Gui @JvmOverloads constructor(
         super.onDrawScreen(matrixStack, mouseX, mouseY, partialTicks)
 
         @Suppress("UNCHECKED_CAST")
-        //#if MC<=12111
-        //$$val drawContexts = drawContextsField.get(this) as List<GuiGraphics>
-        //#else
         val drawContexts = drawContextsField.get(this) as List<GuiGraphicsExtractor>
-        //#endif
         val currentDrawContext = drawContexts.last()
         RenderUtils.pushMatrix(UMatrixStack(currentDrawContext.pose()))
         RenderUtils.partialTicks = partialTicks

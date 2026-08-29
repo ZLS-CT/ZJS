@@ -7,11 +7,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 import java.util.List;
 
-//#if MC<=12111
-//$$import net.minecraft.client.GuiMessage;
-//#else
 import net.minecraft.client.multiplayer.chat.GuiMessage;
-//#endif
 
 @Mixin(ChatComponent.class)
 public interface ChatComponentAccessor {

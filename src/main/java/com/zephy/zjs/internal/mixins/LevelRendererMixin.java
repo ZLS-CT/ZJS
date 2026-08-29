@@ -15,16 +15,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-//#if MC<=12111
-//$$import net.minecraft.client.renderer.state.LevelRenderState;
-//$$import net.minecraft.client.renderer.state.BlockOutlineRenderState;
-//$$import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-//$$import net.minecraft.client.renderer.state.CameraRenderState;
-//#else
 import net.minecraft.client.renderer.state.level.LevelRenderState;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-//#endif
 
 //#if MC<26.2
 //$$import net.minecraft.util.profiling.ProfilerFiller;
@@ -42,20 +35,13 @@ public abstract class LevelRendererMixin {
         //$$method = "renderBlockOutline",
         //$$at = @At(
         //$$    value = "FIELD",
-        //#if MC<=12111
-        //$$    target = "Lnet/minecraft/client/renderer/state/CameraRenderState;pos:Lnet/minecraft/world/phys/Vec3;"
-        //#else
         //$$    target = "Lnet/minecraft/client/renderer/state/level/CameraRenderState;pos:Lnet/minecraft/world/phys/Vec3;"
-        //#endif
         //$$),
         //#else
         method = "submitBlockOutline",
         at = @At("HEAD"),
         //#endif
         cancellable = true
-        //#if MC<=12111
-        //$$,locals = LocalCapture.CAPTURE_FAILSOFT
-        //#endif
     )
     private void onDrawBlockOutline(
         //#if MC<26.2
@@ -69,26 +55,17 @@ public abstract class LevelRendererMixin {
         //#endif
         LevelRenderState levelRenderState,
         CallbackInfo ci
-        //#if MC<=12111
-        //$$,BlockOutlineRenderState outlineRenderState
-        //#endif
     ) {
-        //#if MC<=12111
-        //$$if (WorldListener.INSTANCE.triggerBlockOutline(outlineRenderState.pos())) {
-        //#else
         if (levelRenderState.blockOutlineRenderState == null) {
             return;
         }
         if (WorldListener.INSTANCE.triggerBlockOutline(levelRenderState.blockOutlineRenderState.pos())) {
-            //#endif
             ci.cancel();
         }
     }
 
     @ModifyExpressionValue(
-        //#if MC<=12111
-        //$$method = "method_62214",
-        //#elseif MC<26.2
+        //#if MC<26.2
         //$$method = "lambda$addMainPass$0",
         //#else
         method = "submitFeatures",
@@ -115,15 +92,8 @@ public abstract class LevelRendererMixin {
         GraphicsResourceAllocator allocator,
         DeltaTracker tickCounter,
         boolean renderBlockOutline,
-        //#if MC<=12111
-        //$$Camera camera,
-        //$$Matrix4f positionMatrix,
-        //$$Matrix4f matrix4f,
-        //$$Matrix4f projectionMatrix,
-        //#else
         CameraRenderState cameraState,
         Matrix4fc modelViewMatrix,
-        //#endif
         GpuBufferSlice fogBuffer,
         Vector4f fogColor,
         boolean renderSky,
@@ -136,9 +106,7 @@ public abstract class LevelRendererMixin {
     }
 
     @Inject(
-        //#if MC<=12111
-        //$$method = "method_62214",
-        //#elseif MC<26.2
+        //#if MC<26.2
         //$$method = "lambda$addMainPass$0",
         //#else
         method = "render",

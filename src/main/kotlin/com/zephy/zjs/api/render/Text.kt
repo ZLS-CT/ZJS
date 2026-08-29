@@ -4,12 +4,7 @@ import com.zephy.zjs.api.message.ChatLib
 import com.zephy.zjs.internal.utils.getOption
 import net.minecraft.network.chat.Style
 import org.mozilla.javascript.NativeObject
-
-//#if MC<=12111
-//$$import net.minecraft.client.gui.GuiGraphics
-//#else
 import net.minecraft.client.gui.GuiGraphicsExtractor
-//#endif
 import org.zephy.zrenderlib.RenderUtils
 
 class Text {
@@ -168,11 +163,7 @@ class Text {
 
     @JvmOverloads
     fun draw(
-        //#if MC<=12111
-        //$$drawContext: GuiGraphics,
-        //#else
         drawContext: GuiGraphicsExtractor,
-        //#endif
         x: Int? = null,
         y: Int? = null
     ) = apply {
@@ -180,11 +171,7 @@ class Text {
     }
 
     internal fun draw(
-        //#if MC<=12111
-        //$$drawContext: GuiGraphics,
-        //#else
         drawContext: GuiGraphicsExtractor,
-        //#endif
         x: Int? = null,
         y: Int? = null,
         backgroundX: Int? = null,
@@ -219,11 +206,7 @@ class Text {
 
         for (i in 0 until maxLines) {
             if (i >= lines.size) break
-            //#if MC<=12111
-            //$$drawContext.drawString(
-            //#else
             drawContext.text(
-            //#endif
                 RenderUtils.getTextRenderer(),
                 lines[i],
                 xHolder,

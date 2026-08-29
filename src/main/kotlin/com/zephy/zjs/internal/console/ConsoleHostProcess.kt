@@ -20,14 +20,8 @@ import java.net.ServerSocket
 import java.net.URLClassLoader
 import kotlin.concurrent.thread
 import kotlin.io.path.Path
-
 import net.minecraft.resources.Identifier
-
-//#if MC<=12111
-//$$import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
-//#else
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper
-//#endif
 
 /**
  * Responsible for spawning and managing a separate Java console process (which uses AWT)
@@ -62,11 +56,7 @@ object ConsoleHostProcess : Initializer {
     }
 
     override fun init() {
-        //#if MC<=12111
-        //$$val keybind = KeyBindingHelper.registerKeyBinding(
-        //#else
         val keybind = KeyMappingHelper.registerKeyMapping(
-        //#endif
             KeyMapping(
                 "${ZJS.MOD_ID}.key.binding.console",
                 InputConstants.Type.KEYSYM,

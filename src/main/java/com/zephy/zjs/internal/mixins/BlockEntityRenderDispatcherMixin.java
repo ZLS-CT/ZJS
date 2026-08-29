@@ -1,6 +1,5 @@
 package com.zephy.zjs.internal.mixins;
 
-//#if MC>=26.1
 import com.zephy.zjs.internal.engine.ZEvents;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -75,4 +74,3 @@ public abstract class BlockEntityRenderDispatcherMixin {
         }
     }
 }
-//#endif

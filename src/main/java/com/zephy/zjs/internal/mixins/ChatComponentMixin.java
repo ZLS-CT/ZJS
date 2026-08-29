@@ -11,11 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
-//#if MC<=12111
-//$$import net.minecraft.client.GuiMessage;
-//#else
 import net.minecraft.client.multiplayer.chat.GuiMessage;
-//#endif
 
 @Mixin(ChatComponent.class)
 public class ChatComponentMixin {
@@ -35,11 +31,7 @@ public class ChatComponentMixin {
 
     // TODO: is it this or addVisibleMessage
     @Inject(
-        //#if MC<=12111
-        //$$method = "addMessageToQueue(Lnet/minecraft/client/GuiMessage;)V",
-        //#else
         method = "addMessageToQueue(Lnet/minecraft/client/multiplayer/chat/GuiMessage;)V",
-        //#endif
         at = @At(
             value = "INVOKE",
             target = "Ljava/util/List;removeLast()Ljava/lang/Object;",

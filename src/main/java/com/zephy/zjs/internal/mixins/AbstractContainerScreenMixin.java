@@ -39,28 +39,18 @@ public class AbstractContainerScreenMixin extends Screen {
     }
 
     @Inject(
-        //#if MC<=12111
-        //$$method = "renderTooltip",
-        //#else
         method = "extractTooltip",
-        //#endif
         at = @At(
             value = "INVOKE",
-            //#if MC<=12111
-            //$$target = "Lnet/minecraft/client/gui/GuiGraphics;setTooltipForNextFrame(Lnet/minecraft/client/gui/Font;Ljava/util/List;Ljava/util/Optional;IILnet/minecraft/resources/Identifier;)V"
-            //#else
             target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;setTooltipForNextFrame(Lnet/minecraft/client/gui/Font;Ljava/util/List;Ljava/util/Optional;IILnet/minecraft/resources/Identifier;)V"
-            //#endif
         ),
         cancellable = true
     )
     private void injectDrawMouseoverTooltip(
-        //#if MC<=12111
-        //$$GuiGraphics drawContext,
-        //#else
         GuiGraphicsExtractor drawContext,
-        //#endif
-        int x, int y, CallbackInfo ci
+        int x,
+        int y,
+        CallbackInfo ci
     ) {
         ItemStack stack = hoveredSlot.getItem();
         TriggerType.ITEM_TOOLTIP.triggerAll(

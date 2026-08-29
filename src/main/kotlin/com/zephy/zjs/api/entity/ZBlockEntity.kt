@@ -14,11 +14,7 @@ class ZBlockEntity(override val mcValue: BlockEntity) : ZWrapper<BlockEntity> {
 
     fun getZ(): Int = getBlockPos().z
 
-    //#if MC<=12111
-    //$$fun getBlockType(): CTBlockType = CTBlockType(BlockEntityType.getKey(mcValue.type)!!.toString())
-    //#else
     fun getBlockType(): ZBlockType = ZBlockType(BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(mcValue.type)!!.toString())
-    //#endif
 
     fun getBlockPos(): ZBlockPos = ZBlockPos(mcValue.blockPos)
 

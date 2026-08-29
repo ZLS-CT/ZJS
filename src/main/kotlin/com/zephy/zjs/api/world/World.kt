@@ -15,15 +15,6 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.core.BlockPos
 
-//#if MC>=12111
-//#endif
-
-//#if MC<=12111
-//$$import net.minecraft.world.item.ItemStack
-//#else
-
-//#endif
-
 object World {
     @JvmStatic
     fun toMC(): ClientLevel? = Client.getMinecraft().level

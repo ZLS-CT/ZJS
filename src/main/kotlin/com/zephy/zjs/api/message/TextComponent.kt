@@ -205,9 +205,7 @@ class TextComponent private constructor(
             return@apply
         }
         Client.synchronizedTask {
-            //#if MC<=12111
-            //$$Client.getMinecraft().gui.chat.addMessage(this)
-            //#elseif MC<26.2
+            //#if MC<26.2
             //$$Client.getMinecraft().gui.chat.addClientSystemMessage(this.toMutableText())
             //#else
             Client.getMinecraft().gui.hud.chat.addClientSystemMessage(this.toMutableText())
@@ -232,11 +230,7 @@ class TextComponent private constructor(
             return@apply
         }
         Client.synchronizedTask {
-            //#if MC<=12111
-            //$$ZPlayer.toMC()?.displayClientMessage(this, false)
-            //#else
             ZPlayer.toMC()?.sendSystemMessage(this.toMutableText())
-            //#endif
         }
     }
 
@@ -602,11 +596,7 @@ class TextComponent private constructor(
                 is CharSequence -> ItemType(obj.toString()).asItem().toMC()
                 else -> error("${obj::class} cannot be parsed as an item HoverEvent")
             }
-            //#if MC<=12111
-            //$$return HoverEvent.ShowItem(stack)
-            //#else
             return HoverEvent.ShowItem(ItemStackTemplate.fromNonEmptyStack(stack))
-            //#endif
         }
 
         private fun parseEntityContent(obj: Any): HoverEvent.EntityTooltipInfo {

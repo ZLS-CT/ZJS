@@ -14,12 +14,7 @@ import com.mojang.brigadier.CommandDispatcher
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
 import java.io.IOException
-
-//#if MC<=12111
-//$$import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
-//#else
 import net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal
-//#endif
 
 internal object ZCommand : Initializer {
     override fun init() {

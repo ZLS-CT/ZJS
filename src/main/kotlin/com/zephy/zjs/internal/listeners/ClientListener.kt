@@ -23,14 +23,8 @@ import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
 import org.lwjgl.glfw.GLFW
 import org.mozilla.javascript.Context
-
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry
-
-//#if MC<=12111
-//$$import net.minecraft.client.gui.GuiGraphics
-//#else
 import net.minecraft.client.gui.GuiGraphicsExtractor
-//#endif
 import org.zephy.zrenderlib.HudRenderLayer
 import org.zephy.zrenderlib.RenderUtils
 import org.zephy.zrenderlib.UMatrixStack
@@ -79,11 +73,7 @@ object ClientListener : Initializer {
             HudRenderLayer.SLEEP.toMC(),
             Identifier.fromNamespaceAndPath(ZJS.MOD_ID, "screen_overlay"))
         {
-            //#if MC<=12111
-            //$$drawContext: GuiGraphics,
-            //#else
             drawContext: GuiGraphicsExtractor,
-            //#endif
             tickCounter: DeltaTracker ->
             // Don't render if a screen is open, calls trigger twice otherwise
             if (Client.currentGui.get() != null) return@attachElementAfter
@@ -99,11 +89,7 @@ object ClientListener : Initializer {
             HudRenderLayer.SUBTITLES.toMC(),
             Identifier.fromNamespaceAndPath(ZJS.MOD_ID, "hideable_screen_overlay"))
         {
-            //#if MC<=12111
-            //$$drawContext: GuiGraphics,
-            //#else
             drawContext: GuiGraphicsExtractor,
-            //#endif
             tickCounter: DeltaTracker ->
             // Don't render if a screen is open, calls trigger twice otherwise
             if (Client.currentGui.get() != null) return@attachElementAfter
@@ -122,22 +108,14 @@ object ClientListener : Initializer {
             }
 
             // Only ran while a screen is open (e.g. inventory, chat, etc.)
-            //#if MC<=12111
-            //$$ScreenEvents.beforeRender(screen).register { _, drawContext, mouseX, mouseY, partialTicks ->
-            //#else
             ScreenEvents.beforeExtract(screen).register { _, drawContext, mouseX, mouseY, partialTicks ->
-            //#endif
                 RenderUtils.withMatrix(UMatrixStack(drawContext.pose()).toMC(), partialTicks) {
                     TriggerType.PRE_RENDER_GUI.triggerAll(drawContext, mouseX, mouseY, screen, partialTicks)
                 }
             }
 
             // Only ran while a screen is open (e.g. inventory, chat, etc.)
-            //#if MC<=12111
-            //$$ScreenEvents.afterRender(screen).register { _, drawContext, mouseX, mouseY, partialTicks ->
-            //#else
             ScreenEvents.afterExtract(screen).register { _, drawContext, mouseX, mouseY, partialTicks ->
-            //#endif
                 RenderUtils.withMatrix(UMatrixStack(drawContext.pose()).toMC(), partialTicks) {
                     TriggerType.POST_RENDER_GUI.triggerAll(drawContext, mouseX, mouseY, screen, partialTicks, )
 
@@ -170,7 +148,7 @@ object ClientListener : Initializer {
         }
 
         ZEvents.RENDER_BLOCK_ENTITY.register { stack, blockEntity, partialTicks, ci ->
-            GUIRenderer.withMatrix(UMatrixStack(stack).toMC(), partialTicks) {
+            RenderUtils.withMatrix(UMatrixStack(stack).toMC(), partialTicks) {
                 TriggerType.RENDER_BLOCK_ENTITY.triggerAll(ZBlockEntity(blockEntity), partialTicks, ci)
             }
         }
