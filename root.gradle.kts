@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.3.10" apply false // Don't bump, depends on preprocessor
+    kotlin("jvm") version "2.4.10" apply false
     id("gg.essential.multi-version.root")
 }
 
