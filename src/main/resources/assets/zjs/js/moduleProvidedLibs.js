@@ -142,8 +142,6 @@
     loadClass("com.zephy.zjs.api.world.World");
     loadClass("com.zephy.zjs.api.world.ZChunk");
 
-    loadClass("com.zephy.zjs.api.Config");
-
     loadClass("com.zephy.zjs.ZJS", "ZJS");
     loadClass("com.zephy.zjs.engine.Register", "TriggerRegister");
     loadClass("com.zephy.zjs.engine.WrappedThread", "Thread");

@@ -88,14 +88,8 @@ class ConsoleClientProcess(private val port: Int, private val hostPid: Long) {
                                 onReload = {
                                     socketOut.println(Json.encodeToString<C2HMessage>(ReloadZJSMessage))
                                 },
-                                fontSizeListener = { delta ->
-                                    socketOut.println(Json.encodeToString<C2HMessage>(FontSizeMessage(delta)))
-                                },
                             )
                         }
-                    }
-                    is ConfigUpdateMessage -> {
-                        frame?.setConfig(message) ?: error("Received ConfigUpdateMessage before InitMessage")
                     }
                     is EvalResultMessage -> {
                         pendingEvalFutures[message.id]?.complete(message.result)

@@ -27,9 +27,7 @@ class ConsoleFrame(
     private val init: InitMessage,
     var onEval: (String) -> CompletableFuture<String>,
     var onReload: () -> Unit,
-    var fontSizeListener: (Int) -> Unit,
 ) {
-    private lateinit var currentConfig: ConfigUpdateMessage
     private var firaFont: Font? = init.firaFontBytes?.let {
         Font.createFont(Font.TRUETYPE_FONT, ByteArrayInputStream(it))
             .deriveFont(9f)
@@ -50,10 +48,10 @@ class ConsoleFrame(
     private val history = mutableListOf<String>()
     private var historyOffset = 0
 
-    val writer = TextAreaWriter(textArea, ::currentConfig)
+    val writer = TextAreaWriter(textArea)
 
     init {
-        setConfig(init.config)
+        setupConsole()
 
         frame.defaultCloseOperation = JFrame.HIDE_ON_CLOSE
 
@@ -124,8 +122,6 @@ class ConsoleFrame(
                     }
                     KeyEvent.VK_L -> clearConsole()
                     KeyEvent.VK_R -> onReload()
-                    KeyEvent.VK_MINUS -> fontSizeListener(-1)
-                    KeyEvent.VK_PLUS, KeyEvent.VK_EQUALS -> fontSizeListener(1)
                 }
             }
         })
@@ -194,47 +190,22 @@ class ConsoleFrame(
         }
 
         invokeLater {
-            if (currentConfig.openConsoleOnError) {
-                showConsole()
-            }
-
+            showConsole()
             writer.println(buildString {
                 appendError(error)
             }, LogType.ERROR)
         }
     }
 
-    fun setConfig(config: ConfigUpdateMessage) {
-        currentConfig = config
-
-        val (fg, bg) = if (config.customTheme) {
-            Color(config.textColor) to Color(config.backgroundColor)
-        } else {
-            when (config.theme) {
-                0 -> Color(208, 208, 208) to Color(41, 49, 52)
-                1 -> Color(199, 204, 209) to Color(28, 32, 35)
-                2 -> Color(199, 204, 209) to Color(28, 32, 35)
-                3 -> Color(208, 208, 208) to Color(0, 0, 0)
-                4 -> Color(126, 162, 180) to Color(22, 27, 29)
-                5 -> Color(152, 209, 206) to Color(10, 15, 20)
-                6 -> Color(197, 200, 198) to Color(29, 31, 33)
-                7 -> Color(74, 69, 67) to Color(247, 247, 247)
-                8 -> Color(48, 48, 48) to Color(245, 245, 245)
-                9 -> Color(221, 223, 235) to Color(15, 18, 32)
-                10 -> Color(193, 199, 208) to Color(33, 36, 41)
-                11 -> Color(231, 210, 212) to Color(26, 9, 11)
-                12 -> Color(47, 227, 149) to Color(6, 10, 10)
-                13 -> Color(192, 20, 214) to Color(251, 251, 28)
-                else -> Color(208, 208, 208) to Color(21, 21, 21)
-            }
-        }
+    fun setupConsole() {
+        val (fg, bg) = Color(208, 208, 208) to Color(41, 49, 52)
 
         for (comp in components) {
             comp.background = bg
             comp.foreground = fg
         }
 
-        val chosenFont = if (firaFont != null && config.useFiraCode) {
+        val chosenFont = if (firaFont != null) {
             firaFont!!
         } else {
             Font(
@@ -242,7 +213,7 @@ class ConsoleFrame(
                 Font.PLAIN,
                 15,
             )
-        }.deriveFont(config.fontSize.toFloat())
+        }.deriveFont(12f)
 
         textArea.font = chosenFont
         inputField.font = chosenFont

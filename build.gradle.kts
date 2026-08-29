@@ -17,10 +17,6 @@ dependencies {
     implementation(project(":rhino"))
     include(project(":rhino"))
 
-    val universalCraftVersion = project.findProperty("universalcraft").toString()
-    modImplementation(include("gg.essential:universalcraft-${universalCraftVersion}:${libs.versions.universalcraft.get()}")!!)
-    implementation(include("gg.essential:vigilance:${libs.versions.vigilance.get()}")!!)
-    implementation(include("gg.essential:elementa:${libs.versions.elementa.get()}")!!)
     modImplementation(libs.bundles.included) { include(this) }
 
     implementation(kotlin("stdlib-jdk8"))

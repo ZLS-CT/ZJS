@@ -1,6 +1,5 @@
 package com.zephy.zjs.internal.console
 
-import com.zephy.zjs.api.Config
 import com.zephy.zjs.engine.LogType
 import kotlinx.serialization.Serializable
 
@@ -8,36 +7,8 @@ import kotlinx.serialization.Serializable
 sealed class H2CMessage
 
 @Serializable
-class ConfigUpdateMessage(
-    val textColor: Int,
-    val backgroundColor: Int,
-    val warningColor: Int,
-    val errorColor: Int,
-    val openConsoleOnError: Boolean,
-    val customTheme: Boolean,
-    val theme: Int,
-    val useFiraCode: Boolean,
-    val fontSize: Int,
-) : H2CMessage() {
-    companion object {
-        fun constructFromConfig(settings: Config.ConsoleSettings) = ConfigUpdateMessage(
-            settings.consoleTextColor.rgb,
-            settings.consoleBackgroundColor.rgb,
-            settings.consoleWarningColor.rgb,
-            settings.consoleErrorColor.rgb,
-            settings.openConsoleOnError,
-            settings.customTheme,
-            settings.consoleTheme,
-            settings.consoleFiraCodeFont,
-            settings.consoleFontSize,
-        )
-    }
-}
-
-@Serializable
 class InitMessage(
     val modVersion: String,
-    val config: ConfigUpdateMessage,
     val firaFontBytes: ByteArray?,
 ) : H2CMessage()
 
@@ -83,6 +54,3 @@ class EvalTextMessage(val id: Int, val string: String) : C2HMessage()
 
 @Serializable
 data object ReloadZJSMessage : C2HMessage()
-
-@Serializable
-class FontSizeMessage(val delta: Int) : C2HMessage()

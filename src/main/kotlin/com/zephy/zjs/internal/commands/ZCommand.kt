@@ -1,7 +1,6 @@
 package com.zephy.zjs.internal.commands
 
 import com.zephy.zjs.ZJS
-import com.zephy.zjs.api.Config
 import com.zephy.zjs.api.client.Client
 import com.zephy.zjs.api.client.FileLib
 import com.zephy.zjs.api.message.ChatLib
@@ -31,7 +30,6 @@ internal object ZCommand : Initializer {
             .then(literal("files").onExecute { openFileLocation() })
             .then(literal("modules").onExecute { Client.currentGui.set(ModulesGui) })
             .then(literal("console").onExecute { Console.show() })
-            .then(literal("config").onExecute { Client.currentGui.set(Config.gui()!!) })
             .onExecute { ChatLib.chat(getUsage()) }
 
         dispatcher.register(command)

@@ -1,6 +1,5 @@
 package com.zephy.zjs
 
-import com.zephy.zjs.api.Config
 import com.zephy.zjs.api.client.Client
 import com.zephy.zjs.api.client.KeyBind
 import com.zephy.zjs.api.client.ZSound
@@ -84,9 +83,7 @@ class ZJS : ClientModInitializer {
             StaticCommand.unregisterAll()
             DynamicCommands.unregisterAll()
 
-            if (Config.clearConsoleOnLoad) {
-                Console.clear()
-            }
+            Console.clear()
 
             Client.scheduleTask {
                 ZRenderLib.destroyImages()

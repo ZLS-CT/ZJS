@@ -134,8 +134,6 @@ private val providedTypes = mutableMapOf(
     "World" to "com.zephy.zjs.api.world.World",
     "ZChunk" to "com.zephy.zjs.api.world.ZChunk",
 
-    "Config" to "com.zephy.zjs.api.Config",
-
     "ZJS" to "com.zephy.zjs.ZJS",
     "TriggerRegister" to "com.zephy.zjs.engine.Register",
     "Thread" to "com.zephy.zjs.engine.WrappedThread",

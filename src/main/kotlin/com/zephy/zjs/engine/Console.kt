@@ -1,6 +1,5 @@
 package com.zephy.zjs.engine
 
-import com.zephy.zjs.api.Config
 import com.zephy.zjs.internal.console.ConsoleHostProcess
 import kotlinx.serialization.Serializable
 import org.mozilla.javascript.WrappedException
@@ -24,8 +23,6 @@ object Console {
     fun show() = ConsoleHostProcess.show()
 
     fun close() = ConsoleHostProcess.close()
-
-    fun onConsoleSettingsChanged(settings: Config.ConsoleSettings) = ConsoleHostProcess.onConsoleSettingsChanged(settings)
 }
 
 @Serializable

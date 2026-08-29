@@ -12,7 +12,6 @@ import javax.swing.text.StyleContext
 
 class TextAreaWriter(
     private val textArea: JTextPane,
-    private val configGetter: () -> ConfigUpdateMessage,
 ) : Writer() {
     val printWriter = PrintWriter(this)
     private var currentLogType: LogType = LogType.INFO
@@ -21,12 +20,11 @@ class TextAreaWriter(
     override fun write(cbuf: CharArray, off: Int, len: Int) {
         val s = String(cbuf, off, len)
         val sc = StyleContext.getDefaultStyleContext()
-        val config = configGetter()
 
         val color = customColor ?: when (currentLogType) {
-            LogType.INFO -> Color(config.textColor)
-            LogType.WARN -> Color(config.warningColor)
-            LogType.ERROR -> Color(config.errorColor)
+            LogType.INFO -> Color(208, 208, 208)
+            LogType.WARN -> Color(248, 191, 84)
+            LogType.ERROR -> Color(225, 65, 73)
         }
 
         val attributes: AttributeSet = sc.addAttribute(

@@ -1,7 +1,6 @@
 package com.zephy.zjs.internal.console
 
 import com.zephy.zjs.ZJS
-import com.zephy.zjs.api.Config
 import com.zephy.zjs.api.client.Client
 import com.zephy.zjs.engine.LogType
 import com.zephy.zjs.internal.engine.ZEvents
@@ -103,7 +102,6 @@ object ConsoleHostProcess : Initializer {
 
                 val initMessage = InitMessage(
                     ZJS.MOD_VERSION,
-                    ConfigUpdateMessage.constructFromConfig(Config.ConsoleSettings.make()),
                     this::class.java.getResourceAsStream("/assets/${ZJS.MOD_ID}/FiraCode-Regular.otf")?.readAllBytes(),
                 )
 
@@ -129,12 +127,6 @@ object ConsoleHostProcess : Initializer {
                         is EvalTextMessage -> {
                             val result = JSLoader.eval(message.string) ?: continue
                             trySendMessage(EvalResultMessage(message.id, result))
-                        }
-                        is FontSizeMessage -> {
-                            val newValue = Config.consoleFontSize + message.delta
-
-                            Config.consoleFontSize = newValue.coerceIn(6..32)
-                            onConsoleSettingsChanged(Config.ConsoleSettings.make())
                         }
                         ReloadZJSMessage -> Client.scheduleTask { ZJS.reloadModules() }
                     }
@@ -169,8 +161,6 @@ object ConsoleHostProcess : Initializer {
         trySendMessage(TerminateMessage)
         process.destroy()
     }
-
-    fun onConsoleSettingsChanged(settings: Config.ConsoleSettings) = trySendMessage(ConfigUpdateMessage.constructFromConfig(settings))
 
     private fun trySendMessage(message: H2CMessage) {
         if (connected) {
