@@ -120,7 +120,7 @@ class ZItem(override val mcValue: ItemStack) : ZWrapper<ItemStack> {
             //#endif
             RenderUtils.scale(16.0f, -16.0f, 16.0f)
             if (!itemRenderState.usesBlockLight()) {
-                //#if MC<=26.2
+                //#if MC<26.2
                 //$$vertexConsumers.endBatch()
                 //#else
                 vertexConsumers.endFrame()
@@ -136,7 +136,7 @@ class ZItem(override val mcValue: ItemStack) : ZWrapper<ItemStack> {
             )
 
             RenderUtils.disableDepth()
-            //#if MC<=26.2
+            //#if MC<26.2
             //$$vertexConsumers.endBatch()
             //#else
             vertexConsumers.endFrame()
