@@ -191,6 +191,8 @@
     loadClass("java.util.concurrent.atomic.AtomicInteger");
     loadClass("java.util.Timer");
     loadClass("java.util.TimerTask");
+    loadClass("java.util.zip.Inflater");
+    loadClass("java.util.zip.Deflater");
 
     // GL
     loadClass("org.lwjgl.opengl.GL11");

@@ -182,6 +182,8 @@ private val providedTypes = mutableMapOf(
     "AtomicInteger" to "java.util.concurrent.atomic.AtomicInteger",
     "Timer" to "java.util.Timer",
     "TimerTask" to "java.util.TimerTask",
+    "Inflater" to "java.util.zip.Inflater",
+    "Deflater" to "java.util.zip.Deflater",
 
     // GL
     "GL11" to "org.lwjgl.opengl.GL11",
