@@ -262,6 +262,16 @@ object DynamicCommands : CommandCollection() {
         currentNode!!.method = method
     }
 
+    @JvmStatic
+    fun suggests(method: Function) {
+        requireNotNull(currentNode) { "Call to Commands.suggests() outside of Commands.buildCommand()" }
+        val node = currentNode as? DynamicCommand.Node.Argument
+            ?: error("Commands.suggests() can only be called inside an argument() node")
+        require(!node.hasRedirect) { "Cannot add suggestions to a redirected node" }
+        require(node.suggestionProvider == null) { "Duplicate call to Commands.suggests()" }
+        node.suggestionProvider = method
+    }
+
     /**
      * A helper method for getting Fabric's client CommandDispatcher root node. This allows user
      * commands to be redirected to the root node in the same way that "/execute run ..." does.

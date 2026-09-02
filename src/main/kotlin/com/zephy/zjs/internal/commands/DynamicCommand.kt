@@ -10,16 +10,20 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.ArgumentType
 import com.mojang.brigadier.builder.ArgumentBuilder
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.mojang.brigadier.builder.RequiredArgumentBuilder
+import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.tree.CommandNode
 import com.mojang.brigadier.tree.LiteralCommandNode
 import net.minecraft.commands.SharedSuggestionProvider
 import org.mozilla.javascript.Function
 import org.mozilla.javascript.NativeObject
 import org.mozilla.javascript.ScriptableObject
+import java.util.concurrent.CompletableFuture
 
 object DynamicCommand {
     sealed class Node(val parent: Node?) {
         var method: Function? = null
+        var suggestionProvider: Function? = null
         var hasRedirect = false
         val children = mutableListOf<Node>()
         var builder: ArgumentBuilder<SharedSuggestionProvider, *>? = null
@@ -71,6 +75,13 @@ object DynamicCommand {
             builder = when (this) {
                 is Literal -> literal(name)
                 is Argument -> argument(name, type)
+            }
+
+            if (this is Argument && suggestionProvider != null) {
+                @Suppress("UNCHECKED_CAST")
+                (builder as RequiredArgumentBuilder<SharedSuggestionProvider, *>).suggests { ctx, suggestionsBuilder ->
+                    JSLoader.invoke(suggestionProvider!!, arrayOf(ctx, suggestionsBuilder)) as CompletableFuture<Suggestions>
+                }
             }
 
             // The call to .then() below builds a node which check the command, so we
