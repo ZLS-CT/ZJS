@@ -86,6 +86,8 @@ object Scoreboard {
         val scoreboard = toMC() ?: return
         val objective = getSidebar() ?: return
 
+        scoreboardTitle = TextComponent(objective.displayName)
+
         val newScores = scoreboard.trackedPlayers.asSequence().filter {
             objective in scoreboard.listPlayerScores(it)
         }.map {
