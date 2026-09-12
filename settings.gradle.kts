@@ -17,6 +17,7 @@ rootProject.name = "ZJS"
 rootProject.buildFileName = "root.gradle.kts"
 
 val versionList = listOf(
+    "26.3-fabric",
     "26.2-fabric",
     "26.1.2-fabric",
 )

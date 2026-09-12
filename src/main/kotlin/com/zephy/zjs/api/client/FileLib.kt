@@ -1,7 +1,6 @@
 package com.zephy.zjs.api.client
 
 import com.zephy.zjs.ZJS
-import net.minecraft.util.Util
 import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -12,6 +11,13 @@ import java.nio.charset.Charset
 import java.util.Base64
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
+
+//#if MC<26.3
+//$$import net.minecraft.util.Util
+//#else
+import com.mojang.blaze3d.Blaze3D
+import java.net.URI
+//#endif
 
 object FileLib {
     /**
@@ -305,16 +311,29 @@ object FileLib {
      */
     @JvmStatic
     fun open(url: String) {
-        Util.getPlatform().openUri(url)
+        //#if MC<26.3
+        //$$Util.getPlatform().openUri(url)
+        //#else
+        val uri = try {
+            URI.create(url)
+        } catch (e: IllegalArgumentException) {
+            return
+        }
+        Blaze3D.openUri(uri)
+        //#endif
     }
 
     /**
      * Opens a path in the file explorer
      *
-     * @param path the path to open
+     * @param file the path to open
      */
     @JvmStatic
-    fun open(path: File) {
-        Util.getPlatform().openFile(path)
+    fun open(file: File) {
+        //#if MC<26.3
+        //$$Util.getPlatform().openFile(file)
+        //#else
+        Blaze3D.openPath(file.toPath())
+        //#endif
     }
 }

@@ -23,9 +23,9 @@ dependencies {
     implementation(project(":typing-generator"))
     ksp(project(":typing-generator"))
 
-    modCompileOnly("org.zephy.zkeys:${project.platform}:1.0.0") { isTransitive = false }
-    modCompileOnly("org.zephy.zrenderlib:${project.platform}:1.0.0") { isTransitive = false }
-    include("org.zephy.zrenderlib:${project.platform}:1.0.0") { isTransitive = false }
+    modCompileOnly("org.zephy.zkeys:${project.name}:1.0.0") { isTransitive = false }
+    modCompileOnly("org.zephy.zrenderlib:${project.name}:1.0.0") { isTransitive = false }
+    include("org.zephy.zrenderlib:${project.name}:1.0.0") { isTransitive = false }
 }
 
 loom {
@@ -49,17 +49,14 @@ tasks {
     processResources {
         val version = project.version
         val minecraftVersion = project.platform.mcVersionStr
-        val minFabricApiVersion = project.findProperty("min-fabric-api")?.toString()
 
         inputs.property("version", version)
         inputs.property("minecraft_version", minecraftVersion)
-        inputs.property("min_fabric_api_version", minFabricApiVersion.toString())
 
         filesMatching("fabric.mod.json") {
             expand(mapOf(
                 "version" to version,
                 "minecraft_version" to minecraftVersion,
-                "min_fabric_api_version" to minFabricApiVersion,
             ))
         }
 

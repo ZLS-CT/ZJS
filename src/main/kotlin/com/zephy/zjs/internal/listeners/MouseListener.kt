@@ -8,7 +8,6 @@ import com.zephy.zjs.internal.engine.ZEvents
 import com.zephy.zjs.internal.utils.Initializer
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
 import net.fabricmc.fabric.api.client.screen.v1.ScreenMouseEvents
-import org.lwjgl.glfw.GLFW
 
 internal object MouseListener : Initializer {
     private val mouseState = mutableMapOf<Int, Int>()
@@ -76,10 +75,11 @@ internal object MouseListener : Initializer {
         val x = Client.getMouseX()
         val y = Client.getMouseY()
 
-        ZEvents.MOUSE_CLICKED.invoker().process(x, y, button, action == GLFW.GLFW_PRESS)
+        val pressed = action == 1
+        ZEvents.MOUSE_CLICKED.invoker().process(x, y, button, pressed)
         mouseState[button] = action
 
-        if (action == GLFW.GLFW_PRESS) {
+        if (pressed) {
             draggedState[button] = State(x, y)
         } else {
             draggedState.remove(button)

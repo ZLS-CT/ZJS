@@ -21,10 +21,10 @@ import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents
 import net.minecraft.client.DeltaTracker
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.Identifier
-import org.lwjgl.glfw.GLFW
 import org.mozilla.javascript.Context
 import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry
 import net.minecraft.client.gui.GuiGraphicsExtractor
+import org.zephy.zkeys.ZKeys
 import org.zephy.zrenderlib.HudRenderLayer
 import org.zephy.zrenderlib.RenderUtils
 import org.zephy.zrenderlib.UMatrixStack
@@ -103,7 +103,7 @@ object ClientListener : Initializer {
         ScreenEvents.BEFORE_INIT.register { _, screen, _, _ ->
             ScreenKeyboardEvents.allowKeyPress(screen).register { _, input ->
                 val event = CancellableEvent()
-                TriggerType.GUI_KEY.triggerAll(GLFW.glfwGetKeyName(input.key, input.scancode), input.key, screen, event)
+                TriggerType.GUI_KEY.triggerAll(ZKeys.getKeyCodePrettyName(input.key), input.key, screen, event)
                 !event.isCancelled()
             }
 

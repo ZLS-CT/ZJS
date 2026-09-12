@@ -87,6 +87,8 @@ import net.minecraft.world.entity.player.Player
 //$$import net.minecraft.commands.arguments.ColorArgument
 //#else
 import net.minecraft.commands.arguments.TeamColorArgument
+import net.minecraft.server.MinecraftServer
+import net.minecraft.server.level.ServerLevel
 //#endif
 
 /**
@@ -359,7 +361,11 @@ object DynamicCommands : CommandCollection() {
      */
     @JvmStatic
     fun blockPredicate(): ArgumentType<BlockPredicateWrapper> {
-        val registryAccess = Commands.createValidationContext(VanillaRegistries.createLookup())
+        //#if MC<26.3
+        //$$val registryAccess = Commands.createValidationContext(VanillaRegistries.createLookup())
+        //#else
+        val registryAccess = Commands.createValidationContext(VanillaRegistries.createWorldLookup())
+        //#endif
         val predicate = BlockPredicateArgument.blockPredicate(registryAccess)
         return wrapArgument(predicate, ::BlockPredicateWrapper)
     }
@@ -369,7 +375,11 @@ object DynamicCommands : CommandCollection() {
      */
     @JvmStatic
     fun blockState(): ArgumentType<BlockStateArgumentWrapper> {
-        val registryAccess = Commands.createValidationContext(VanillaRegistries.createLookup())
+        //#if MC<26.3
+        //$$val registryAccess = Commands.createValidationContext(VanillaRegistries.createLookup())
+        //#else
+        val registryAccess = Commands.createValidationContext(VanillaRegistries.createWorldLookup())
+        //#endif
         val predicate = BlockStateArgument.block(registryAccess)
         return wrapArgument(predicate, ::BlockStateArgumentWrapper)
     }
@@ -451,7 +461,11 @@ object DynamicCommands : CommandCollection() {
      */
     @JvmStatic
     fun itemPredicate(): ArgumentType<(ZItem) -> Boolean> {
-        val registryAccess = Commands.createValidationContext(VanillaRegistries.createLookup())
+        //#if MC<26.3
+        //$$val registryAccess = Commands.createValidationContext(VanillaRegistries.createLookup())
+        //#else
+        val registryAccess = Commands.createValidationContext(VanillaRegistries.createWorldLookup())
+        //#endif
         val predicate = ItemPredicateArgument.itemPredicate(registryAccess)
         return wrapArgument(predicate) { pred -> { pred.test(it.mcValue) } }
     }
@@ -467,7 +481,11 @@ object DynamicCommands : CommandCollection() {
      */
     @JvmStatic
     fun itemStack(): ArgumentType<ItemStackArgumentWrapper> {
-        val registryAccess = Commands.createValidationContext(VanillaRegistries.createLookup())
+        //#if MC<26.3
+        //$$val registryAccess = Commands.createValidationContext(VanillaRegistries.createLookup())
+        //#else
+        val registryAccess = Commands.createValidationContext(VanillaRegistries.createWorldLookup())
+        //#endif
         val arg = ItemArgument.item(registryAccess)
         return wrapArgument(arg, ::ItemStackArgumentWrapper)
     }
@@ -710,12 +728,21 @@ object DynamicCommands : CommandCollection() {
             },
             ZPlayer.getBlockPos().toVec3d(),
             ZPlayer.getRotation(),
-            null,
+            //#if MC<26.3
+            //$$null,
+            //#else
+            null as ServerLevel,
+            //#endif
             PermissionSet.NO_PERMISSIONS,
-            ZPlayer.getName(),
-            ZPlayer.getDisplayName(),
-            null,
-            ZPlayer.toMC(),
+            //#if MC<26.3
+            //$$ZPlayer.getName(),
+            //$$ZPlayer.getDisplayName(),
+            //$$null,
+            //$$ZPlayer.toMC(),
+            //#else
+            null as MinecraftServer,
+            ZPlayer.toMC() as Entity,
+            //#endif
         )
     }
 

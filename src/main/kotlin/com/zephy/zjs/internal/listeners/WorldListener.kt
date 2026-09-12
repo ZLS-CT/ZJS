@@ -1,9 +1,7 @@
 package com.zephy.zjs.internal.listeners
 
-import com.zephy.zjs.api.triggers.CancellableEvent
 import com.zephy.zjs.api.triggers.TriggerType
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.core.BlockPos
 
 import com.mojang.blaze3d.vertex.PoseStack
 import org.joml.Matrix4f

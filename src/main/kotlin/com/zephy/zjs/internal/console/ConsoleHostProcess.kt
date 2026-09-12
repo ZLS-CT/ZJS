@@ -9,7 +9,6 @@ import com.zephy.zjs.internal.utils.Initializer
 import kotlinx.serialization.json.Json
 import net.minecraft.client.KeyMapping
 import com.mojang.blaze3d.platform.InputConstants
-import org.lwjgl.glfw.GLFW
 import java.awt.Color
 import java.io.BufferedReader
 import java.io.File
@@ -21,6 +20,7 @@ import kotlin.concurrent.thread
 import kotlin.io.path.Path
 import net.minecraft.resources.Identifier
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper
+import org.zephy.zkeys.ZKeys
 
 /**
  * Responsible for spawning and managing a separate Java console process (which uses AWT)
@@ -58,8 +58,12 @@ object ConsoleHostProcess : Initializer {
         val keybind = KeyMappingHelper.registerKeyMapping(
             KeyMapping(
                 "${ZJS.MOD_ID}.key.binding.console",
-                InputConstants.Type.KEYSYM,
-                GLFW.GLFW_KEY_GRAVE_ACCENT,
+                //#if MC<26.3
+                //$$InputConstants.Type.KEYSYM,
+                //#else
+                InputConstants.Type.KEYBOARD,
+                //#endif
+                ZKeys.getKeyCode("KEY_GRAVE")!!,
                 KeyMapping.Category.register(Identifier.fromNamespaceAndPath(ZJS.MOD_ID, "global")),
             ),
         )
