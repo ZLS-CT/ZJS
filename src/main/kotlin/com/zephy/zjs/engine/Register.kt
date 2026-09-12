@@ -404,22 +404,6 @@ object Register {
     fun registerPostRenderGui(method: Any): Trigger = RegularTrigger(method, TriggerType.POST_RENDER_GUI)
 
     /**
-     * Registers a new trigger that runs before the block highlight box is drawn.
-     *
-     * Passes through two arguments:
-     * - The draw block highlight event's position
-     * - The draw block highlight event, which can be cancelled
-     *
-     * Available modifications:
-     * - [Trigger.setPriority] Sets the priority
-     *
-     * @param method The method to call when the event is fired
-     * @return The trigger for additional modification
-     */
-    @JvmStatic
-    fun registerDrawBlockHighlight(method: Any): Trigger = EventTrigger(method, TriggerType.RENDER_BLOCK_HIGHLIGHT)
-
-    /**
      * Registers a new trigger that runs whenever a block entity is rendered
      *
      * Passes through three arguments:

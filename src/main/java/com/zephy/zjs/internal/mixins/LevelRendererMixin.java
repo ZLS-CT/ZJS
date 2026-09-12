@@ -30,39 +30,6 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 
 @Mixin(LevelRenderer.class)
 public abstract class LevelRendererMixin {
-    @Inject(
-        //#if MC<26.2
-        //$$method = "renderBlockOutline",
-        //$$at = @At(
-        //$$    value = "FIELD",
-        //$$    target = "Lnet/minecraft/client/renderer/state/level/CameraRenderState;pos:Lnet/minecraft/world/phys/Vec3;"
-        //$$),
-        //#else
-        method = "submitBlockOutline",
-        at = @At("HEAD"),
-        //#endif
-        cancellable = true
-    )
-    private void onDrawBlockOutline(
-        //#if MC<26.2
-        //$$MultiBufferSource.BufferSource immediate,
-        //#endif
-        PoseStack matrices,
-        //#if MC<26.2
-        //$$boolean renderBlockOutline,
-        //#else
-        SubmitNodeCollector submitNodeCollector,
-        //#endif
-        LevelRenderState levelRenderState,
-        CallbackInfo ci
-    ) {
-        if (levelRenderState.blockOutlineRenderState == null) {
-            return;
-        }
-        if (WorldListener.INSTANCE.triggerBlockOutline(levelRenderState.blockOutlineRenderState.pos())) {
-            ci.cancel();
-        }
-    }
 
     @ModifyExpressionValue(
         //#if MC<26.2

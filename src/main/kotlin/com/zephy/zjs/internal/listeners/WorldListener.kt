@@ -18,12 +18,6 @@ object WorldListener {
         private set
     //#endif
 
-    fun triggerBlockOutline(bp: BlockPos): Boolean {
-        val event = CancellableEvent()
-        TriggerType.RENDER_BLOCK_HIGHLIGHT.triggerAll(BlockPos(bp), event)
-        return event.isCanceled()
-    }
-
     fun setMatrixStack(stack: PoseStack) {
         //#if MC<26.2
         //$$matrixStack = stack
