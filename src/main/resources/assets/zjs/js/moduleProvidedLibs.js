@@ -60,6 +60,7 @@
     loadClass("net.minecraft.nbt.NbtIo");
     loadClass("net.minecraft.nbt.NbtAccounter");
     loadClass("net.minecraft.nbt.TagParser");
+    loadClass("net.minecraft.nbt.NbtOps");
     loadClass("net.minecraft.world.level.block.WallSignBlock");
     loadClass("net.minecraft.world.level.block.entity.SignBlockEntity");
 
