@@ -1,10 +1,10 @@
 [versions]
-kotlin = "2.4.10"
+kotlin = "2.4.21"
 mapping-io = "0.9.1"
 koffee = "315bc11234"
-serialization = "1.11.0"
+serialization = "1.12.0"
 textarea = "4.0.1"
-ksp = "2.3.11"
+ksp = "2.3.12"
 
 [libraries]
 mapping-io = { module = "net.fabricmc:mapping-io", version.ref = "mapping-io" }

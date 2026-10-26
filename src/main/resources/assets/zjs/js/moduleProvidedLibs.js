@@ -37,12 +37,14 @@
 
     // Minecraft
     loadClass("net.minecraft.world.entity.EquipmentSlot");
-    loadClass("net.minecraft.core.component.DataComponents");
-    loadClass("net.minecraft.world.item.component.CustomData");
     loadClass("net.minecraft.world.item.component.ItemLore");
-    loadClass("net.minecraft.nbt.CompoundTag");
     loadClass("net.minecraft.client.player.RemotePlayer");
     loadClass("net.minecraft.world.item.Items");
+    loadClass("net.minecraft.core.component.DataComponents");
+    loadClass("net.minecraft.world.item.component.CustomData");
+    loadClass("net.minecraft.world.item.component.DyedItemColor");
+    loadClass("net.minecraft.nbt.CompoundTag");
+    loadClass("net.minecraft.nbt.Tag");
     loadClass("net.minecraft.nbt.ByteArrayTag");
     loadClass("net.minecraft.nbt.ByteTag");
     loadClass("net.minecraft.nbt.DoubleTag");
@@ -54,6 +56,7 @@
     loadClass("net.minecraft.nbt.ShortTag");
     loadClass("net.minecraft.nbt.StringTag");
     loadClass("net.minecraft.nbt.CollectionTag");
+    loadClass("net.minecraft.nbt.ListTag");
     loadClass("net.minecraft.nbt.NbtIo");
     loadClass("net.minecraft.nbt.NbtAccounter");
     loadClass("net.minecraft.world.level.block.WallSignBlock");
@@ -162,6 +165,9 @@
     loadClass("java.lang.Byte");
     loadClass("java.lang.System");
     loadClass("java.util.concurrent.CountDownLatch");
+    loadClass("java.util.concurrent.atomic.AtomicInteger");
+    loadClass("java.util.concurrent.atomic.AtomicReference");
+    loadClass("java.util.concurrent.Executors");
     loadClass("java.awt.Desktop");
     loadClass("java.net.URL", "JavaURL");
     loadClass("java.net.URI");
@@ -188,7 +194,6 @@
     loadClass("java.nio.file.StandardCopyOption");
     loadClass("java.lang.reflect.Field");
     loadClass("java.lang.reflect.Method");
-    loadClass("java.util.concurrent.atomic.AtomicInteger");
     loadClass("java.util.Timer");
     loadClass("java.util.TimerTask");
     loadClass("java.util.zip.Inflater");
