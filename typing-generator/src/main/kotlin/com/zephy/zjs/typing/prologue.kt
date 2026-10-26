@@ -51,6 +51,7 @@ private val providedTypes = mutableMapOf(
     "ListTag" to "net.minecraft.nbt.ListTag",
     "NbtIo" to "net.minecraft.nbt.NbtIo",
     "NbtAccounter" to "net.minecraft.nbt.NbtAccounter",
+    "TagParser" to "net.minecraft.nbt.TagParser",
     "WallSignBlock" to "net.minecraft.world.level.block.WallSignBlock",
     "SignBlockEntity" to "net.minecraft.world.level.block.entity.SignBlockEntity",
 
