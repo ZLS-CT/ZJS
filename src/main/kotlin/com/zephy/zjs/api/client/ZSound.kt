@@ -256,13 +256,10 @@ class ZSound(private val config: NativeObject) {
     }
 
     /**
-     * Plays/resumes the sound. This requires the world to be loaded
+     * Plays/resumes the sound.
      */
     @JvmOverloads
     fun play(delay: Int = 0) {
-        // TODO: Figure out how to work without a world
-        require(World.isLoaded()) { "Can not play a custom sound outside the world" }
-
         bootstrap()
 
         // soundSystem.play() does a lot of setup and, most importantly, creates a new
@@ -281,12 +278,9 @@ class ZSound(private val config: NativeObject) {
     }
 
     /**
-     * Pauses the sound, to be resumed later. This requires the world to be loaded
+     * Pauses the sound, to be resumed later.
      */
     fun pause() {
-        // TODO: Figure out how to work without a world
-        require(World.isLoaded()) { "Can not pause a custom sound outside the world" }
-
         bootstrap()
 
         Client.scheduleTask {
@@ -298,19 +292,16 @@ class ZSound(private val config: NativeObject) {
     }
 
     /**
-     * Completely stops the sound. This requires the world to be loaded
+     * Completely stops the sound.
      */
     fun stop() {
-        // TODO: Figure out how to work without a world
-        require(World.isLoaded()) { "Can not stop a custom sound outside the world" }
-
         bootstrap()
         soundSystem.stop(soundImpl)
         isPaused = false
     }
 
     /**
-     * Immediately restarts the sound. This requires the world to be loaded
+     * Immediately restarts the sound.
      */
     fun rewind() {
         stop()
@@ -337,17 +328,19 @@ class ZSound(private val config: NativeObject) {
     }
 
     private class InitialSoundData(config: NativeObject) : SoundData {
+        private val inWorld = World.isLoaded()
         override var loop = config.getOrDefault("loop", false) as Boolean
         override var loopDelay = (config.getOrDefault("loopDelay", 0) as Number).toInt()
         override var stream = config.getOrDefault("stream", false) as Boolean
         override var volume = (config.getOrDefault("volume", 1f) as Number).toFloat()
         override var pitch = (config.getOrDefault("pitch", 1f) as Number).toFloat()
-        override var x = (config.getOrDefault("x", ZPlayer.getX()) as Number).toDouble()
-        override var y = (config.getOrDefault("y", ZPlayer.getY()) as Number).toDouble()
-        override var z = (config.getOrDefault("z", ZPlayer.getZ()) as Number).toDouble()
+        override var x = (config.getOrDefault("x", if (inWorld) ZPlayer.getX() else 0.0) as Number).toDouble()
+        override var y = (config.getOrDefault("y", if (inWorld) ZPlayer.getY() else 0.0) as Number).toDouble()
+        override var z = (config.getOrDefault("z", if (inWorld) ZPlayer.getZ() else 0.0) as Number).toDouble()
         override var attenuation = (config.getOrDefault("attenuation", 16) as Number).toInt()
         override var category = config["category"]?.let(Category::from) ?: Category.MASTER
-        override var attenuationType = config["attenuationType"]?.let(CTAttenuationType::from) ?: CTAttenuationType.LINEAR
+        override var attenuationType = config["attenuationType"]?.let(CTAttenuationType::from)
+            ?: if (inWorld) CTAttenuationType.LINEAR else CTAttenuationType.NONE
     }
 
     private class BootstrappedSoundData(
@@ -409,7 +402,7 @@ class ZSound(private val config: NativeObject) {
         override var attenuationType: CTAttenuationType
             get() = CTAttenuationType.fromMC(impl.attenuation)
             set(value) {
-                impl.getAttenuation()
+                impl.setAttenuationType(value.toMC())
             }
     }
 
@@ -424,11 +417,7 @@ class ZSound(private val config: NativeObject) {
             this.attenuation = attenuationType
         }
 
-        override fun tick() {
-            if (!World.isLoaded()) {
-                stop()
-            }
-        }
+        override fun tick() { }
 
         override fun getSource(): SoundSource {
             return categoryOverride
